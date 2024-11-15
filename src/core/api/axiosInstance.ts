@@ -2,7 +2,7 @@ import { removeTokens, TOKENS } from "@/lib/utils/tokenStorage";
 import axios, { AxiosError, AxiosRequestConfig } from "axios";
 // eslint-disable-next-line import/no-cycle
 import retrieveNewToken from "./user/retrieveNewToken";
-import { RefreshTokenResponse } from "../dtos/user/auth";
+import { AccessTokenForm } from "../dtos/user/auth";
 
 const axiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
@@ -22,7 +22,7 @@ axiosInstance.interceptors.response.use(
     const originalRequest: AxiosRequestConfig = error.config ?? {};
     const refreshToken = localStorage.getItem(TOKENS.REFRESH_TOKEN);
     if (error.response?.status === 401 && !!refreshToken) {
-      let res: RefreshTokenResponse;
+      let res: AccessTokenForm;
       try {
         res = await retrieveNewToken({ refreshToken });
       } catch (refreshError) {

@@ -1,7 +1,7 @@
 import { AxiosResponse } from "axios";
 import {
-  LoginResponseDto,
-  LoginRequestDto,
+  // LoginResponseDto,
+  // LoginRequestDto,
   SignupRequestDto,
   SignupResponseDto,
   ResetPasswordEmailRequestDto,
@@ -15,10 +15,10 @@ export const signup = async (
 ): Promise<AxiosResponse<SignupResponseDto>> =>
   axiosInstance.post<SignupResponseDto>("auth/signUp", data);
 
-export const login = async (
-  data: LoginRequestDto,
-): Promise<AxiosResponse<LoginResponseDto>> =>
-  axiosInstance.post<LoginResponseDto>("auth/signIn", data);
+// export const login = async (
+//   data: LoginRequestDto,
+// ): Promise<AxiosResponse<LoginResponseDto>> =>
+//   axiosInstance.post<LoginResponseDto>("auth/signIn", data);
 
 export const sendResetPasswordEmail = async (
   data: ResetPasswordEmailRequestDto,
