@@ -1,4 +1,4 @@
-import { removeTokens, TOKENS } from "@/lib/utils/tokenStorage";
+import { removeToken, TOKENS } from "@/lib/utils/tokenStorage";
 import axios, { AxiosError, AxiosRequestConfig } from "axios";
 // eslint-disable-next-line import/no-cycle
 import retrieveNewToken from "./user/retrieveNewToken";
@@ -27,7 +27,7 @@ axiosInstance.interceptors.response.use(
         res = await retrieveNewToken({ refreshToken });
       } catch (refreshError) {
         console.error(refreshError);
-        removeTokens();
+        removeToken();
         return Promise.reject(error);
       }
       localStorage.setItem(TOKENS.ACCESS_TOKEN, res.accessToken);

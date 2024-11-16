@@ -31,6 +31,17 @@ export default async function handler(
       break;
     }
 
+    case "DELETE": {
+      res
+        .status(204)
+        .setHeader(
+          "Set-Cookie",
+          `refresh_token=none; Secure; HttpOnly; Path=/; SameSite=Lax; Expires=-1; Max-Age=-1;`,
+        )
+        .send(true);
+      break;
+    }
+
     default: {
       res.status(400).json({ error: "Unhandled Method" });
       break;

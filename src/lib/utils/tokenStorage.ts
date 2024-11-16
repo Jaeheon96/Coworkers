@@ -9,6 +9,6 @@ export function saveToken(tokenForm: AccessTokenForm) {
   localStorage.setItem(TOKENS.ACCESS_TOKEN, tokenForm.accessToken);
 }
 
-export function removeTokens() {
+export function removeToken() {
   localStorage.removeItem(TOKENS.ACCESS_TOKEN);
 }

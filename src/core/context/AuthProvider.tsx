@@ -9,7 +9,7 @@ import {
   useState,
 } from "react";
 import { useRouter } from "next/router";
-import { removeTokens, saveToken, TOKENS } from "@/lib/utils/tokenStorage";
+import { removeToken, saveToken, TOKENS } from "@/lib/utils/tokenStorage";
 import getUser from "../api/user/getUser";
 import {
   AccessTokenForm,
@@ -21,6 +21,7 @@ import {
 import updateUser from "../api/user/updateUser";
 import deleteUser from "../api/user/deleteUser";
 import signIn from "../api/user/signIn";
+import signOut from "../api/user/signOut";
 
 interface AuthValues {
   user: User | null;
@@ -96,8 +97,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     },
   });
 
-  const logout = useCallback(() => {
-    removeTokens();
+  const logout = useCallback(async () => {
+    await signOut();
+    removeToken();
     setAuthState({
       user: null,
       isPending: false,
