@@ -24,7 +24,9 @@ export default async function handler(
           .json({ accessToken });
       } catch (error) {
         const err = error as AxiosError;
-        res.status(err.response?.status ?? 500).send(err);
+        res
+          .status(err.response?.status ?? 500)
+          .json(err.response?.data ?? { message: "Internal Server Error" });
       }
       break;
     }

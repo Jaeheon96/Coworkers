@@ -104,9 +104,9 @@ export default function Login() {
 
     if (formData.email && formData.password) {
       try {
-        await login(formData);
+        const loginRes = await login(formData);
+        console.log(loginRes);
       } catch (error) {
-        console.error("로그인 중 오류 발생:", error);
         return;
       }
       router.push("/");

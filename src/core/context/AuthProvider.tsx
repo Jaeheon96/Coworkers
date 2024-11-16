@@ -9,18 +9,18 @@ import {
   useState,
 } from "react";
 import { useRouter } from "next/router";
-import { removeTokens, saveTokens, TOKENS } from "@/lib/utils/tokenStorage";
+import { removeTokens, saveToken, TOKENS } from "@/lib/utils/tokenStorage";
 import getUser from "../api/user/getUser";
 import {
+  AccessTokenForm,
   LoginForm,
-  LoginResponse,
   UpdateUserForm,
   UpdateUserResponse,
   User,
 } from "../dtos/user/auth";
-import signIn from "../api/user/signIn";
 import updateUser from "../api/user/updateUser";
 import deleteUser from "../api/user/deleteUser";
+import signIn from "../api/user/signIn";
 
 interface AuthValues {
   user: User | null;
@@ -31,7 +31,7 @@ interface AuthContextValues {
   user: User | null;
   isPending: boolean;
   getMe: () => void;
-  login: (loginForm: LoginForm) => Promise<LoginResponse>;
+  login: (loginForm: LoginForm) => Promise<AccessTokenForm>;
   isLoginPending: boolean;
   logout: () => void;
   updateMe: (updateUserForm: UpdateUserForm) => Promise<UpdateUserResponse>;
@@ -87,8 +87,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const { mutateAsync: login, isPending: isLoginPending } = useMutation({
     mutationFn: (loginForm: LoginForm) => signIn(loginForm),
     onSuccess: (data) => {
-      const { accessToken, refreshToken } = data;
-      saveTokens({ accessToken, refreshToken });
+      saveToken(data);
       getMe();
     },
     onError: (e) => {
