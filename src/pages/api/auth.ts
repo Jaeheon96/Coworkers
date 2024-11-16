@@ -1,4 +1,5 @@
 import { LoginResponse } from "@/core/dtos/user/auth";
+import decodeJwt from "@/lib/utils/decodeJwt";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { NextApiRequest, NextApiResponse } from "next";
 
@@ -15,11 +16,13 @@ export default async function handler(
           req.body,
         );
         const { refreshToken, accessToken } = loginResponse.data;
+        const { exp: refreshExpNum } = decodeJwt(refreshToken);
+        const expDate = new Date(refreshExpNum * 1000).toUTCString();
         res
           .status(201)
           .setHeader(
             "Set-Cookie",
-            `refresh_token=${refreshToken}; Secure; HttpOnly; Path=/; SameSite=Lax;`,
+            `refresh_token=${refreshToken}; Secure; HttpOnly; Path=/; SameSite=Lax; Expires=${expDate}`,
           )
           .json({ accessToken });
       } catch (error) {
