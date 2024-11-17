@@ -1,15 +1,13 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   createContext,
   ReactNode,
-  useCallback,
   useContext,
   useEffect,
   useMemo,
-  useState,
 } from "react";
 import { useRouter } from "next/router";
-import { removeToken, saveToken, TOKENS } from "@/lib/utils/tokenStorage";
+import { TOKENS } from "@/lib/utils/tokenStorage";
 import getUser from "../api/user/getUser";
 import {
   AccessTokenForm,
@@ -22,14 +20,11 @@ import updateUser from "../api/user/updateUser";
 import deleteUser from "../api/user/deleteUser";
 import signIn from "../api/user/signIn";
 import signOut from "../api/user/signOut";
-
-interface AuthValues {
-  user: User | null;
-  isPending: boolean;
-}
+import refreshToken from "../api/user/refreshToken";
+import setAxiosInterceptors from "../api/setAxiosInterceptors";
 
 interface AuthContextValues {
-  user: User | null;
+  user: User | undefined;
   isPending: boolean;
   getMe: () => void;
   login: (loginForm: LoginForm) => Promise<AccessTokenForm>;
@@ -42,7 +37,7 @@ interface AuthContextValues {
 }
 
 const INITIAL_AUTH_VALUES: AuthContextValues = {
-  user: null,
+  user: undefined,
   isPending: true,
   getMe: () => {},
   login: () => Promise.reject(),
@@ -57,39 +52,36 @@ const INITIAL_AUTH_VALUES: AuthContextValues = {
 const AuthContext = createContext<AuthContextValues>(INITIAL_AUTH_VALUES);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [authState, setAuthState] = useState<AuthValues>({
-    user: null,
-    isPending: true,
+  const queryClient = useQueryClient();
+
+  const { data: token, refetch: getToken } = useQuery({
+    queryKey: [TOKENS.ACCESS_TOKEN],
+    queryFn: async () => {
+      const { accessToken } = await refreshToken();
+      return accessToken;
+    },
+    retry: false,
+    staleTime: 1000 * 60 * 30,
+    gcTime: Infinity,
+    initialData: null,
   });
 
-  const { mutate: getMe } = useMutation({
-    mutationFn: getUser,
-    onMutate: () => {
-      setAuthState((prev) => ({
-        ...prev,
-        isPending: true,
-      }));
-    },
-    onSuccess: (data) => {
-      setAuthState({
-        user: data,
-        isPending: false,
-      });
-    },
-    onError: (e) => {
-      setAuthState({
-        user: null,
-        isPending: false,
-      });
-      console.error(e);
-    },
+  const {
+    data: user,
+    isLoading: isPending,
+    refetch: getMe,
+  } = useQuery({
+    queryKey: ["user"],
+    queryFn: getUser,
+    staleTime: 1000 * 60 * 10,
+    gcTime: Infinity,
+    enabled: !!token,
   });
 
   const { mutateAsync: login, isPending: isLoginPending } = useMutation({
     mutationFn: (loginForm: LoginForm) => signIn(loginForm),
-    onSuccess: (data) => {
-      saveToken(data);
-      getMe();
+    onSuccess: () => {
+      getToken();
     },
     onError: (e) => {
       console.error(e);
@@ -97,14 +89,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     },
   });
 
-  const logout = useCallback(async () => {
-    await signOut();
-    removeToken();
-    setAuthState({
-      user: null,
-      isPending: false,
-    });
-  }, []);
+  const { mutate: logout } = useMutation({
+    mutationFn: signOut,
+    onSuccess: () => {
+      queryClient.removeQueries({ queryKey: [TOKENS.ACCESS_TOKEN] });
+      queryClient.removeQueries({ queryKey: ["user"] });
+    },
+    onError: (e) => {
+      alert("로그아웃중 오류 발생: 잠시후 다시 시도해 주세요.");
+      console.error(e);
+    },
+  });
 
   const { mutateAsync: updateMe, isPending: isUpdatePending } = useMutation({
     mutationFn: (updateUserForm: UpdateUserForm) => updateUser(updateUserForm),
@@ -124,18 +119,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     },
   });
 
-  useEffect(() => {
-    if (localStorage.getItem(TOKENS.REFRESH_TOKEN)) {
-      getMe();
-      return;
-    }
-    setAuthState({
-      user: null,
-      isPending: false,
-    });
-  }, [getMe]);
+  setAxiosInterceptors(token, getToken, logout);
 
-  const { user, isPending } = authState;
   const authValues = useMemo(
     () => ({
       user,
