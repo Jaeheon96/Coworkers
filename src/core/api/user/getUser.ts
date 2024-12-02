@@ -5,7 +5,7 @@ import axiosInstance from "../axiosInstance";
 export default async function getUser() {
   const res: AxiosResponse<User> = await axiosInstance
     .get("user")
-    .catch((e: AxiosError) => Promise.reject(e.response));
+    .catch((e: AxiosError) => Promise.reject(e));
 
   return res.data;
 }
