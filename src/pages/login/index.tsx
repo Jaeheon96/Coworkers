@@ -104,8 +104,7 @@ export default function Login() {
 
     if (formData.email && formData.password) {
       try {
-        const loginRes = await login(formData);
-        console.log(loginRes);
+        await login(formData);
       } catch (error) {
         return;
       }

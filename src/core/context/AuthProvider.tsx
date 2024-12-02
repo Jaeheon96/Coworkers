@@ -80,8 +80,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const { mutateAsync: login, isPending: isLoginPending } = useMutation({
     mutationFn: (loginForm: LoginForm) => signIn(loginForm),
-    onSuccess: () => {
+    onSuccess: (data) => {
       getToken();
+      localStorage.setItem(TOKENS.ACCESS_TOKEN, data.accessToken);
     },
     onError: (e) => {
       console.error(e);
@@ -119,7 +120,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     },
   });
 
-  setAxiosInterceptors(token, getToken, logout);
+  if (token) setAxiosInterceptors(token, getToken, logout);
 
   const authValues = useMemo(
     () => ({
