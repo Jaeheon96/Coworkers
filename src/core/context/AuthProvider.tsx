@@ -63,7 +63,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     retry: false,
     staleTime: 1000 * 60 * 30,
     gcTime: Infinity,
-    initialData: null,
+    throwOnError: false,
   });
 
   const {

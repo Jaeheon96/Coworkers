@@ -3,7 +3,7 @@ import { QueryObserverResult, RefetchOptions } from "@tanstack/react-query";
 import axiosInstance from "./axiosInstance";
 
 export default function setAxiosInterceptors(
-  token: string | null,
+  token: string,
   getToken: (
     options?: RefetchOptions | undefined,
   ) => Promise<QueryObserverResult<string | null, Error>>,
