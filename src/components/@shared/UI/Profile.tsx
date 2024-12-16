@@ -35,6 +35,7 @@ export default function Profile() {
         />
       }
       menuClassName="border-opacity-10 absolute top-full mt-2 z-10 w-[140px] max-h-[200px] overflow-y-auto border border-border-primary bg-background-secondary"
+      closeOnClick
     >
       <DropdownItem
         onClick={handleMyHistoryClick}
