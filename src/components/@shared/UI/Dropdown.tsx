@@ -7,6 +7,7 @@ interface DropdownProps {
   trigger: ReactNode;
   menuClassName?: string;
   disabled?: boolean;
+  closeOnClick?: boolean;
 }
 
 export default function Dropdown({
@@ -14,11 +15,12 @@ export default function Dropdown({
   children,
   menuClassName,
   disabled = false,
+  closeOnClick,
 }: DropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
 
-  const toggleDropdown = (e: React.MouseEvent) => {
-    e.stopPropagation();
+  const toggleDropdown = (e?: React.MouseEvent) => {
+    e?.stopPropagation();
     setIsOpen((prev) => !prev);
   };
 
@@ -26,11 +28,19 @@ export default function Dropdown({
     setIsOpen(false);
   };
 
+  const handleBoxClick = (e?: React.MouseEvent) => {
+    if (closeOnClick) toggleDropdown(e);
+  };
+
   const dropDownRef = useClickOutside(handleClose);
   const menuClassCombined = twMerge("absolute rounded-xl z-10", menuClassName);
 
   return (
-    <div ref={dropDownRef} className="relative flex items-center">
+    <div
+      ref={dropDownRef}
+      className="relative flex items-center"
+      onClick={handleBoxClick}
+    >
       <button type="button" onClick={toggleDropdown} disabled={disabled}>
         {trigger}
       </button>
