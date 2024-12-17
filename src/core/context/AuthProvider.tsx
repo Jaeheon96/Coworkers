@@ -68,7 +68,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const {
     data: user,
-    isLoading: isPending,
+    isPending,
     refetch: getMe,
   } = useQuery({
     queryKey: ["user"],
