@@ -54,7 +54,11 @@ const AuthContext = createContext<AuthContextValues>(INITIAL_AUTH_VALUES);
 export function AuthProvider({ children }: { children: ReactNode }) {
   const queryClient = useQueryClient();
 
-  const { data: token, refetch: getToken } = useQuery({
+  const {
+    data: token,
+    refetch: getToken,
+    isPending: isTokenPending,
+  } = useQuery({
     queryKey: [TOKENS.ACCESS_TOKEN],
     queryFn: async () => {
       const { accessToken } = await refreshToken();
@@ -68,7 +72,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const {
     data: user,
-    isPending,
+    isPending: isUserPending,
     refetch: getMe,
   } = useQuery({
     queryKey: ["user"],
@@ -77,6 +81,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     gcTime: Infinity,
     enabled: !!token,
   });
+
+  const isPending = isTokenPending || (!!token && isUserPending);
 
   const { mutateAsync: login, isPending: isLoginPending } = useMutation({
     mutationFn: (loginForm: LoginForm) => signIn(loginForm),
@@ -159,11 +165,10 @@ export function useAuth(required?: boolean) {
   if (!context) throw new Error("Out of provider scope: AuthContext");
 
   const { user, isPending } = context;
-  const router = useRouter();
-  const { asPath, isReady } = router;
+  const { asPath, isReady, replace } = useRouter();
   useEffect(() => {
     if (required && !user && !isPending && isReady) {
-      router.replace(`/unauthorized?direction=${asPath}`);
+      replace(`/unauthorized?direction=${asPath}`);
     }
   }, [required, user, isPending, isReady]);
 
