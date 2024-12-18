@@ -10,33 +10,34 @@ import "swiper/css/navigation";
 import "react-toastify/dist/ReactToastify.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { useState, useEffect } from "react";
-import { AuthProvider, useAuth } from "@/core/context/AuthProvider";
+import { useState } from "react";
+import { AuthProvider } from "@/core/context/AuthProvider";
 import { SessionProvider } from "next-auth/react";
 import type { AppProps } from "next/app";
 import { ToastContainer } from "react-toastify";
 
-import SetupHeader from "@/components/@shared/UI/SetupHeader";
-import AuthHeader from "@/components/@shared/UI/AuthHeader";
+// import SetupHeader from "@/components/@shared/UI/SetupHeader";
+// import AuthHeader from "@/components/@shared/UI/AuthHeader";
+import Header from "@/components/@shared/UI/Header";
 
-function HeaderWrapper({ headerType }: { headerType?: string }) {
-  const { user, isPending } = useAuth();
-  const [isAuthHeaderVisible, setIsAuthHeaderVisible] = useState(false);
+// function HeaderWrapper({ headerType }: { headerType?: string }) {
+//   const { user, isPending } = useAuth();
+//   const [isAuthHeaderVisible, setIsAuthHeaderVisible] = useState(false);
 
-  useEffect(() => {
-    if (user && !isPending) {
-      setIsAuthHeaderVisible(true);
-    } else {
-      setIsAuthHeaderVisible(false);
-    }
-  }, [user, isPending]);
+//   useEffect(() => {
+//     if (user && !isPending) {
+//       setIsAuthHeaderVisible(true);
+//     } else {
+//       setIsAuthHeaderVisible(false);
+//     }
+//   }, [user, isPending]);
 
-  if (headerType === "setup") {
-    return <SetupHeader />;
-  }
+//   if (headerType === "setup") {
+//     return <SetupHeader />;
+//   }
 
-  return isAuthHeaderVisible ? <AuthHeader /> : <SetupHeader />;
-}
+//   return isAuthHeaderVisible ? <AuthHeader /> : <SetupHeader />;
+// }
 export default function App({
   Component,
   pageProps: { session, ...pageProps },
@@ -57,7 +58,7 @@ export default function App({
     <SessionProvider session={session}>
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
-          <HeaderWrapper />
+          <Header />
           <ToastContainer
             toastClassName="[&&]:bg-background-secondary"
             bodyClassName="text-text-primary font-sans text-text-md"
