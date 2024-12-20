@@ -86,9 +86,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const { mutateAsync: login, isPending: isLoginPending } = useMutation({
     mutationFn: (loginForm: LoginForm) => signIn(loginForm),
-    onSuccess: (data) => {
+    onSuccess: () => {
       getToken();
-      localStorage.setItem(TOKENS.ACCESS_TOKEN, data.accessToken);
     },
     onError: (e) => {
       console.error(e);
