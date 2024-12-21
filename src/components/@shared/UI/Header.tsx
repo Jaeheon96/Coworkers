@@ -1,11 +1,15 @@
 import { useAuth } from "@/core/context/AuthProvider";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import Dropdown from "./Dropdown";
 import DropdownItem from "./Item";
 
 export default function Header() {
   const { isPending, user, logout } = useAuth();
+  const { pathname } = useRouter();
+
+  if (pathname === "/login" || pathname === "/signup") return null;
 
   return (
     <header className="fixed top-0 z-40 flex h-[3.75rem] w-full items-center justify-between border-b border-border-primary bg-background-secondary px-[22.5rem] sm:px-4 md:px-6">

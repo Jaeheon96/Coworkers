@@ -1,23 +1,18 @@
 import Image from "next/image";
 import Link from "next/link";
-import Button from "./Button";
 
 export default function SetupHeader() {
   return (
-    <header className="border-b-solid fixed left-0 right-0 top-0 z-40 flex h-[60px] items-center justify-between gap-2.5 border-border-primary bg-background-secondary px-4 py-5 [&&]:lg:px-[360px] [&&]:lg:py-3.5">
+    <header className="fixed top-0 z-40 flex h-[3.75rem] w-full items-center justify-between border-b border-border-primary bg-background-secondary px-[22.5rem] sm:px-4 md:px-6">
       <Link href="/">
-        <Image
-          src="/icons/icon-logo_coworkers_large.png"
-          width={158}
-          height={32}
-          alt="헤더 로고 이미지"
-          className="sm:w-[102px] md:w-[102px]"
-        />
-      </Link>
-      <Link href="/login">
-        <Button variant="solid" size="x-small">
-          로그인
-        </Button>
+        <div className="flex items-center gap-0.5">
+          <div className="relative h-6 w-6 sm:h-4 sm:w-4 md:h-4 md:w-4">
+            <Image fill src="icons/icon-logo.svg" alt="로고" />
+          </div>
+          <div className="relative h-8 w-[8.25rem] sm:h-5 sm:w-[5.25rem] md:h-5 md:w-[5.25rem]">
+            <Image fill src="icons/icon-title.svg" alt="타이틀" />
+          </div>
+        </div>
       </Link>
     </header>
   );
