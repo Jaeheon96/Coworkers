@@ -7,22 +7,69 @@ import DropdownItem from "./Item";
 
 export default function Header() {
   const { isPending, user, logout } = useAuth();
-  const { pathname } = useRouter();
+  const { pathname, query } = useRouter();
 
   if (pathname === "/login" || pathname === "/signup") return null;
 
   return (
     <header className="fixed top-0 z-40 flex h-[3.75rem] w-full items-center justify-between border-b border-border-primary bg-background-secondary px-[22.5rem] sm:px-4 md:px-6">
-      <Link href="/">
-        <div className="flex items-center gap-0.5">
-          <div className="relative h-6 w-6 sm:h-4 sm:w-4 md:h-4 md:w-4">
-            <Image fill src="icons/icon-logo.svg" alt="로고" />
+      <div className="flex items-center gap-10">
+        <Link href="/">
+          <div className="flex items-center gap-0.5">
+            <div className="relative h-6 w-6 sm:h-4 sm:w-4 md:h-4 md:w-4">
+              <Image fill src="icons/icon-logo.svg" alt="로고" />
+            </div>
+            <div className="relative h-8 w-[8.25rem] sm:h-5 sm:w-[5.25rem] md:h-5 md:w-[5.25rem]">
+              <Image fill src="icons/icon-title.svg" alt="타이틀" />
+            </div>
           </div>
-          <div className="relative h-8 w-[8.25rem] sm:h-5 sm:w-[5.25rem] md:h-5 md:w-[5.25rem]">
-            <Image fill src="icons/icon-title.svg" alt="타이틀" />
-          </div>
-        </div>
-      </Link>
+        </Link>
+        {!isPending && user && (
+          <Dropdown
+            trigger={
+              <div className="flex items-center gap-2.5 text-text-lg font-medium">
+                <p className="max-w-36 truncate">
+                  {user.memberships.find(
+                    (team) => `${team.groupId}` === query.teamId,
+                  )?.group.name ?? "내가 속한 팀"}
+                </p>
+                <div className="relative h-4 w-4">
+                  <Image fill src="icons/icon-arrow_down.svg" alt="펼치기" />
+                </div>
+              </div>
+            }
+            menuClassName="border border-solid border-border-primary bg-background-secondary p-4 left-0 top-12 flex flex-col gap-4 text-text-lg font-medium w-[13.625rem]"
+          >
+            <div className="flex max-h-64 flex-col gap-2 overflow-hidden hover:overflow-y-auto">
+              {user.memberships.map((team) => (
+                <Link href={`/${team.groupId}`} key={team.groupId}>
+                  <DropdownItem itemClassName="flex w-full items-center gap-3 rounded-lg p-2">
+                    <div className="relative h-8 w-8 shrink-0 rounded-md">
+                      <Image
+                        fill
+                        src={
+                          team.group.image ?? "/images/image-defaultProfile.png"
+                        }
+                        className="rounded-md"
+                        alt="팀"
+                      />
+                    </div>
+                    <p className="truncate">{team.group.name}</p>
+                  </DropdownItem>
+                </Link>
+              ))}
+            </div>
+            <Link href="/addteam">
+              <DropdownItem itemClassName="rounded-xl border border-solid border-slate-50 w-full h-12 flex justify-center gap-1 items-center">
+                <div className="relative h-4 w-4">
+                  <Image fill src="icons/icon-plus.svg" alt="추가" />
+                </div>
+                팀 추가하기
+              </DropdownItem>
+            </Link>
+          </Dropdown>
+        )}
+      </div>
       {!isPending && !user && (
         <div className="flex items-center gap-4">
           <Link
