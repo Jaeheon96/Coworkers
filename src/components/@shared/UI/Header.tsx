@@ -12,14 +12,14 @@ export default function Header() {
   if (pathname === "/login" || pathname === "/signup") return null;
 
   return (
-    <header className="fixed top-0 z-40 flex h-[3.75rem] w-full items-center justify-between border-b border-border-primary bg-background-secondary px-[22.5rem] sm:px-4 md:px-6">
+    <header className="max-sm:px-4 max-md:px-6 fixed top-0 z-40 flex h-[3.75rem] w-full items-center justify-between border-b border-border-primary bg-background-secondary px-[22.5rem]">
       <div className="flex items-center gap-10">
         <Link href="/">
           <div className="flex items-center gap-0.5">
-            <div className="relative h-6 w-6 sm:h-4 sm:w-4 md:h-4 md:w-4">
+            <div className="max-md:h-4 max-md:w-4 relative h-6 w-6">
               <Image fill src="icons/icon-logo.svg" alt="로고" />
             </div>
-            <div className="relative h-8 w-[8.25rem] sm:h-5 sm:w-[5.25rem] md:h-5 md:w-[5.25rem]">
+            <div className="max-md:h-5 max-md:w-[5.25rem] relative h-8 w-[8.25rem]">
               <Image fill src="icons/icon-title.svg" alt="타이틀" />
             </div>
           </div>
@@ -74,13 +74,13 @@ export default function Header() {
         <div className="flex items-center gap-4">
           <Link
             href="login"
-            className="text-text-lg font-semibold sm:text-text-md md:text-text-md"
+            className="max-md:text-text-md text-text-lg font-semibold"
           >
             로그인
           </Link>
           <Link
             href="signup"
-            className="block text-text-lg font-semibold sm:hidden md:text-text-md"
+            className="max-md:text-text-md max-sm:hidden block text-text-lg font-semibold"
           >
             회원가입
           </Link>
@@ -97,36 +97,36 @@ export default function Header() {
                   alt="프로필"
                 />
               </div>
-              <p className="block text-text-md font-medium sm:hidden md:hidden">
+              <p className="max-md:hidden block text-text-md font-medium">
                 {user.nickname}
               </p>
             </div>
           }
-          menuClassName="border border-solid border-border-primary right-0 top-8 bg-background-secondary px-6 flex flex-col text-text-lg font-regular w-max sm:text-text-md sm:px-5"
+          menuClassName="border border-solid border-border-primary right-0 top-8 bg-background-secondary px-6 flex flex-col text-text-lg font-regular w-max max-sm:text-text-md max-sm:px-5"
         >
           <Link href="myhistory">
             <DropdownItem
               onClick={() => {}}
-              itemClassName="py-3.5 text-center sm:py-3"
+              itemClassName="py-3.5 text-center max-sm:py-3"
             >
               마이 히스토리
             </DropdownItem>
           </Link>
           <DropdownItem
             onClick={() => {}}
-            itemClassName="py-3.5 text-center sm:py-3"
+            itemClassName="py-3.5 text-center max-sm:py-3"
           >
             계정 설정
           </DropdownItem>
           <DropdownItem
             onClick={() => {}}
-            itemClassName="py-3.5 text-center sm:py-3"
+            itemClassName="py-3.5 text-center max-sm:py-3"
           >
             팀 참여
           </DropdownItem>
           <DropdownItem
             onClick={logout}
-            itemClassName="py-3.5 text-center sm:py-3"
+            itemClassName="py-3.5 text-center max-sm:py-3"
           >
             로그아웃
           </DropdownItem>

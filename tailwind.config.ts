@@ -134,6 +134,8 @@ const config: Config = {
     },
     screens: {
       // 브레이크포인트 설정
+      "max-md": { max: "1199px" },
+      "max-sm": { max: "639px" },
       lg: { min: "1200px" }, // PC: 1200px 이상
       md: { max: "1199px" }, // 태블릿: 640px ~ 1199px
       sm: { max: "639px" }, // 모바일: 0px ~ 639px
