@@ -80,7 +80,7 @@ export default function Header() {
           </Link>
           <Link
             href="signup"
-            className="max-md:text-text-md max-sm:hidden block text-text-lg font-semibold"
+            className="max-md:text-text-md max-sm:hidden text-text-lg font-semibold"
           >
             회원가입
           </Link>
@@ -97,7 +97,7 @@ export default function Header() {
                   alt="프로필"
                 />
               </div>
-              <p className="max-md:hidden block text-text-md font-medium">
+              <p className="max-md:hidden text-text-md font-medium">
                 {user.nickname}
               </p>
             </div>
