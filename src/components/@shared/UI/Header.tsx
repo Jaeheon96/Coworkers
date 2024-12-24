@@ -20,7 +20,7 @@ export default function Header() {
         <div className="flex items-center gap-10">
           <div className="flex items-center gap-4">
             <div
-              className="relative hidden h-6 w-6 cursor-pointer max-sm:block"
+              className="relative hidden h-6 w-6 cursor-pointer [&&]:max-sm:block"
               onClick={() => setIsNavSidebarOpen(true)}
             >
               <Image fill src="icons/icon-gnb_menu.svg" alt="메뉴" />
@@ -39,7 +39,7 @@ export default function Header() {
           {!isPending && user && (
             <Dropdown
               trigger={
-                <div className="flex items-center gap-2.5 text-text-lg font-medium max-sm:hidden">
+                <div className="flex items-center gap-2.5 text-text-lg font-medium [&&]:max-sm:hidden">
                   <p className="max-w-36 truncate">
                     {user.memberships.find(
                       (team) => `${team.groupId}` === query.teamId,
