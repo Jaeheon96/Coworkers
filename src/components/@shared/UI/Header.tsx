@@ -51,6 +51,7 @@ export default function Header() {
                 </div>
               }
               menuClassName="border border-solid border-border-primary bg-background-secondary p-4 left-0 top-12 flex flex-col gap-4 text-text-lg font-medium w-[13.625rem] max-sm:hidden"
+              closeOnClick
             >
               <div className="flex max-h-64 flex-col gap-2 overflow-hidden hover:overflow-y-auto">
                 {user.memberships.map((team) => (
@@ -116,6 +117,7 @@ export default function Header() {
               </div>
             }
             menuClassName="border border-solid border-border-primary right-0 top-8 bg-background-secondary px-6 flex flex-col text-text-lg font-regular w-max max-sm:text-text-md max-sm:px-5"
+            closeOnClick
           >
             <Link href="myhistory">
               <DropdownItem
