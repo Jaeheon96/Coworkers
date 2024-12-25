@@ -56,7 +56,7 @@ export default function Header() {
               <div className="flex max-h-64 flex-col gap-2 overflow-hidden hover:overflow-y-auto">
                 {user.memberships.map((team) => (
                   <Link href={`/${team.groupId}`} key={team.groupId}>
-                    <DropdownItem itemClassName="flex w-full items-center gap-3 rounded-lg p-2">
+                    <DropdownItem itemClassName="flex w-full items-center gap-3 rounded-lg p-2 hover:bg-background-tertiary">
                       <div className="relative h-8 w-8 shrink-0 rounded-md">
                         <Image
                           fill
@@ -74,7 +74,7 @@ export default function Header() {
                 ))}
               </div>
               <Link href="/addteam">
-                <DropdownItem itemClassName="rounded-xl border border-solid border-slate-50 w-full h-12 flex justify-center gap-1 items-center">
+                <DropdownItem itemClassName="rounded-xl border border-solid border-slate-50 w-full h-12 flex justify-center gap-1 items-center hover:bg-background-tertiary">
                   <div className="relative h-4 w-4">
                     <Image fill src="icons/icon-plus.svg" alt="추가" />
                   </div>
@@ -116,32 +116,32 @@ export default function Header() {
                 </p>
               </div>
             }
-            menuClassName="border border-solid border-border-primary right-0 top-8 bg-background-secondary px-6 flex flex-col text-text-lg font-regular w-max max-sm:text-text-md max-sm:px-5"
+            menuClassName="border border-solid border-border-primary right-0 top-8 bg-background-secondary flex flex-col text-text-lg font-regular w-[8.5rem] max-sm:text-text-md max-sm:w-[7.5rem]"
             closeOnClick
           >
             <Link href="myhistory">
               <DropdownItem
                 onClick={() => {}}
-                itemClassName="py-3.5 text-center max-sm:py-3"
+                itemClassName="py-3.5 text-center max-sm:py-3 hover:bg-background-tertiary rounded-t-xl"
               >
                 마이 히스토리
               </DropdownItem>
             </Link>
             <DropdownItem
               onClick={() => {}}
-              itemClassName="py-3.5 text-center max-sm:py-3"
+              itemClassName="py-3.5 text-center max-sm:py-3 hover:bg-background-tertiary"
             >
               계정 설정
             </DropdownItem>
             <DropdownItem
               onClick={() => {}}
-              itemClassName="py-3.5 text-center max-sm:py-3"
+              itemClassName="py-3.5 text-center max-sm:py-3 hover:bg-background-tertiary"
             >
               팀 참여
             </DropdownItem>
             <DropdownItem
               onClick={logout}
-              itemClassName="py-3.5 text-center max-sm:py-3"
+              itemClassName="py-3.5 text-center max-sm:py-3 hover:bg-background-tertiary rounded-b-xl"
             >
               로그아웃
             </DropdownItem>
