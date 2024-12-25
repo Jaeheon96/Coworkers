@@ -36,7 +36,12 @@ export default function NavSidebar({
       className="fixed inset-0 z-40 h-screen w-screen bg-black/50"
       onClick={handleClose}
     >
-      <div className="flex h-full max-w-[12.75rem] flex-col gap-9 bg-background-secondary p-4">
+      <div
+        className="flex h-full max-w-[12.75rem] flex-col gap-9 bg-background-secondary p-4"
+        onClick={(e) => {
+          e.stopPropagation();
+        }}
+      >
         <div
           className="relative h-6 w-6 cursor-pointer self-end"
           onClick={handleClose}
@@ -47,7 +52,11 @@ export default function NavSidebar({
           {memberships.map((membership) => {
             const teamNameClass = `truncate text-text-md font-medium ${query.teamId === `${membership.groupId}` ? "text-brand-primary" : "text-text-primary"}`;
             return (
-              <Link key={membership.groupId} href={`/${membership.groupId}`}>
+              <Link
+                key={membership.groupId}
+                href={`/${membership.groupId}`}
+                onClick={handleClose}
+              >
                 <div className="flex items-center gap-2.5">
                   <div className="relative h-6 w-6 shrink-0">
                     <Image
