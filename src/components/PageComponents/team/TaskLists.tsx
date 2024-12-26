@@ -76,7 +76,7 @@ export default function TaskLists({ tasks, teamId }: Props) {
       <Droppable droppableId="droppable" type="card">
         {(droppableProvided) => (
           <div
-            className="flex flex-col"
+            className="no-scrollbar flex max-h-[24.5rem] flex-col overflow-y-auto"
             ref={droppableProvided.innerRef}
             {...droppableProvided.droppableProps}
           >
@@ -91,7 +91,7 @@ export default function TaskLists({ tasks, teamId }: Props) {
                 >
                   {(draggableProvided) => (
                     <div
-                      className="relative mb-4 flex h-10 cursor-grab items-center justify-between rounded-xl bg-background-secondary pl-3 pr-2 text-text-md font-medium text-text-primary"
+                      className="relative mb-4 flex h-10 shrink-0 cursor-grab items-center justify-between rounded-xl bg-background-secondary pl-3 pr-2 text-text-md font-medium text-text-primary"
                       ref={draggableProvided.innerRef}
                       {...draggableProvided.draggableProps}
                       {...draggableProvided.dragHandleProps}
