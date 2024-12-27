@@ -30,15 +30,15 @@ export default function Team() {
   const openModal = useModalStore((state) => state.openModal);
   const closeModal = useModalStore((state) => state.closeModal);
 
-  const router = useRouter();
-  const teamId = router.query.teamId as string;
+  const { query, isReady } = useRouter();
+  const teamId = query.teamId as string;
   const queryClient = useQueryClient();
 
   const groupResponse = useQuery({
     queryKey: ["group", teamId],
     queryFn: () => getTeamData(teamId),
     staleTime: 1000 * 60,
-    enabled: !!teamId,
+    enabled: isReady && !!user,
   });
 
   const group = groupResponse.data;
