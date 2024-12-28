@@ -38,7 +38,7 @@ export default function TeamSubmitForm({
   const [isValid, setIsValid] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const router = useRouter();
+  const { push, replace } = useRouter();
 
   const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => {
     setTeamName(e.target.value);
@@ -61,11 +61,8 @@ export default function TeamSubmitForm({
       setErrorMessage("");
     },
     onSuccess: (data) => {
-      if (!teamId) {
-        router.push(`/${data.id}`);
-        return;
-      }
       submitCallback();
+      if (!teamId) push(`/${data.id}`);
     },
     onError: (error: StandardError) => {
       console.error(error);
@@ -75,7 +72,7 @@ export default function TeamSubmitForm({
           setErrorMessage("내용을 다시 확인해주세요.");
           break;
         case 401:
-          router.replace("/unauthorized");
+          replace("/unauthorized");
           break;
         default:
           setIsValid(false);
@@ -96,7 +93,7 @@ export default function TeamSubmitForm({
       onSubmit={handleSubmit}
     >
       <div className="flex w-full flex-col items-center gap-20 sm:gap-6">
-        <h2 className="text-4xl font-medium text-text-primary sm:text-2xl md:text-2xl">
+        <h2 className="text-4xl font-medium text-text-primary md:text-2xl sm:text-2xl">
           {teamId ? "팀 수정하기" : "팀 생성하기"}
         </h2>
         <div className="flex w-full flex-col gap-6">

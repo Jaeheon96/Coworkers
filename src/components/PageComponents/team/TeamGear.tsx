@@ -1,6 +1,7 @@
 import Dropdown from "@/components/@shared/UI/Dropdown";
 import DropdownItem from "@/components/@shared/UI/Item";
 import Image from "next/image";
+import { useAuth } from "@/core/context/AuthProvider";
 import useModalStore from "@/lib/hooks/stores/modalStore";
 import PatchTeamModal from "./PatchTeamModal";
 import DeleteTeamModal from "./DeleteTeamModal";
@@ -23,6 +24,8 @@ export default function TeamGear({
   isAdmin,
   refreshGroup,
 }: Props) {
+  const { getMe } = useAuth();
+
   const patchTeamModalName = "patchTeamModal";
   const deleteTeamModalName = "deleteTeamModal";
   const deleteMemberModalName = "deleteMemberModal";
@@ -47,6 +50,7 @@ export default function TeamGear({
   };
   const patchTeamCallback = () => {
     refreshGroup();
+    getMe();
     closeModal(patchTeamModalName);
   };
 
