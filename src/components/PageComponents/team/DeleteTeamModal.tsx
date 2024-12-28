@@ -1,6 +1,7 @@
 import deleteTeam from "@/core/api/group/deleteTeam";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/router";
+import { useAuth } from "@/core/context/AuthProvider";
 import WarningModal from "./WarningModal";
 
 interface Props {
@@ -10,13 +11,15 @@ interface Props {
 }
 
 export default function DeleteTeamModal({ isOpen, onClose, teamId }: Props) {
-  const router = useRouter();
+  const { push } = useRouter();
+  const { getMe } = useAuth();
 
   const { mutate } = useMutation({
     mutationFn: () => deleteTeam(teamId),
     onSuccess: () => {
+      getMe();
       onClose();
-      router.push("/");
+      push("/");
     },
     onError: (error) => {
       alert("삭제중 에러 발생: 에러 정보는 콘솔 확인");
