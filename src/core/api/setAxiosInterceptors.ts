@@ -9,14 +9,14 @@ export default function setAxiosInterceptors(
   ) => Promise<QueryObserverResult<string | null, Error>>,
   logout: () => void,
 ) {
-  axiosInstance.interceptors.request.use((config) => {
+  const reqInterceptor = axiosInstance.interceptors.request.use((config) => {
     const reqConfig = config;
     reqConfig.headers.Authorization = `bearer ${token}`;
 
     return config;
   });
 
-  axiosInstance.interceptors.response.use(
+  const resInterceptor = axiosInstance.interceptors.response.use(
     (res) => res,
     async (error: AxiosError) => {
       const originalRequest: AxiosRequestConfig = error.config ?? {};
@@ -33,4 +33,6 @@ export default function setAxiosInterceptors(
       return Promise.reject(error.response);
     },
   );
+
+  return { reqInterceptor, resInterceptor };
 }
