@@ -5,6 +5,7 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useState,
 } from "react";
 import { useRouter } from "next/router";
 import { TOKENS } from "@/lib/utils/tokenStorage";
@@ -22,6 +23,7 @@ import signIn from "../api/user/signIn";
 import signOut from "../api/user/signOut";
 import refreshToken from "../api/user/refreshToken";
 import setAxiosInterceptors from "../api/setAxiosInterceptors";
+import ejectAxiosInterceptors from "../api/ejectAxiosInterceptors";
 
 interface AuthContextValues {
   user: User | undefined;
@@ -53,6 +55,11 @@ const AuthContext = createContext<AuthContextValues>(INITIAL_AUTH_VALUES);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const queryClient = useQueryClient();
+  const [interceptors, setInterceptors] = useState({
+    reqInterceptor: 0,
+    resInterceptor: 0,
+  });
+  const [isTokenSet, setIsTokenSet] = useState(false);
 
   const {
     data: token,
@@ -79,7 +86,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     queryFn: getUser,
     staleTime: 1000 * 60 * 10,
     gcTime: Infinity,
-    enabled: !!token,
+    enabled: isTokenSet,
   });
 
   const isPending = isTokenPending || (!!token && isUserPending);
@@ -98,6 +105,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const { mutate: logout } = useMutation({
     mutationFn: signOut,
     onSuccess: () => {
+      setIsTokenSet(false);
       queryClient.removeQueries({ queryKey: [TOKENS.ACCESS_TOKEN] });
       queryClient.removeQueries({ queryKey: ["user"] });
     },
@@ -125,7 +133,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     },
   });
 
-  if (token) setAxiosInterceptors(token, getToken, logout);
+  useEffect(() => {
+    if (token) {
+      setInterceptors(setAxiosInterceptors(token, getToken, logout));
+      setIsTokenSet(true);
+      return;
+    }
+    ejectAxiosInterceptors(interceptors);
+  }, [token]);
 
   const authValues = useMemo(
     () => ({
