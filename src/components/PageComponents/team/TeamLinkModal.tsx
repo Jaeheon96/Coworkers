@@ -4,6 +4,8 @@ import getInvitationCode from "@/core/api/group/getInvitationCode";
 import useTimeoutToggle from "@/lib/hooks/useTimeoutToggle";
 import { useMutation } from "@tanstack/react-query";
 import Image from "next/image";
+import { useEffect, useState } from "react";
+import MailInviteModal from "./MailInviteModal";
 
 interface Props {
   isOpen: boolean;
@@ -12,6 +14,8 @@ interface Props {
 }
 
 export default function TeamLinkModal({ isOpen, onClose, teamId }: Props) {
+  const [isMailInvitationOpen, setIsMailInvitationOpen] = useState(false);
+
   const mutationFn = async () => {
     const link = await getInvitationCode(teamId);
     navigator.clipboard.writeText(link);
@@ -26,7 +30,7 @@ export default function TeamLinkModal({ isOpen, onClose, teamId }: Props) {
     mutationFn,
     onSuccess: copyNoticeTimeout,
     onError: (error) => {
-      alert("링크 복사중 에러 발생: 에러 정보는 콘솔에서 확인");
+      alert("초대 링크 불러오던중 에러 발생: 에러 정보는 콘솔에서 확인");
       console.error(error);
     },
   });
@@ -49,6 +53,13 @@ export default function TeamLinkModal({ isOpen, onClose, teamId }: Props) {
     mutate();
   };
 
+  useEffect(() => {
+    if (isOpen) setIsMailInvitationOpen(false);
+  }, [isOpen]);
+
+  if (isMailInvitationOpen)
+    return <MailInviteModal isOpen={isOpen} onClose={onClose} />;
+
   return (
     <Modal isOpen={isOpen} onClose={onClose} isCloseButton>
       <div className="flex w-[22rem] flex-col gap-10 px-9">
@@ -69,7 +80,14 @@ export default function TeamLinkModal({ isOpen, onClose, teamId }: Props) {
           >
             {buttonContent()}
           </Button>
-          <Button type="button" variant="solid" size="large">
+          <Button
+            type="button"
+            variant="solid"
+            size="large"
+            onClick={() => {
+              setIsMailInvitationOpen(true);
+            }}
+          >
             이메일로 초대 보내기
           </Button>
         </div>
