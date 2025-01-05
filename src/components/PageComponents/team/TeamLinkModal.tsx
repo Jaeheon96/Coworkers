@@ -41,7 +41,7 @@ export default function TeamLinkModal({ isOpen, onClose, teamId }: Props) {
         </div>
       );
     if (isPending) return "링크 불러오는중...";
-    return "링크 복사하기";
+    return "초대 코드 복사하기";
   };
 
   const handleButtonClick = () => {
@@ -57,17 +57,22 @@ export default function TeamLinkModal({ isOpen, onClose, teamId }: Props) {
             멤버 초대
           </h3>
           <p className="text-center text-text-md font-medium text-text-secondary">
-            그룹에 참여할 수 있는 링크를 복사합니다.
+            팀에 새로운 멤버를 초대합니다.
           </p>
         </div>
-        <Button
-          type="button"
-          variant="solid"
-          size="large"
-          onClick={handleButtonClick}
-        >
-          {buttonContent()}
-        </Button>
+        <div className="flex flex-col gap-3">
+          <Button
+            type="button"
+            variant="solid"
+            size="large"
+            onClick={handleButtonClick}
+          >
+            {buttonContent()}
+          </Button>
+          <Button type="button" variant="solid" size="large">
+            이메일로 초대 보내기
+          </Button>
+        </div>
       </div>
     </Modal>
   );
