@@ -2,6 +2,7 @@ import Button from "@/components/@shared/UI/Button";
 import Modal from "@/components/@shared/UI/Modal/Modal";
 import getInvitationCode from "@/core/api/group/getInvitationCode";
 import useTimeoutToggle from "@/lib/hooks/useTimeoutToggle";
+import { GroupResponse } from "@/core/dtos/group/group";
 import { useMutation } from "@tanstack/react-query";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -10,11 +11,13 @@ import MailInviteModal from "./MailInviteModal";
 interface Props {
   isOpen: boolean;
   onClose: () => void;
-  teamId: string;
+  team: GroupResponse;
 }
 
-export default function TeamLinkModal({ isOpen, onClose, teamId }: Props) {
+export default function TeamLinkModal({ isOpen, onClose, team }: Props) {
   const [isMailInvitationOpen, setIsMailInvitationOpen] = useState(false);
+
+  const teamId = `${team.id}`;
 
   const mutationFn = async () => {
     const link = await getInvitationCode(teamId);
@@ -58,7 +61,7 @@ export default function TeamLinkModal({ isOpen, onClose, teamId }: Props) {
   }, [isOpen]);
 
   if (isMailInvitationOpen)
-    return <MailInviteModal isOpen={isOpen} onClose={onClose} />;
+    return <MailInviteModal isOpen={isOpen} onClose={onClose} team={team} />;
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} isCloseButton>

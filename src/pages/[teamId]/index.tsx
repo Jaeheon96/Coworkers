@@ -63,6 +63,8 @@ export default function Team() {
     if (!isPending && !group) replace("/wrongteam");
   }, [isPending, group]);
 
+  if (!group) return null;
+
   return (
     <>
       <main className="mx-auto mt-[5.25rem] max-w-[78rem] px-6">
@@ -115,7 +117,7 @@ export default function Team() {
       <TeamLinkModal
         isOpen={isTeamLinkModalOpen}
         onClose={() => closeModal(teamLinkModalName)}
-        teamId={teamId}
+        team={group}
       />
     </>
   );
