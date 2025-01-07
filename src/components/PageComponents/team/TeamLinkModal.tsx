@@ -43,11 +43,22 @@ export default function TeamLinkModal({ isOpen, onClose, team }: Props) {
       return (
         <div className="flex w-full justify-center">
           <div className="relative h-6 w-6">
-            <Image fill src="icons/check.svg" alt="복사되었습니다." />
+            <Image
+              fill
+              src="icons/icon-check_white.svg"
+              alt="복사되었습니다."
+            />
           </div>
         </div>
       );
-    if (isPending) return "링크 불러오는중...";
+    if (isPending)
+      return (
+        <div className="flex w-full justify-center">
+          <div className="relative h-6 w-6 animate-spin">
+            <Image fill src="icons/icon-ongoing.svg" alt="복사중..." />
+          </div>
+        </div>
+      );
     return "초대 코드 복사하기";
   };
 
