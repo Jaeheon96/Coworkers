@@ -20,31 +20,32 @@ export default function MailInviteModal({ isOpen, onClose, team }: Props) {
     setEmail(e.target.value);
   };
 
-  const { mutateAsync: getCodeMutate } = useMutation({
-    mutationFn: () => getInvitationCode(`${team.id}`),
+  const { mutate: sendInvitation } = useMutation({
+    mutationFn: async () => {
+      const invitationCode = await getInvitationCode(`${team.id}`);
+      await emailjs.send(
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID ?? "",
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID ?? "",
+        {
+          to_name: "none",
+          from_name: team.name,
+          message: `https://${process.env.NEXT_PUBLIC_URL}/participate/${invitationCode}`,
+          reply_to: "codeitfe0402@gmail.com",
+          to_email: email,
+        },
+        { publicKey: process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY },
+      );
+    },
     onError: (error) => {
-      alert("초대 코드 요청중 오류 발생: 오류 정보는 콘솔 확인");
+      alert("메일 발송중 오류 발생: 오류 정보는 콘솔 확인");
       console.error(error);
     },
+    throwOnError: false,
   });
 
-  const handleSubmit = async (e: FormEvent) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-
-    const invitationCode = await getCodeMutate();
-
-    emailjs.send(
-      process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID ?? "",
-      process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID ?? "",
-      {
-        to_name: "none",
-        from_name: team.name,
-        message: `https://${process.env.NEXT_PUBLIC_URL}/participate/${invitationCode}`,
-        reply_to: "codeitfe0402@gmail.com",
-        to_email: email,
-      },
-      { publicKey: process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY },
-    );
+    sendInvitation();
   };
 
   return (
