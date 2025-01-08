@@ -40,6 +40,7 @@ export default function MailInviteModal({ isOpen, onClose, team }: Props) {
       alert("메일 발송중 오류 발생: 오류 정보는 콘솔 확인");
       console.error(error);
     },
+    throwOnError: false,
   });
 
   const handleSubmit = (e: FormEvent) => {
