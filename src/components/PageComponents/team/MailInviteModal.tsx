@@ -6,6 +6,8 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { GroupResponse } from "@/core/dtos/group/group";
 import getInvitationCode from "@/core/api/group/getInvitationCode";
+import useTimeoutToggle from "@/lib/hooks/useTimeoutToggle";
+import Image from "next/image";
 
 interface Props {
   isOpen: boolean;
@@ -20,7 +22,12 @@ export default function MailInviteModal({ isOpen, onClose, team }: Props) {
     setEmail(e.target.value);
   };
 
-  const { mutate: sendInvitation } = useMutation({
+  const { isOn: isSent, timeoutToggle: sentNoticeTimeout } = useTimeoutToggle(
+    false,
+    800,
+  );
+
+  const { mutate: sendInvitation, isPending: isSendPending } = useMutation({
     mutationFn: async () => {
       const invitationCode = await getInvitationCode(`${team.id}`);
       await emailjs.send(
@@ -40,8 +47,33 @@ export default function MailInviteModal({ isOpen, onClose, team }: Props) {
       alert("메일 발송중 오류 발생: 오류 정보는 콘솔 확인");
       console.error(error);
     },
+    onSuccess: sentNoticeTimeout,
     throwOnError: false,
   });
+
+  const sendButtonContent = () => {
+    if (isSent)
+      return (
+        <div className="flex w-full justify-center">
+          <div className="relative h-6 w-6">
+            <Image
+              fill
+              src="icons/icon-check_white.svg"
+              alt="발송되었습니다."
+            />
+          </div>
+        </div>
+      );
+    if (isSendPending)
+      return (
+        <div className="flex w-full justify-center">
+          <div className="relative h-6 w-6 animate-spin">
+            <Image fill src="icons/icon-ongoing.svg" alt="발송중..." />
+          </div>
+        </div>
+      );
+    return "보내기";
+  };
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -61,7 +93,7 @@ export default function MailInviteModal({ isOpen, onClose, team }: Props) {
           <Input className="w-full" onChange={handleEmailInputChange} />
         </div>
         <Button type="submit" variant="solid" size="large">
-          보내기
+          {sendButtonContent()}
         </Button>
       </form>
     </Modal>
