@@ -20,8 +20,10 @@ export default function TeamLinkModal({ isOpen, onClose, team }: Props) {
   const teamId = `${team.id}`;
 
   const mutationFn = async () => {
-    const link = await getInvitationCode(teamId);
-    navigator.clipboard.writeText(link);
+    const invitationCode = await getInvitationCode(teamId);
+    navigator.clipboard.writeText(
+      `https://${process.env.NEXT_PUBLIC_URL}/participate/${invitationCode}`,
+    );
   };
 
   const { isOn: isCopied, timeoutToggle: copyNoticeTimeout } = useTimeoutToggle(
@@ -59,7 +61,7 @@ export default function TeamLinkModal({ isOpen, onClose, team }: Props) {
           </div>
         </div>
       );
-    return "초대 코드 복사하기";
+    return "초대 링크 복사하기";
   };
 
   const handleButtonClick = () => {
