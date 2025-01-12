@@ -134,12 +134,6 @@ export default function Header() {
               계정 설정
             </DropdownItem>
             <DropdownItem
-              onClick={() => {}}
-              itemClassName="py-3.5 text-center max-sm:py-3 hover:bg-background-tertiary"
-            >
-              팀 참여
-            </DropdownItem>
-            <DropdownItem
               onClick={logout}
               itemClassName="py-3.5 text-center max-sm:py-3 hover:bg-background-tertiary rounded-b-xl"
             >
