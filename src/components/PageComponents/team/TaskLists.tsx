@@ -107,6 +107,8 @@ export default function TaskLists({ tasks, teamId }: Props) {
                         teamId={teamId}
                         taskListId={`${task.id}`}
                         name={task.name}
+                        index={index}
+                        length={visibleTasks.length}
                       />
                     </div>
                   )}
