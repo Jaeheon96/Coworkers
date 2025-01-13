@@ -10,11 +10,21 @@ interface Props {
   teamId: string;
   taskListId: string;
   name: string;
+  index: number;
+  length: number;
 }
 
-export default function TaskListMenu({ teamId, taskListId, name }: Props) {
+export default function TaskListMenu({
+  teamId,
+  taskListId,
+  name,
+  index,
+  length,
+}: Props) {
   const patchModalName = `${taskListId}taskListPatchModal`;
   const deleteModalName = `${taskListId}taskListDeleteModal`;
+
+  const isAtBottom = index > length - 3;
 
   const isPatchModalOpen = useModalStore(
     (state) => state.modals[patchModalName],
@@ -31,6 +41,8 @@ export default function TaskListMenu({ teamId, taskListId, name }: Props) {
     queryClient.invalidateQueries({ queryKey: ["group", teamId] });
   };
 
+  const menuClassName = `flex flex-col text-text-primary font-regular text-text-md w-[7.5rem] bg-background-secondary border border-solid border-border-primary ${isAtBottom ? "right-0 bottom-6" : "right-0 top-6"}`;
+
   return (
     <>
       <Dropdown
@@ -39,17 +51,17 @@ export default function TaskListMenu({ teamId, taskListId, name }: Props) {
             <Image fill src="/icons/icon-kebab.svg" alt="메뉴" />
           </div>
         }
-        menuClassName="flex flex-col text-text-primary font-regular text-text-md w-[7.5rem] bg-background-secondary border border-solid border-border-primary right-0 top-6"
+        menuClassName={menuClassName}
       >
         <DropdownItem
           onClick={() => openModal(patchModalName)}
-          itemClassName="h-10 flex justify-center items-center"
+          itemClassName="h-10 flex justify-center items-center hover:bg-background-tertiary rounded-t-xl"
         >
           수정하기
         </DropdownItem>
         <DropdownItem
           onClick={() => openModal(deleteModalName)}
-          itemClassName="h-10 flex justify-center items-center"
+          itemClassName="h-10 flex justify-center items-center hover:bg-background-tertiary rounded-b-xl"
         >
           삭제하기
         </DropdownItem>
