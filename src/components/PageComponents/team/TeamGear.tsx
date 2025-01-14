@@ -68,13 +68,13 @@ export default function TeamGear({
           <>
             <DropdownItem
               onClick={() => openModal(patchTeamModalName)}
-              itemClassName="h-10 flex justify-center items-center"
+              itemClassName="h-10 flex justify-center items-center hover:bg-background-tertiary first:rounded-t-xl"
             >
               수정하기
             </DropdownItem>
             <DropdownItem
               onClick={() => openModal(deleteTeamModalName)}
-              itemClassName="h-10 flex justify-center items-center"
+              itemClassName="h-10 flex justify-center items-center hover:bg-background-tertiary"
             >
               삭제하기
             </DropdownItem>
@@ -82,7 +82,7 @@ export default function TeamGear({
         ) : null}
         <DropdownItem
           onClick={() => openModal(deleteMemberModalName)}
-          itemClassName="h-10 flex justify-center items-center"
+          itemClassName="h-10 flex justify-center items-center hover:bg-background-tertiary first:rounded-t-xl last:rounded-b-xl"
         >
           탈퇴하기
         </DropdownItem>

@@ -32,7 +32,7 @@ export default function MemberMenu({ image, name, email }: Props) {
       >
         <DropdownItem
           onClick={() => openModal(profileModalName)}
-          itemClassName="h-10 flex justify-center items-center"
+          itemClassName="h-10 flex justify-center items-center rounded-xl hover:bg-background-tertiary"
         >
           프로필 보기
         </DropdownItem>
