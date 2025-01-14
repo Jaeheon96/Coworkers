@@ -94,6 +94,8 @@ export default function Login() {
     return !Object.values(newErrors).some((error) => error !== undefined);
   };
 
+  console.log(router);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -108,7 +110,9 @@ export default function Login() {
       } catch (error) {
         return;
       }
-      router.push("/");
+      router.replace(
+        `/${typeof router.query.direction === "string" ? router.query.direction : ""}`,
+      );
     } else {
       alert("이메일과 비밀번호를 모두 입력해주세요.");
     }
