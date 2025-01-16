@@ -127,12 +127,14 @@ export default function Header() {
                 마이 히스토리
               </DropdownItem>
             </Link>
-            <DropdownItem
-              onClick={() => {}}
-              itemClassName="py-3.5 text-center max-sm:py-3 hover:bg-background-tertiary"
-            >
-              계정 설정
-            </DropdownItem>
+            <Link href="mypage">
+              <DropdownItem
+                onClick={() => {}}
+                itemClassName="py-3.5 text-center max-sm:py-3 hover:bg-background-tertiary"
+              >
+                계정 설정
+              </DropdownItem>
+            </Link>
             <DropdownItem
               onClick={logout}
               itemClassName="py-3.5 text-center max-sm:py-3 hover:bg-background-tertiary rounded-b-xl"
