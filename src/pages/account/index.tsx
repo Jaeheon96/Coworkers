@@ -33,7 +33,7 @@ export default function AccountSettings() {
     <div>
       <SetupHeader />
       <div className="mt-[84px] flex w-full justify-center lg:mt-[100px]">
-        <div className="flex w-full max-w-[792px] flex-col items-start gap-y-5 px-4 sm:px-6 md:px-6">
+        <div className="flex w-full max-w-[792px] flex-col items-start gap-y-5 px-4 md:px-6 sm:px-6">
           <h2 className="text-lg font-bold">계정 설정</h2>
           <div
             onClick={handleProfileClick}
@@ -103,7 +103,7 @@ export default function AccountSettings() {
                 저장하기
               </Button>
             </div>
-            <button className="text-point-red mt-2 flex items-center gap-2">
+            <button className="mt-2 flex items-center gap-2 text-point-red">
               <Image
                 src="/icons/icon-secession.png"
                 width={24}
