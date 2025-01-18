@@ -61,7 +61,7 @@ export default function TaskDate({ selectedDate, setSelectedDate }: DateProps) {
         alt="오른쪽 버튼 아이콘"
         onClick={handleNextDayClick}
       />
-      <div className="custom-datepicker-wrapper">
+      <div className="custom-datepicker-wrapper [&&]:z-0">
         <DatePicker
           onChange={setSelectedDate}
           selected={selectedDate}
