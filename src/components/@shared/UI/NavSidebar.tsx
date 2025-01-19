@@ -46,7 +46,7 @@ export default function NavSidebar({
           className="relative h-6 w-6 cursor-pointer self-end"
           onClick={handleClose}
         >
-          <Image fill src="icons/icon-x.svg" alt="닫기" />
+          <Image fill src="/icons/icon-x.svg" alt="닫기" />
         </div>
         <div className="flex h-full w-full flex-col gap-6 overflow-y-auto">
           {memberships.map((membership) => {

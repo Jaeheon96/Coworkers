@@ -23,15 +23,15 @@ export default function Header() {
               className="relative hidden h-6 w-6 cursor-pointer [&&]:max-sm:block"
               onClick={() => setIsNavSidebarOpen(true)}
             >
-              <Image fill src="icons/icon-gnb_menu.svg" alt="메뉴" />
+              <Image fill src="/icons/icon-gnb_menu.svg" alt="메뉴" />
             </div>
             <Link href="/">
               <div className="flex items-center gap-0.5">
                 <div className="relative h-6 w-6 max-md:h-4 max-md:w-4">
-                  <Image fill src="icons/icon-logo.svg" alt="로고" />
+                  <Image fill src="/icons/icon-logo.svg" alt="로고" />
                 </div>
                 <div className="relative h-8 w-[8.25rem] max-md:h-5 max-md:w-[5.25rem]">
-                  <Image fill src="icons/icon-title.svg" alt="타이틀" />
+                  <Image fill src="/icons/icon-title.svg" alt="타이틀" />
                 </div>
               </div>
             </Link>
@@ -46,7 +46,7 @@ export default function Header() {
                     )?.group.name ?? "내가 속한 팀"}
                   </p>
                   <div className="relative h-4 w-4">
-                    <Image fill src="icons/icon-arrow_down.svg" alt="펼치기" />
+                    <Image fill src="/icons/icon-arrow_down.svg" alt="펼치기" />
                   </div>
                 </div>
               }
@@ -76,7 +76,7 @@ export default function Header() {
               <Link href="/addteam">
                 <DropdownItem itemClassName="rounded-xl border border-solid border-slate-50 w-full h-12 flex justify-center gap-1 items-center hover:bg-background-tertiary">
                   <div className="relative h-4 w-4">
-                    <Image fill src="icons/icon-plus.svg" alt="추가" />
+                    <Image fill src="/icons/icon-plus.svg" alt="추가" />
                   </div>
                   팀 추가하기
                 </DropdownItem>
@@ -107,7 +107,7 @@ export default function Header() {
                 <div className="relative h-4 w-4">
                   <Image
                     fill
-                    src={user.image ?? "icons/icon-user.svg"}
+                    src={user.image ?? "/icons/icon-user.svg"}
                     alt="프로필"
                   />
                 </div>
