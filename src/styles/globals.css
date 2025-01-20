@@ -55,18 +55,21 @@ input::-webkit-outer-spin-button {
 
 body::-webkit-scrollbar,
 .modal::-webkit-scrollbar,
+.styled-scrollbar::-webkit-scrollbar,
 .taskDetail::-webkit-scrollbar {
   @apply w-2.5;
 }
 
 body::-webkit-scrollbar-thumb,
 .modal::-webkit-scrollbar-thumb,
+.styled-scrollbar::-webkit-scrollbar-thumb,
 .taskDetail::-webkit-scrollbar-thumb {
   @apply rounded-xl bg-brand-primary;
 }
 
 body::-webkit-scrollbar-track,
 .modal::-webkit-scrollbar-track,
+.styled-scrollbar::-webkit-scrollbar-track,
 .taskDetail::-webkit-scrollbar-track {
   background: rgba(33, 122, 244, 0.1);
 }
