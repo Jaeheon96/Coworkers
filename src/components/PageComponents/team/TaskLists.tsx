@@ -76,7 +76,7 @@ export default function TaskLists({ tasks, teamId }: Props) {
       <Droppable droppableId="droppable" type="card">
         {(droppableProvided) => (
           <div
-            className="no-scrollbar flex max-h-[24.5rem] flex-col overflow-y-auto"
+            className="styled-scrollbar flex max-h-[24.5rem] flex-col overflow-y-auto"
             ref={droppableProvided.innerRef}
             {...droppableProvided.droppableProps}
           >
