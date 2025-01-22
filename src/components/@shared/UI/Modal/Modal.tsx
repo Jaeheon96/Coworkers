@@ -83,7 +83,7 @@ export default function Modal({
             "fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50",
             animationState === "fadeIn" && "animate-fadeIn",
             animationState === "fadeOut" && "animate-fadeOut",
-            "sm:items-end",
+            "[&&]:max-sm:items-end",
           ),
         )}
         role="dialog"
@@ -96,14 +96,14 @@ export default function Modal({
             clsx(
               "modal",
               "relative bg-background-secondary transition-transform duration-300",
-              "w-auto sm:w-full",
-              "mx-4 sm:mx-0",
+              "w-auto [&&]:max-sm:w-full",
+              "mx-4 [&&]:max-sm:mx-0",
               "max-h-full overflow-auto",
-              "rounded-xl sm:rounded-b-none sm:rounded-t-xl",
+              "rounded-xl [&&]:max-sm:rounded-b-none [&&]:max-sm:rounded-t-xl",
               "flex flex-col p-4 pb-8",
-              "sm:animate-slideUp md:animate-scaleIn lg:animate-scaleIn",
+              "lg:animate-scaleIn md:animate-scaleIn [&&]:max-sm:animate-slideUp",
               animationState === "fadeOut" &&
-                "animate-scaleOut sm:animate-slideDown",
+                "animate-scaleOut [&&]:max-sm:animate-slideDown",
             ),
           )}
           onClick={(e) => e.stopPropagation()} // 모달 내부 클릭 시 배경 클릭 이벤트 차단
