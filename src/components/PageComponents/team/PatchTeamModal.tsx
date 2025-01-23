@@ -20,7 +20,7 @@ export default function PatchTeamModal({
 }: Props) {
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
-      <div className="max-w-[30.75rem]">
+      <div className="max-w-[30.75rem] p-6 max-sm:p-0">
         <TeamSubmitForm submitCallback={submitCallback} {...formValues} />
       </div>
     </Modal>
