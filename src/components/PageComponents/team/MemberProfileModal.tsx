@@ -32,7 +32,7 @@ export default function MemberProfileModal({
         <div className="relative h-[3.25rem] w-[3.25rem]">
           <Image
             fill
-            src={image ?? "/images/image-defaultProfile.png"}
+            src={image ?? "/icons/icon-default_profile.svg"}
             alt="프로필"
           />
         </div>
