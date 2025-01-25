@@ -16,7 +16,7 @@ export default function Header() {
 
   return (
     <>
-      <header className="fixed top-0 z-30 flex h-[3.75rem] w-full items-center justify-between border-b border-border-primary bg-background-secondary px-[22.5rem] max-md:px-6 max-sm:px-4">
+      <header className="fixed top-0 z-30 flex h-[3.75rem] w-full items-center justify-between border-b border-border-primary bg-background-secondary px-[22.5rem] [&&]:max-md:px-6 [&&]:max-sm:px-4">
         <div className="flex items-center gap-10">
           <div className="flex items-center gap-4">
             <div
@@ -27,10 +27,10 @@ export default function Header() {
             </div>
             <Link href="/">
               <div className="flex items-center gap-0.5">
-                <div className="relative h-6 w-6 max-md:h-4 max-md:w-4">
+                <div className="relative h-6 w-6 [&&]:max-md:h-4 [&&]:max-md:w-4">
                   <Image fill src="/icons/icon-logo.svg" alt="로고" />
                 </div>
-                <div className="relative h-8 w-[8.25rem] max-md:h-5 max-md:w-[5.25rem]">
+                <div className="relative h-8 w-[8.25rem] [&&]:max-md:h-5 [&&]:max-md:w-[5.25rem]">
                   <Image fill src="/icons/icon-title.svg" alt="타이틀" />
                 </div>
               </div>
@@ -50,7 +50,7 @@ export default function Header() {
                   </div>
                 </div>
               }
-              menuClassName="border border-solid border-border-primary bg-background-secondary p-4 left-0 top-12 flex flex-col gap-4 text-text-lg font-medium w-[13.625rem] max-sm:hidden"
+              menuClassName="border border-solid border-border-primary bg-background-secondary p-4 left-0 top-12 flex flex-col gap-4 text-text-lg font-medium w-[13.625rem] [&&]:max-sm:hidden"
               closeOnClick
             >
               <div className="flex max-h-64 flex-col gap-2 overflow-hidden hover:overflow-y-auto">
@@ -88,13 +88,13 @@ export default function Header() {
           <div className="flex items-center gap-4">
             <Link
               href="login"
-              className="text-text-lg font-semibold max-md:text-text-md"
+              className="text-text-lg font-semibold [&&]:max-md:text-text-md"
             >
               로그인
             </Link>
             <Link
               href="signup"
-              className="text-text-lg font-semibold max-md:text-text-md max-sm:hidden"
+              className="text-text-lg font-semibold [&&]:max-md:text-text-md [&&]:max-sm:hidden"
             >
               회원가입
             </Link>
@@ -111,18 +111,18 @@ export default function Header() {
                     alt="프로필"
                   />
                 </div>
-                <p className="text-text-md font-medium max-md:hidden">
+                <p className="text-text-md font-medium [&&]:max-md:hidden">
                   {user.nickname}
                 </p>
               </div>
             }
-            menuClassName="border border-solid border-border-primary right-0 top-8 bg-background-secondary flex flex-col text-text-lg font-regular w-[8.5rem] max-sm:text-text-md max-sm:w-[7.5rem]"
+            menuClassName="border border-solid border-border-primary right-0 top-8 bg-background-secondary flex flex-col text-text-lg font-regular w-[8.5rem] [&&]:max-sm:text-text-md [&&]:max-sm:w-[7.5rem]"
             closeOnClick
           >
             <Link href="myhistory">
               <DropdownItem
                 onClick={() => {}}
-                itemClassName="py-3.5 text-center max-sm:py-3 hover:bg-background-tertiary rounded-t-xl"
+                itemClassName="py-3.5 text-center [&&]:max-sm:py-3 hover:bg-background-tertiary rounded-t-xl"
               >
                 마이 히스토리
               </DropdownItem>
@@ -130,14 +130,14 @@ export default function Header() {
             <Link href="account">
               <DropdownItem
                 onClick={() => {}}
-                itemClassName="py-3.5 text-center max-sm:py-3 hover:bg-background-tertiary"
+                itemClassName="py-3.5 text-center [&&]:max-sm:py-3 hover:bg-background-tertiary"
               >
                 계정 설정
               </DropdownItem>
             </Link>
             <DropdownItem
               onClick={logout}
-              itemClassName="py-3.5 text-center max-sm:py-3 hover:bg-background-tertiary rounded-b-xl"
+              itemClassName="py-3.5 text-center [&&]:max-sm:py-3 hover:bg-background-tertiary rounded-b-xl"
             >
               로그아웃
             </DropdownItem>
