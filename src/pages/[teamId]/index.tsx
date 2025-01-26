@@ -67,7 +67,7 @@ export default function Team() {
 
   return (
     <>
-      <main className="mx-auto mt-[5.25rem] max-w-[78rem] px-6">
+      <main className="mx-auto mt-[5.25rem] max-w-[75rem] [&&]:max-md:px-6 [&&]:max-sm:px-4">
         <div className="mb-6 flex h-16 w-full cursor-default justify-between rounded-xl border border-solid border-border-primary bg-background-secondary bg-[url('/images/image-thumbnailTeam.png')] bg-[right_5rem_top_0] bg-no-repeat px-6 py-5 text-text-xl font-bold text-text-inverse">
           <p>{group?.name}</p>
           <TeamGear
