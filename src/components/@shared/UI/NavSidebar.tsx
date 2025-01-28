@@ -63,7 +63,7 @@ export default function NavSidebar({
                       fill
                       src={
                         membership.group.image ??
-                        "/images/image-defaultProfile.png"
+                        "/icons/icon-default_profile.svg"
                       }
                       className="rounded-md"
                       alt="팀이미지"

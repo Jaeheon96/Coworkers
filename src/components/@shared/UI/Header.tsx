@@ -67,7 +67,7 @@ export default function Header() {
                             fill
                             src={
                               team.group.image ??
-                              "/images/image-defaultProfile.png"
+                              "/icons/icon-default_profile.svg"
                             }
                             className="rounded-md"
                             alt="팀"
