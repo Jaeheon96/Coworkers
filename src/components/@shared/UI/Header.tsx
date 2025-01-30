@@ -6,13 +6,14 @@ import { useState } from "react";
 import Dropdown from "./Dropdown";
 import DropdownItem from "./Item";
 import NavSidebar from "./NavSidebar";
+import SetupHeader from "./SetupHeader";
 
 export default function Header() {
   const { isPending, user, logout } = useAuth();
   const { pathname, query } = useRouter();
   const [isNavSidebarOpen, setIsNavSidebarOpen] = useState(false);
 
-  if (pathname === "/login" || pathname === "/signup") return null;
+  if (pathname === "/login" || pathname === "/signup") return SetupHeader;
 
   return (
     <>
