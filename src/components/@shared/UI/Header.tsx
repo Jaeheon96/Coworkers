@@ -13,7 +13,7 @@ export default function Header() {
   const { pathname, query } = useRouter();
   const [isNavSidebarOpen, setIsNavSidebarOpen] = useState(false);
 
-  if (pathname === "/login" || pathname === "/signup") return SetupHeader();
+  if (pathname === "/login" || pathname === "/signup") return <SetupHeader />;
 
   return (
     <>
