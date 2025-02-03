@@ -1,5 +1,6 @@
 import InputAlt from "@/components/@shared/UI/InputAlt";
 import InputLabel from "@/components/@shared/UI/InputLabel";
+import PasswordInput from "@/components/@shared/UI/PasswordInput";
 
 export default function Login() {
   return (
@@ -10,6 +11,9 @@ export default function Login() {
       <form className="flex w-full flex-col">
         <InputLabel label="이메일" className="mb-12">
           <InputAlt placeholder="이메일을 입력해주세요." />
+        </InputLabel>
+        <InputLabel label="비밀번호" className="mb-9">
+          <PasswordInput placeholder="비밀번호를 입력해주세요." />
         </InputLabel>
       </form>
     </main>
