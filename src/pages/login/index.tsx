@@ -1,3 +1,4 @@
+import Button from "@/components/@shared/UI/Button";
 import InputAlt from "@/components/@shared/UI/InputAlt";
 import InputLabel from "@/components/@shared/UI/InputLabel";
 import PasswordInput from "@/components/@shared/UI/PasswordInput";
@@ -20,6 +21,9 @@ export default function Login() {
             비밀번호를 잊으셨나요?
           </span>
         </div>
+        <Button variant="solid" size="large" type="submit">
+          로그인
+        </Button>
       </form>
     </main>
   );
