@@ -15,6 +15,11 @@ export default function Login() {
         <InputLabel label="비밀번호" className="mb-9">
           <PasswordInput placeholder="비밀번호를 입력해주세요." />
         </InputLabel>
+        <div className="mb-10 text-right">
+          <span className="cursor-pointer text-base font-medium text-brand-primary underline underline-offset-2 [&&]:max-sm:text-[0.875rem]">
+            비밀번호를 잊으셨나요?
+          </span>
+        </div>
       </form>
     </main>
   );
