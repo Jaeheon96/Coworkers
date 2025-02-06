@@ -2,6 +2,7 @@ import Button from "@/components/@shared/UI/Button";
 import InputAlt from "@/components/@shared/UI/InputAlt";
 import InputLabel from "@/components/@shared/UI/InputLabel";
 import PasswordInput from "@/components/@shared/UI/PasswordInput";
+import Link from "next/link";
 
 export default function Login() {
   return (
@@ -21,9 +22,20 @@ export default function Login() {
             비밀번호를 잊으셨나요?
           </span>
         </div>
-        <Button variant="solid" size="large" type="submit">
+        <Button variant="solid" size="large" type="submit" className="mb-6">
           로그인
         </Button>
+        <div className="mb-12 flex items-center justify-center gap-3 [&&]:max-sm:mb-6">
+          <span className="text-text-lg font-medium [&&]:max-sm:text-text-md">
+            아직 계정이 없으신가요?
+          </span>
+          <Link
+            className="cursor-pointer text-text-lg font-medium text-brand-primary underline underline-offset-2 [&&]:max-sm:text-text-md"
+            href="/signup"
+          >
+            가입하기
+          </Link>
+        </div>
       </form>
     </main>
   );
