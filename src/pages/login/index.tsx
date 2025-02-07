@@ -2,6 +2,7 @@ import Button from "@/components/@shared/UI/Button";
 import InputAlt from "@/components/@shared/UI/InputAlt";
 import InputLabel from "@/components/@shared/UI/InputLabel";
 import PasswordInput from "@/components/@shared/UI/PasswordInput";
+import Image from "next/image";
 import Link from "next/link";
 
 export default function Login() {
@@ -36,12 +37,22 @@ export default function Login() {
             가입하기
           </Link>
         </div>
-        <div className="flex items-center gap-6">
+        <div className="mb-4 flex items-center gap-6">
           <div className="h-0 w-full border-t border-solid border-border-primary" />
           <span className="text-text-lg font-regular text-white [&&]:max-sm:font-medium">
             OR
           </span>
           <div className="h-0 w-full border-t border-solid border-border-primary" />
+        </div>
+        <div className="flex justify-between">
+          <span className="text-text-lg font-medium text-white">
+            간편 로그인하기
+          </span>
+          <div className="flex gap-4">
+            <div className="relative h-[2.625rem] w-[2.625rem] cursor-pointer">
+              <Image fill src="/images/image-kakaotalk.png" alt="카카오톡" />
+            </div>
+          </div>
         </div>
       </form>
     </main>
