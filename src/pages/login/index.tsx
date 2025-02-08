@@ -2,21 +2,68 @@ import Button from "@/components/@shared/UI/Button";
 import InputAlt from "@/components/@shared/UI/InputAlt";
 import InputLabel from "@/components/@shared/UI/InputLabel";
 import PasswordInput from "@/components/@shared/UI/PasswordInput";
+import { useAuth } from "@/core/context/AuthProvider";
+import { LoginForm } from "@/core/dtos/user/auth";
+import { useMutation } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { ChangeEvent, FormEvent, useState } from "react";
 
 export default function Login() {
+  const { push } = useRouter();
+
+  const { login: requestLogin } = useAuth();
+  const [loginForm, setLoginForm] = useState<LoginForm>({
+    email: "",
+    password: "",
+  });
+
+  const setFormValue = (key: string, value: string) => {
+    setLoginForm((prev) => ({
+      ...prev,
+      [key]: value,
+    }));
+  };
+
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setFormValue(e.target.name, e.target.value);
+  };
+
+  const { mutate: login } = useMutation({
+    mutationFn: requestLogin,
+    throwOnError: false,
+    onSuccess: () => {
+      push("/");
+    },
+  });
+
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    login(loginForm);
+  };
+
   return (
     <main className="mx-auto mt-[8.75rem] flex max-w-[28.75rem] flex-col items-center px-4 [&&]:max-md:mt-[6.25rem] [&&]:max-sm:mt-6">
       <h1 className="mb-20 text-text-4xl font-medium [&&]:max-md:text-2xl [&&]:max-sm:mb-6">
         로그인
       </h1>
-      <form className="flex w-full flex-col">
+      <form className="flex w-full flex-col" onSubmit={handleSubmit}>
         <InputLabel label="이메일" className="mb-12">
-          <InputAlt placeholder="이메일을 입력해주세요." />
+          <InputAlt
+            name="email"
+            onChange={handleInputChange}
+            value={loginForm.email}
+            placeholder="이메일을 입력해주세요."
+          />
         </InputLabel>
         <InputLabel label="비밀번호" className="mb-9">
-          <PasswordInput placeholder="비밀번호를 입력해주세요." />
+          <PasswordInput
+            name="password"
+            onChange={handleInputChange}
+            value={loginForm.password}
+            placeholder="비밀번호를 입력해주세요."
+          />
         </InputLabel>
         <div className="mb-10 text-right">
           <span className="cursor-pointer text-base font-medium text-brand-primary underline underline-offset-2 [&&]:max-sm:text-[0.875rem]">
