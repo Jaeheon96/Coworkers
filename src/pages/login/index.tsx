@@ -4,6 +4,7 @@ import InputLabel from "@/components/@shared/UI/InputLabel";
 import PasswordInput from "@/components/@shared/UI/PasswordInput";
 import { useAuth } from "@/core/context/AuthProvider";
 import { LoginForm } from "@/core/dtos/user/auth";
+import { routerQueries } from "@/core/types/queries";
 import { useMutation } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
@@ -11,7 +12,7 @@ import { useRouter } from "next/router";
 import { ChangeEvent, FormEvent, useState } from "react";
 
 export default function Login() {
-  const { push } = useRouter();
+  const { push, query } = useRouter();
 
   const { login: requestLogin } = useAuth();
   const [loginForm, setLoginForm] = useState<LoginForm>({
@@ -34,7 +35,9 @@ export default function Login() {
     mutationFn: requestLogin,
     throwOnError: false,
     onSuccess: () => {
-      push("/");
+      const dir = query[routerQueries.loginDirection];
+      const to = typeof dir === "string" ? dir : "/";
+      push(to);
     },
   });
 

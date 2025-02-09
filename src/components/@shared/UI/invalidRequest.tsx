@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
+import { routerQueries } from "@/core/types/queries";
 import Button from "./Button";
 
 interface Props {
@@ -10,7 +11,8 @@ interface Props {
 
 export default function InvalidRequest({ login, children }: Props) {
   const { replace, back, query } = useRouter();
-  const loginUrl = `/login${typeof query.direction === "string" ? `?direction=${query.direction}` : ""}`;
+  const dir = query[routerQueries.loginDirection];
+  const loginUrl = `/login${typeof dir === "string" ? `?${routerQueries.loginDirection}=${dir}` : ""}`;
 
   return (
     <div className="mt-52 flex flex-col items-center gap-20 px-8 sm:mt-36 sm:gap-12">
