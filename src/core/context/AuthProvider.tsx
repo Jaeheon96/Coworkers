@@ -24,6 +24,7 @@ import signOut from "../api/user/signOut";
 import refreshToken from "../api/user/refreshToken";
 import setAxiosInterceptors from "../api/setAxiosInterceptors";
 import ejectAxiosInterceptors from "../api/ejectAxiosInterceptors";
+import { routerQueries } from "../types/queries";
 
 interface AuthContextValues {
   user: User | undefined;
@@ -182,7 +183,7 @@ export function useAuth(required?: boolean) {
   const { asPath, isReady, replace } = useRouter();
   useEffect(() => {
     if (required && !user && !isPending && isReady) {
-      replace(`/unauthorized?direction=${asPath}`);
+      replace(`/unauthorized?${routerQueries.loginDirection}=${asPath}`);
     }
   }, [required, user, isPending, isReady]);
 
