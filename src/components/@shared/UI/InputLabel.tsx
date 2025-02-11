@@ -3,7 +3,7 @@ import { twMerge } from "tailwind-merge";
 
 interface Props extends LabelHTMLAttributes<HTMLLabelElement> {
   label: string;
-  errorMessage?: string;
+  errorMessage?: string | null;
 }
 
 export default function InputLabel({
