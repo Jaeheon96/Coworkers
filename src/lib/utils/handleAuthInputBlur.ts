@@ -1,6 +1,6 @@
-import { FocusEvent, useState } from "react";
-import checkEmailFormat from "../utils/checkEmailFormat";
-import checkPasswordFormat from "../utils/checkPasswordFormat";
+import { FocusEvent } from "react";
+import checkEmailFormat from "./checkEmailFormat";
+import checkPasswordFormat from "./checkPasswordFormat";
 
 interface Form {
   email: string;
@@ -9,28 +9,10 @@ interface Form {
   passwordConfirmation: string;
 }
 
-interface Errors {
-  email: string | null;
-  nickname: string | null;
-  password: string | null;
-  passwordConfirmation: string | null;
-}
-
-export default function useValidation(form?: Form) {
-  const [errors, setErrors] = useState<Errors>({
-    email: null,
-    nickname: null,
-    password: null,
-    passwordConfirmation: null,
-  });
-
-  const handleErrorChange = (key: string, value: string | null) => {
-    setErrors((prev) => ({
-      ...prev,
-      [key]: value,
-    }));
-  };
-
+export default function handleAuthInputBlur(
+  handleErrorChange: (key: string, value: string | null) => void,
+  form?: Form,
+) {
   const checkEmailError = (email: string) => {
     if (email.length <= 0) return "이메일은 필수 입력입니다.";
     if (!checkEmailFormat(email)) return "이메일 형식으로 입력해주세요.";
@@ -75,5 +57,5 @@ export default function useValidation(form?: Form) {
     );
   };
 
-  return { errors, handleBlur };
+  return handleBlur;
 }
