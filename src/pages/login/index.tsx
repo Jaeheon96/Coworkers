@@ -5,7 +5,7 @@ import PasswordInput from "@/components/@shared/UI/PasswordInput";
 import { useAuth } from "@/core/context/AuthProvider";
 import { LoginForm } from "@/core/dtos/user/auth";
 import { routerQueries } from "@/core/types/queries";
-import useValidation from "@/lib/hooks/useValidation";
+import useAuthFormErrors from "@/lib/hooks/useAuthFormErrors";
 import { useMutation } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
@@ -21,7 +21,7 @@ export default function Login() {
     password: "",
   });
 
-  const { errors, handleBlur } = useValidation();
+  const { errors, handleBlur } = useAuthFormErrors();
 
   const setFormValue = (key: string, value: string) => {
     setLoginForm((prev) => ({
