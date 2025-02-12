@@ -5,6 +5,7 @@ import PasswordInput from "@/components/@shared/UI/PasswordInput";
 import { useAuth } from "@/core/context/AuthProvider";
 import { LoginForm } from "@/core/dtos/user/auth";
 import { routerQueries } from "@/core/types/queries";
+import useValidation from "@/lib/hooks/useValidation";
 import { useMutation } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
@@ -19,6 +20,8 @@ export default function Login() {
     email: "",
     password: "",
   });
+
+  const { errors, handleBlur } = useValidation();
 
   const setFormValue = (key: string, value: string) => {
     setLoginForm((prev) => ({
@@ -52,20 +55,32 @@ export default function Login() {
         로그인
       </h1>
       <form className="flex w-full flex-col" onSubmit={handleSubmit}>
-        <InputLabel label="이메일" className="mb-12">
+        <InputLabel
+          label="이메일"
+          className="mb-12"
+          errorMessage={errors.email}
+        >
           <InputAlt
             name="email"
             onChange={handleInputChange}
+            onBlur={handleBlur}
             value={loginForm.email}
             placeholder="이메일을 입력해주세요."
+            isError={!!errors.email}
           />
         </InputLabel>
-        <InputLabel label="비밀번호" className="mb-9">
+        <InputLabel
+          label="비밀번호"
+          className="mb-9"
+          errorMessage={errors.password}
+        >
           <PasswordInput
             name="password"
             onChange={handleInputChange}
+            onBlur={handleBlur}
             value={loginForm.password}
             placeholder="비밀번호를 입력해주세요."
+            isError={!!errors.password}
           />
         </InputLabel>
         <div className="mb-10 text-right">
