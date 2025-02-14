@@ -5,8 +5,10 @@ import PasswordInput from "@/components/@shared/UI/PasswordInput";
 import { useAuth } from "@/core/context/AuthProvider";
 import { LoginForm } from "@/core/dtos/user/auth";
 import { routerQueries } from "@/core/types/queries";
+import { ErrorData } from "@/core/types/standardError";
 import useAuthFormErrors from "@/lib/hooks/useAuthFormErrors";
 import { useMutation } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -21,7 +23,7 @@ export default function Login() {
     password: "",
   });
 
-  const { errors, handleBlur } = useAuthFormErrors();
+  const { errors, handleBlur, handleLoginResponseError } = useAuthFormErrors();
 
   const setFormValue = (key: string, value: string) => {
     setLoginForm((prev) => ({
@@ -41,6 +43,9 @@ export default function Login() {
       const dir = query[routerQueries.loginDirection];
       const to = typeof dir === "string" ? dir : "/";
       push(to);
+    },
+    onError: (e: AxiosError) => {
+      handleLoginResponseError(e.response?.data as ErrorData);
     },
   });
 
