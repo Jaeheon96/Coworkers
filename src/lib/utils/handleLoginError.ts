@@ -8,16 +8,20 @@ export default function handleLoginError(
 
   const handleLoginResponseError = (errorData: ErrorData) => {
     const message = errorData.message ?? "";
+    let isHandled = false;
     if (emailErrors.includes(message)) {
       handleErrorChange("email", message);
-      if (passwordErrors.includes(message)) {
-        handleErrorChange("password", message);
-      }
-      return;
+      isHandled = true;
+    }
+    if (passwordErrors.includes(message)) {
+      handleErrorChange("password", message);
+      isHandled = true;
     }
 
-    handleErrorChange("email", "로그인 정보를 확인해주세요.");
-    handleErrorChange("password", "로그인 정보를 확인해주세요.");
+    if (!isHandled) {
+      handleErrorChange("email", "로그인 정보를 확인해주세요.");
+      handleErrorChange("password", "로그인 정보를 확인해주세요.");
+    }
   };
 
   return handleLoginResponseError;
