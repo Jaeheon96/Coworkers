@@ -1,4 +1,4 @@
-import { FocusEvent } from "react";
+import { ChangeEvent, FocusEvent } from "react";
 import checkEmailFormat from "./checkEmailFormat";
 import checkPasswordFormat from "./checkPasswordFormat";
 
@@ -50,12 +50,14 @@ export default function handleAuthInputBlur(
     passwordConfirmation: checkPasswordConfirmationError,
   };
 
-  const handleBlur = (e: FocusEvent<HTMLInputElement>) => {
+  const handleValidation = (
+    e: FocusEvent<HTMLInputElement> | ChangeEvent<HTMLInputElement>,
+  ) => {
     handleErrorChange(
       e.target.name,
       fieldErrorPair[e.target.name](e.target.value),
     );
   };
 
-  return handleBlur;
+  return handleValidation;
 }

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import handleAuthInputBlur from "../utils/handleAuthInputBlur";
+import handleAuthInputBlur from "../utils/handleAuthInputError";
 import handleLoginError from "../utils/handleLoginError";
 
 interface Errors {
@@ -31,8 +31,8 @@ export default function useAuthFormErrors(form?: Form) {
     }));
   };
 
-  const handleBlur = handleAuthInputBlur(handleErrorChange, form);
+  const handleValidation = handleAuthInputBlur(handleErrorChange, form);
   const handleLoginResponseError = handleLoginError(handleErrorChange);
 
-  return { errors, handleBlur, handleLoginResponseError };
+  return { errors, handleValidation, handleLoginResponseError };
 }
