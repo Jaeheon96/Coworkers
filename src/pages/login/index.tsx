@@ -23,7 +23,8 @@ export default function Login() {
     password: "",
   });
 
-  const { errors, handleBlur, handleLoginResponseError } = useAuthFormErrors();
+  const { errors, handleValidation, handleLoginResponseError } =
+    useAuthFormErrors();
 
   const setFormValue = (key: string, value: string) => {
     setLoginForm((prev) => ({
@@ -34,6 +35,7 @@ export default function Login() {
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormValue(e.target.name, e.target.value);
+    handleValidation(e);
   };
 
   const { mutate: login } = useMutation({
@@ -68,7 +70,7 @@ export default function Login() {
           <InputAlt
             name="email"
             onChange={handleInputChange}
-            onBlur={handleBlur}
+            onBlur={handleValidation}
             value={loginForm.email}
             placeholder="이메일을 입력해주세요."
             isError={!!errors.email}
@@ -82,7 +84,7 @@ export default function Login() {
           <PasswordInput
             name="password"
             onChange={handleInputChange}
-            onBlur={handleBlur}
+            onBlur={handleValidation}
             value={loginForm.password}
             placeholder="비밀번호를 입력해주세요."
             isError={!!errors.password}
