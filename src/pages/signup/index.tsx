@@ -1,246 +1,126 @@
-/* eslint-disable prefer-template */
-/* eslint-disable no-alert */
-/* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
-import SetupHeader from "@/components/@shared/UI/SetupHeader";
-import InputLabel from "@/components/@shared/UI/InputLabel";
-import Input from "@/components/@shared/UI/Input";
 import Button from "@/components/@shared/UI/Button";
+import InputAlt from "@/components/@shared/UI/InputAlt";
+import InputLabel from "@/components/@shared/UI/InputLabel";
+import PasswordInput from "@/components/@shared/UI/PasswordInput";
+import { SignupForm } from "@/core/dtos/user/auth";
+import useAuthFormErrors from "@/lib/hooks/useAuthFormErrors";
 import Image from "next/image";
-import { useState } from "react";
-import { validatePassword, validateEmail } from "@/lib/utils/validation";
-import { SignupRequestDto } from "@/core/dtos/auth/authDto";
-import { useMutation } from "@tanstack/react-query";
-import { signup } from "@/core/api/auth/authApi";
+import { ChangeEvent, FormEvent, useState } from "react";
 
 export default function Signup() {
-  const [showPassword, setShowPassword] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [formData, setFormData] = useState({
-    name: "",
+  const [signupForm, setSignupForm] = useState<SignupForm>({
     email: "",
+    nickname: "",
     password: "",
-    confirmPassword: "",
-  });
-  const [formErrors, setFormErrors] = useState({
-    name: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
+    passwordConfirmation: "",
   });
 
-  const togglePasswordVisibility = () => {
-    setShowPassword((prev) => !prev);
+  const { errors, handleValidation } = useAuthFormErrors();
+
+  const setFormValue = (key: string, value: string) => {
+    setSignupForm((prev) => ({
+      ...prev,
+      [key]: value,
+    }));
   };
 
-  const toggleConfirmPasswordVisibility = () => {
-    setShowConfirmPassword((prev) => !prev);
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setFormValue(e.target.name, e.target.value);
+    handleValidation(e);
   };
 
-  const handleBlur = (target: HTMLInputElement) => {
-    let error = "";
-    switch (target.name) {
-      case "name":
-        error = target.value ? "" : "이름을 입력해주세요.";
-        break;
-      case "email":
-        error = target.value
-          ? validateEmail(target.value) || ""
-          : "이메일을 입력해주세요.";
-        break;
-      case "password":
-        error = target.value
-          ? validatePassword(target.value) || ""
-          : "비밀번호를 입력해주세요.";
-        break;
-      case "confirmPassword":
-        if (!target.value) {
-          error = "비밀번호를 다시 한 번 입력해주세요.";
-        } else if (target.value !== formData.password) {
-          error = "비밀번호가 일치하지 않습니다.";
-        }
-        break;
-      default:
-        break;
-    }
-    setFormErrors((prevErrors) => ({ ...prevErrors, [target.name]: error }));
-  };
-
-  const handleChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData((prev) => ({ ...prev, [target.name]: target.value || "" }));
-    handleBlur(target);
-  };
-
-  const validateForm = () => {
-    const newErrors = {
-      name: formData.name ? "" : "이름을 입력해주세요.",
-      email: formData.email
-        ? validateEmail(formData.email) || ""
-        : "이메일을 입력해주세요.",
-      password: validatePassword(formData.password) || "",
-      confirmPassword:
-        formData.password !== formData.confirmPassword
-          ? "비밀번호가 일치하지 않습니다."
-          : "",
-    };
-    setFormErrors(newErrors);
-    return !Object.values(newErrors).some((error) => error !== "");
-  };
-
-  const { mutateAsync: signupMutate } = useMutation({
-    mutationFn: (form: SignupRequestDto) => signup(form),
-  });
-
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    if (validateForm()) {
-      const signupData: SignupRequestDto = {
-        nickname: formData.name,
-        email: formData.email,
-        password: formData.password,
-        passwordConfirmation: formData.confirmPassword,
-      };
-
-      try {
-        setIsSubmitting(true);
-        await signupMutate(signupData);
-      } catch (error: unknown) {
-        console.error("에러 :", error);
-        if (error instanceof Error) {
-          alert("회원가입 실패: " + error.message);
-        }
-      } finally {
-        setIsSubmitting(false);
-      }
-    }
   };
 
   return (
-    <div>
-      <SetupHeader />
-      <div className="mt-[160px] flex w-full items-center justify-center sm:mt-[84px]">
-        <form
-          className="flex flex-col items-center gap-6 sm:w-[343px]"
-          onSubmit={handleSubmit}
+    <main className="mx-auto mb-10 mt-[8.75rem] flex max-w-[28.75rem] flex-col items-center px-4 [&&]:max-md:mt-[6.25rem] [&&]:max-sm:mt-6">
+      <h1 className="mb-20 text-text-4xl font-medium [&&]:max-md:text-2xl [&&]:max-sm:mb-6">
+        회원가입
+      </h1>
+      <form className="flex w-full flex-col" onSubmit={handleSubmit}>
+        <InputLabel
+          label="이메일"
+          className="mb-12"
+          errorMessage={errors.email}
         >
-          <h2 className="text-2xl text-white">회원가입</h2>
-          <InputLabel label="이름">
-            <Input
-              name="name"
-              placeholder="이름을 입력해주세요."
-              value={formData.name}
-              onChange={handleChange}
-              isValid={!formErrors.name}
-              errorMessage={formErrors.name}
-              onBlur={(e) => handleBlur(e.target)}
-            />
-          </InputLabel>
-          <InputLabel label="이메일">
-            <Input
-              name="email"
-              type="email"
-              placeholder="이메일을 입력해주세요."
-              value={formData.email}
-              onChange={handleChange}
-              isValid={!formErrors.email}
-              errorMessage={formErrors.email}
-              onBlur={(e) => handleBlur(e.target)}
-            />
-          </InputLabel>
-          <InputLabel label="비밀번호">
-            <Input
-              name="password"
-              type={showPassword ? "text" : "password"}
-              placeholder="비밀번호를 입력해주세요."
-              value={formData.password}
-              onChange={handleChange}
-              isValid={!formErrors.password}
-              errorMessage={formErrors.password}
-              onBlur={(e) => handleBlur(e.target)}
-              buttonContent={
-                <Image
-                  src={
-                    showPassword
-                      ? "/icons/icon-visibility.png"
-                      : "/icons/icon-visibility_off.png"
-                  }
-                  width={24}
-                  height={24}
-                  alt="비밀번호 보기"
-                />
-              }
-              buttonClassName="absolute top-1/2 transform -translate-y-1/2 right-3"
-              onButtonClick={togglePasswordVisibility}
-            />
-          </InputLabel>
-          <InputLabel label="비밀번호 확인">
-            <Input
-              name="confirmPassword"
-              type={showConfirmPassword ? "text" : "password"}
-              placeholder="비밀번호를 다시 한 번 입력해주세요."
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              isValid={!formErrors.confirmPassword}
-              errorMessage={formErrors.confirmPassword}
-              onBlur={(e) => handleBlur(e.target)}
-              buttonContent={
-                <Image
-                  src={
-                    showConfirmPassword
-                      ? "/icons/icon-visibility.png"
-                      : "/icons/icon-visibility_off.png"
-                  }
-                  width={24}
-                  height={24}
-                  alt="비밀번호 보기"
-                />
-              }
-              buttonClassName="absolute right-3 top-1/2 transform -translate-y-1/2"
-              onButtonClick={toggleConfirmPasswordVisibility}
-            />
-          </InputLabel>
-
-          <Button
-            type="submit"
-            variant="solid"
-            size="large"
-            className="mt-4"
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? "처리 중..." : "회원가입"}
-          </Button>
-
-          <div className="mt-2 flex w-full items-center justify-center">
-            <div className="w-full border-t border-border-primary" />
-            <span className="px-4 text-center text-lg text-text-inverse">
-              OR
-            </span>
-            <div className="w-full border-t border-border-primary" />
-          </div>
-
-          <div className="flex w-full items-center justify-between">
-            <span className="text-lg text-text-inverse">간편 회원가입하기</span>
-            <div className="flex flex-row items-center justify-center gap-4">
-              <button type="button" onClick={() => {}}>
-                <Image
-                  src="/icons/icon-google.png"
-                  alt="구글 간편 회원가입"
-                  width={42}
-                  height={42}
-                />
-              </button>
-              <button type="button" onClick={() => {}}>
-                <Image
-                  src="/icons/icon-kakaotalk.png"
-                  alt="카카오 간편 회원가입"
-                  width={42}
-                  height={42}
-                />
-              </button>
+          <InputAlt
+            name="email"
+            onChange={handleInputChange}
+            onBlur={handleValidation}
+            value={signupForm.email}
+            placeholder="이메일을 입력해주세요."
+            isError={!!errors.email}
+          />
+        </InputLabel>
+        <InputLabel
+          label="닉네임"
+          className="mb-12"
+          errorMessage={errors.nickname}
+        >
+          <InputAlt
+            name="nickname"
+            onChange={handleInputChange}
+            onBlur={handleValidation}
+            value={signupForm.nickname}
+            placeholder="닉네임을 입력해주세요."
+            isError={!!errors.nickname}
+          />
+        </InputLabel>
+        <InputLabel
+          label="비밀번호"
+          className="mb-12"
+          errorMessage={errors.password}
+        >
+          <InputAlt
+            name="password"
+            onChange={handleInputChange}
+            onBlur={handleValidation}
+            value={signupForm.password}
+            placeholder="비밀번호를 입력해주세요."
+            isError={!!errors.password}
+          />
+        </InputLabel>
+        <InputLabel
+          label="비밀번호 확인"
+          className="mb-16"
+          errorMessage={errors.passwordConfirmation}
+        >
+          <PasswordInput
+            name="passwordConfirmation"
+            onChange={handleInputChange}
+            onBlur={handleValidation}
+            value={signupForm.passwordConfirmation}
+            placeholder="비밀번호를 다시 한 번 입력해주세요."
+            isError={!!errors.passwordConfirmation}
+          />
+        </InputLabel>
+        <Button
+          variant="solid"
+          size="large"
+          type="submit"
+          className="mb-12 [&&]:max-sm:mb-6"
+        >
+          회원가입
+        </Button>
+        <div className="mb-4 flex items-center gap-6">
+          <div className="h-0 w-full border-t border-solid border-border-primary" />
+          <span className="text-text-lg font-regular text-white [&&]:max-sm:font-medium">
+            OR
+          </span>
+          <div className="h-0 w-full border-t border-solid border-border-primary" />
+        </div>
+        <div className="flex justify-between">
+          <span className="text-text-lg font-medium text-white">
+            간편 회원가입하기
+          </span>
+          <div className="flex gap-4">
+            <div className="relative h-[2.625rem] w-[2.625rem] cursor-pointer">
+              <Image fill src="/images/image-kakaotalk.png" alt="카카오톡" />
             </div>
           </div>
-        </form>
-      </div>
-    </div>
+        </div>
+      </form>
+    </main>
   );
 }
