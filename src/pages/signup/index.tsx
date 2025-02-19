@@ -15,7 +15,12 @@ export default function Signup() {
     passwordConfirmation: "",
   });
 
-  const { errors, handleValidation } = useAuthFormErrors();
+  const {
+    errors,
+    handleValidation,
+    handleConfirmationFocus,
+    handleConfirmationBlur,
+  } = useAuthFormErrors(signupForm);
 
   const setFormValue = (key: string, value: string) => {
     setSignupForm((prev) => ({
@@ -89,7 +94,8 @@ export default function Signup() {
           <PasswordInput
             name="passwordConfirmation"
             onChange={handleInputChange}
-            onBlur={handleValidation}
+            onFocus={handleConfirmationFocus}
+            onBlur={handleConfirmationBlur}
             value={signupForm.passwordConfirmation}
             placeholder="비밀번호를 다시 한 번 입력해주세요."
             isError={!!errors.passwordConfirmation}
