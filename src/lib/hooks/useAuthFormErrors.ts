@@ -1,6 +1,6 @@
 import { useState } from "react";
-import handleAuthInputBlur from "../utils/handleAuthInputError";
 import handleLoginError from "../utils/handleLoginError";
+import useValidation from "./useValidation";
 
 interface Errors {
   email: string | null;
@@ -31,8 +31,15 @@ export default function useAuthFormErrors(form?: Form) {
     }));
   };
 
-  const handleValidation = handleAuthInputBlur(handleErrorChange, form);
+  const { handleValidation, handleConfirmationFocus, handleConfirmationBlur } =
+    useValidation(handleErrorChange, form);
   const handleLoginResponseError = handleLoginError(handleErrorChange);
 
-  return { errors, handleValidation, handleLoginResponseError };
+  return {
+    errors,
+    handleValidation,
+    handleConfirmationFocus,
+    handleConfirmationBlur,
+    handleLoginResponseError,
+  };
 }
