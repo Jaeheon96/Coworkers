@@ -39,7 +39,9 @@ export interface SignupForm {
   passwordConfirmation: string;
 }
 
-export interface LoginResponse extends Tokens, UserBase {}
+export interface LoginResponse extends Tokens {
+  user: UserBase;
+}
 
 export interface UpdateUserForm {
   nickname?: string;

@@ -2,12 +2,19 @@ import Button from "@/components/@shared/UI/Button";
 import InputAlt from "@/components/@shared/UI/InputAlt";
 import InputLabel from "@/components/@shared/UI/InputLabel";
 import PasswordInput from "@/components/@shared/UI/PasswordInput";
+import signUp from "@/core/api/user/signUp";
+import { useAuth } from "@/core/context/AuthProvider";
 import { SignupForm } from "@/core/dtos/user/auth";
 import useAuthFormErrors from "@/lib/hooks/useAuthFormErrors";
+import { useMutation } from "@tanstack/react-query";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import { ChangeEvent, FormEvent, useState } from "react";
 
 export default function Signup() {
+  const { login: requestLogin } = useAuth();
+  const { replace } = useRouter();
+
   const [signupForm, setSignupForm] = useState<SignupForm>({
     email: "",
     nickname: "",
@@ -34,8 +41,31 @@ export default function Signup() {
     handleValidation(e);
   };
 
+  const { mutate: login } = useMutation({
+    mutationFn: requestLogin,
+    onSettled: () => {
+      replace("/");
+    },
+    throwOnError: false,
+  });
+
+  const { mutate: signup } = useMutation({
+    mutationFn: signUp,
+    throwOnError: false,
+    onSuccess: () => {
+      login({
+        email: signupForm.email,
+        password: signupForm.password,
+      });
+    },
+    onError: (e) => {
+      console.error(e);
+    },
+  });
+
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
+    signup(signupForm);
   };
 
   return (
