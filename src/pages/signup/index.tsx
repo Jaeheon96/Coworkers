@@ -5,8 +5,10 @@ import PasswordInput from "@/components/@shared/UI/PasswordInput";
 import signUp from "@/core/api/user/signUp";
 import { useAuth } from "@/core/context/AuthProvider";
 import { SignupForm } from "@/core/dtos/user/auth";
+import { ErrorData } from "@/core/types/standardError";
 import useAuthFormErrors from "@/lib/hooks/useAuthFormErrors";
 import { useMutation } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { ChangeEvent, FormEvent, useState } from "react";
@@ -27,6 +29,7 @@ export default function Signup() {
     handleValidation,
     handleConfirmationFocus,
     handleConfirmationBlur,
+    handleSignupResponseError,
   } = useAuthFormErrors(signupForm);
 
   const setFormValue = (key: string, value: string) => {
@@ -58,8 +61,9 @@ export default function Signup() {
         password: signupForm.password,
       });
     },
-    onError: (e) => {
+    onError: (e: AxiosError) => {
       console.error(e);
+      handleSignupResponseError(e.response?.data as ErrorData);
     },
   });
 
