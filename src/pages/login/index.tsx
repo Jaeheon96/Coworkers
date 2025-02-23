@@ -56,6 +56,8 @@ export default function Login() {
     login(loginForm);
   };
 
+  const isError = !!errors.email || !!errors.password;
+
   return (
     <main className="mx-auto mt-[8.75rem] flex max-w-[28.75rem] flex-col items-center px-4 [&&]:max-md:mt-[6.25rem] [&&]:max-sm:mt-6">
       <h1 className="mb-20 text-text-4xl font-medium [&&]:max-md:text-2xl [&&]:max-sm:mb-6">
@@ -95,7 +97,13 @@ export default function Login() {
             비밀번호를 잊으셨나요?
           </span>
         </div>
-        <Button variant="solid" size="large" type="submit" className="mb-6">
+        <Button
+          variant="solid"
+          size="large"
+          type="submit"
+          className="mb-6"
+          disabled={isError}
+        >
           로그인
         </Button>
         <div className="mb-12 flex items-center justify-center gap-3 [&&]:max-sm:mb-6">
