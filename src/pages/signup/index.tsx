@@ -72,11 +72,15 @@ export default function Signup() {
     signup(signupForm);
   };
 
-  const isError =
+  const isDisabled =
     !!errors.email ||
     !!errors.nickname ||
     !!errors.password ||
-    !!errors.passwordConfirmation;
+    !!errors.passwordConfirmation ||
+    !signupForm.email ||
+    !signupForm.nickname ||
+    !signupForm.password ||
+    !signupForm.passwordConfirmation;
 
   return (
     <main className="mx-auto mb-10 mt-[8.75rem] flex max-w-[28.75rem] flex-col items-center px-4 [&&]:max-md:mt-[6.25rem] [&&]:max-sm:mt-6">
@@ -146,7 +150,7 @@ export default function Signup() {
           size="large"
           type="submit"
           className="mb-12 [&&]:max-sm:mb-6"
-          disabled={isError}
+          disabled={isDisabled}
         >
           회원가입
         </Button>

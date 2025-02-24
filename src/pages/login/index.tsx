@@ -56,7 +56,11 @@ export default function Login() {
     login(loginForm);
   };
 
-  const isError = !!errors.email || !!errors.password;
+  const isDisabled =
+    !!errors.email ||
+    !!errors.password ||
+    !loginForm.email ||
+    !loginForm.password;
 
   return (
     <main className="mx-auto mt-[8.75rem] flex max-w-[28.75rem] flex-col items-center px-4 [&&]:max-md:mt-[6.25rem] [&&]:max-sm:mt-6">
@@ -102,7 +106,7 @@ export default function Login() {
           size="large"
           type="submit"
           className="mb-6"
-          disabled={isError}
+          disabled={isDisabled}
         >
           로그인
         </Button>
