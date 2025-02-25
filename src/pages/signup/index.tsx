@@ -121,7 +121,7 @@ export default function Signup() {
           className="mb-12"
           errorMessage={errors.password}
         >
-          <InputAlt
+          <PasswordInput
             name="password"
             onChange={handleInputChange}
             onBlur={handleValidation}
