@@ -25,7 +25,7 @@ export default function PasswordInput(props: Props) {
       </div>
       <InputAlt
         type={isVisible ? "text" : "password"}
-        className="pr-11 peer-hover:border-interaction-hover"
+        className="peer-hover:border-interaction-hover [&&]:pr-11"
         {...props}
       />
     </div>
