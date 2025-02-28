@@ -10,6 +10,7 @@ import useAuthFormErrors from "@/lib/hooks/useAuthFormErrors";
 import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { ChangeEvent, FormEvent, useState } from "react";
 
@@ -149,11 +150,22 @@ export default function Signup() {
           variant="solid"
           size="large"
           type="submit"
-          className="mb-12 [&&]:max-sm:mb-6"
+          className="mb-6"
           disabled={isDisabled}
         >
           회원가입
         </Button>
+        <div className="mb-12 flex items-center justify-center gap-3 [&&]:max-sm:mb-6">
+          <span className="text-text-lg font-medium [&&]:max-sm:text-text-md">
+            이미 계정이 있으신가요?
+          </span>
+          <Link
+            className="cursor-pointer text-text-lg font-medium text-brand-primary underline underline-offset-2 [&&]:max-sm:text-text-md"
+            href="/login"
+          >
+            로그인하기
+          </Link>
+        </div>
         <div className="mb-4 flex items-center gap-6">
           <div className="h-0 w-full border-t border-solid border-border-primary" />
           <span className="text-text-lg font-regular text-white [&&]:max-sm:font-medium">
