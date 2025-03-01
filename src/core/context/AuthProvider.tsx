@@ -14,7 +14,7 @@ import {
   AccessTokenForm,
   LoginForm,
   UpdateUserForm,
-  UpdateUserResponse,
+  MessageResponse,
   User,
 } from "../dtos/user/auth";
 import updateUser from "../api/user/updateUser";
@@ -33,7 +33,7 @@ interface AuthContextValues {
   login: (loginForm: LoginForm) => Promise<AccessTokenForm>;
   isLoginPending: boolean;
   logout: () => void;
-  updateMe: (updateUserForm: UpdateUserForm) => Promise<UpdateUserResponse>;
+  updateMe: (updateUserForm: UpdateUserForm) => Promise<MessageResponse>;
   isUpdatePending: boolean;
   deleteMe: () => Promise<unknown>;
   isDeletionPending: boolean;

@@ -48,6 +48,6 @@ export interface UpdateUserForm {
   image: string;
 }
 
-export interface UpdateUserResponse {
+export interface MessageResponse {
   message: string;
 }
