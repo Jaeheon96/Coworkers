@@ -9,6 +9,10 @@ const axiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
 });
 
+export const axiosUnauthorized = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
+});
+
 // axiosInstance.interceptors.request.use((config) => {
 //   const reqConfig = config;
 //   const accessToken = localStorage.getItem(TOKENS.ACCESS_TOKEN);
