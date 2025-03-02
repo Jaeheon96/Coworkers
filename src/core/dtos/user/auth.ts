@@ -51,3 +51,12 @@ export interface UpdateUserForm {
 export interface MessageResponse {
   message: string;
 }
+
+export interface ResetPasswordForm {
+  password: string;
+  passwordConfirmation: string;
+}
+
+export interface ResetLostPasswordForm extends ResetPasswordForm {
+  token: string;
+}
