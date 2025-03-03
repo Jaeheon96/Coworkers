@@ -38,7 +38,7 @@ export default function Login() {
     handleValidation(e);
   };
 
-  const { mutate: login } = useMutation({
+  const { mutate: login, isPending: isLoginPending } = useMutation({
     mutationFn: requestLogin,
     throwOnError: false,
     onSuccess: () => {
@@ -53,6 +53,7 @@ export default function Login() {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
+    if (isLoginPending) return;
     login(loginForm);
   };
 
@@ -108,7 +109,15 @@ export default function Login() {
           className="mb-6"
           disabled={isDisabled}
         >
-          로그인
+          {isLoginPending ? (
+            <div className="flex w-full justify-center">
+              <div className="relative h-6 w-6 animate-spin">
+                <Image fill src="icons/icon-ongoing.svg" alt="처리중..." />
+              </div>
+            </div>
+          ) : (
+            "로그인"
+          )}
         </Button>
         <div className="mb-12 flex items-center justify-center gap-3 [&&]:max-sm:mb-6">
           <span className="text-text-lg font-medium [&&]:max-sm:text-text-md">

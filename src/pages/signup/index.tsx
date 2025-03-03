@@ -53,7 +53,7 @@ export default function Signup() {
     throwOnError: false,
   });
 
-  const { mutate: signup } = useMutation({
+  const { mutate: signup, isPending: isSignupPending } = useMutation({
     mutationFn: signUp,
     throwOnError: false,
     onSuccess: () => {
@@ -70,6 +70,7 @@ export default function Signup() {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
+    if (isSignupPending) return;
     signup(signupForm);
   };
 
@@ -153,7 +154,15 @@ export default function Signup() {
           className="mb-6"
           disabled={isDisabled}
         >
-          회원가입
+          {isSignupPending ? (
+            <div className="flex w-full justify-center">
+              <div className="relative h-6 w-6 animate-spin">
+                <Image fill src="icons/icon-ongoing.svg" alt="처리중..." />
+              </div>
+            </div>
+          ) : (
+            "회원가입"
+          )}
         </Button>
         <div className="mb-12 flex items-center justify-center gap-3 [&&]:max-sm:mb-6">
           <span className="text-text-lg font-medium [&&]:max-sm:text-text-md">
