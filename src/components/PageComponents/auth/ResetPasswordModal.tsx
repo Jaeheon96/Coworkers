@@ -2,7 +2,9 @@ import Button from "@/components/@shared/UI/Button";
 import InputAlt from "@/components/@shared/UI/InputAlt";
 import Modal from "@/components/@shared/UI/Modal/Modal";
 import requestPasswordResetEmail from "@/core/api/user/requestPasswordResetEmail";
+import { ErrorData } from "@/core/types/standardError";
 import checkEmailFormat from "@/lib/utils/checkEmailFormat";
+import handleResetPasswordError from "@/lib/utils/handleResetPasswordError";
 import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import Image from "next/image";
@@ -27,11 +29,16 @@ export default function ResetPasswordModal({ isOpen, onClose }: Props) {
     setErrorMessage("");
   };
 
+  const handleResponseError = handleResetPasswordError((str: string) => {
+    setErrorMessage(str);
+  });
+
   const { mutate: sendEmail, isPending: isSendPending } = useMutation({
     mutationFn: requestPasswordResetEmail,
     throwOnError: false,
     onError: (e: AxiosError) => {
       console.error(e);
+      handleResponseError(e.response?.data as ErrorData);
     },
     onSuccess: () => {
       setIsMailSent(true);
