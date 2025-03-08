@@ -1,9 +1,21 @@
 import Button from "@/components/@shared/UI/Button";
 import InputLabel from "@/components/@shared/UI/InputLabel";
 import PasswordInput from "@/components/@shared/UI/PasswordInput";
-import { FormEvent } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 
 export default function ResetPassword() {
+  const [resetForm, setResetForm] = useState({
+    password: "",
+    passwordConfirmation: "",
+  });
+
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setResetForm((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
   };
@@ -17,12 +29,16 @@ export default function ResetPassword() {
         <InputLabel label="새 비밀번호" className="mb-12" errorMessage="">
           <PasswordInput
             name="password"
+            value={resetForm.password}
+            onChange={handleInputChange}
             placeholder="비밀번호 (영문, 숫자 포함, 12자 이내)를 입력해주세요."
           />
         </InputLabel>
         <InputLabel label="비밀번호 확인" className="mb-10" errorMessage="">
           <PasswordInput
             name="passwordConfirmation"
+            value={resetForm.passwordConfirmation}
+            onChange={handleInputChange}
             placeholder="새 비밀번호를 다시 한번 입력해주세요."
           />
         </InputLabel>
