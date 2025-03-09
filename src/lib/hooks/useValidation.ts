@@ -3,8 +3,8 @@ import checkEmailFormat from "../utils/checkEmailFormat";
 import checkPasswordFormat from "../utils/checkPasswordFormat";
 
 interface Form {
-  email: string;
-  nickname: string;
+  email?: string;
+  nickname?: string;
   password: string;
   passwordConfirmation: string;
 }
