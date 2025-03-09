@@ -1,6 +1,7 @@
 import Button from "@/components/@shared/UI/Button";
 import InputLabel from "@/components/@shared/UI/InputLabel";
 import PasswordInput from "@/components/@shared/UI/PasswordInput";
+import useAuthFormErrors from "@/lib/hooks/useAuthFormErrors";
 import { ChangeEvent, FormEvent, useState } from "react";
 
 export default function ResetPassword() {
@@ -9,11 +10,19 @@ export default function ResetPassword() {
     passwordConfirmation: "",
   });
 
+  const {
+    errors,
+    handleValidation,
+    handleConfirmationBlur,
+    handleConfirmationFocus,
+  } = useAuthFormErrors(resetForm);
+
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setResetForm((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
     }));
+    handleValidation(e);
   };
 
   const handleSubmit = (e: FormEvent) => {
@@ -26,19 +35,32 @@ export default function ResetPassword() {
         비밀번호 재설정
       </h1>
       <form className="flex w-full flex-col" onSubmit={handleSubmit}>
-        <InputLabel label="새 비밀번호" className="mb-12" errorMessage="">
+        <InputLabel
+          label="새 비밀번호"
+          className="mb-12"
+          errorMessage={errors.password}
+        >
           <PasswordInput
             name="password"
             value={resetForm.password}
+            isError={!!errors.password}
             onChange={handleInputChange}
+            onBlur={handleValidation}
             placeholder="비밀번호 (영문, 숫자 포함, 12자 이내)를 입력해주세요."
           />
         </InputLabel>
-        <InputLabel label="비밀번호 확인" className="mb-10" errorMessage="">
+        <InputLabel
+          label="비밀번호 확인"
+          className="mb-16"
+          errorMessage={errors.passwordConfirmation}
+        >
           <PasswordInput
             name="passwordConfirmation"
             value={resetForm.passwordConfirmation}
+            isError={!!errors.passwordConfirmation}
             onChange={handleInputChange}
+            onBlur={handleConfirmationBlur}
+            onFocus={handleConfirmationFocus}
             placeholder="새 비밀번호를 다시 한번 입력해주세요."
           />
         </InputLabel>

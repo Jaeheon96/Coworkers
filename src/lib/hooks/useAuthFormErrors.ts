@@ -11,8 +11,8 @@ interface Errors {
 }
 
 interface Form {
-  email: string;
-  nickname: string;
+  email?: string;
+  nickname?: string;
   password: string;
   passwordConfirmation: string;
 }
