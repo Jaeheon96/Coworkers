@@ -29,6 +29,12 @@ export default function ResetPassword() {
     e.preventDefault();
   };
 
+  const isButtonDisabled =
+    !resetForm.password ||
+    !resetForm.passwordConfirmation ||
+    !!errors.password ||
+    !!errors.passwordConfirmation;
+
   return (
     <main className="mx-auto mt-[8.75rem] flex max-w-[28.75rem] flex-col items-center px-4 [&&]:max-md:mt-[6.25rem] [&&]:max-sm:mt-6">
       <h1 className="mb-20 text-text-4xl font-medium [&&]:max-md:text-2xl [&&]:max-sm:mb-6">
@@ -64,7 +70,13 @@ export default function ResetPassword() {
             placeholder="새 비밀번호를 다시 한번 입력해주세요."
           />
         </InputLabel>
-        <Button variant="solid" size="large" type="submit" className="mb-6">
+        <Button
+          variant="solid"
+          size="large"
+          type="submit"
+          className="mb-6"
+          disabled={isButtonDisabled}
+        >
           재설정
         </Button>
       </form>
