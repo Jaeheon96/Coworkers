@@ -1,10 +1,15 @@
 import Button from "@/components/@shared/UI/Button";
 import InputLabel from "@/components/@shared/UI/InputLabel";
 import PasswordInput from "@/components/@shared/UI/PasswordInput";
+import resetLostPassword from "@/core/api/user/resetLostPassword";
 import useAuthFormErrors from "@/lib/hooks/useAuthFormErrors";
+import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/router";
 import { ChangeEvent, FormEvent, useState } from "react";
 
 export default function ResetPassword() {
+  const { push, query } = useRouter();
+
   const [resetForm, setResetForm] = useState({
     password: "",
     passwordConfirmation: "",
@@ -25,8 +30,20 @@ export default function ResetPassword() {
     handleValidation(e);
   };
 
+  const { mutate: resetPassword } = useMutation({
+    mutationFn: resetLostPassword,
+    throwOnError: false,
+    onError: (e) => {
+      console.error(e);
+    },
+    onSuccess: () => {
+      push("/login");
+    },
+  });
+
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
+    resetPassword({ ...resetForm, token: query.token as string });
   };
 
   const isButtonDisabled =
