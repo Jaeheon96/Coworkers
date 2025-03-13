@@ -4,6 +4,7 @@ import PasswordInput from "@/components/@shared/UI/PasswordInput";
 import resetLostPassword from "@/core/api/user/resetLostPassword";
 import useAuthFormErrors from "@/lib/hooks/useAuthFormErrors";
 import { useMutation } from "@tanstack/react-query";
+import Image from "next/image";
 import { useRouter } from "next/router";
 import { ChangeEvent, FormEvent, useState } from "react";
 
@@ -30,7 +31,7 @@ export default function ResetPassword() {
     handleValidation(e);
   };
 
-  const { mutate: resetPassword } = useMutation({
+  const { mutate: resetPassword, isPending: isResetPending } = useMutation({
     mutationFn: resetLostPassword,
     throwOnError: false,
     onError: (e) => {
@@ -94,7 +95,15 @@ export default function ResetPassword() {
           className="mb-6"
           disabled={isButtonDisabled}
         >
-          재설정
+          {isResetPending ? (
+            <div className="flex w-full justify-center">
+              <div className="relative h-6 w-6 animate-spin">
+                <Image fill src="icons/icon-ongoing.svg" alt="처리중..." />
+              </div>
+            </div>
+          ) : (
+            "재설정"
+          )}
         </Button>
       </form>
     </main>
