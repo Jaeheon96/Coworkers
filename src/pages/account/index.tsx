@@ -5,6 +5,7 @@ import ProfileImagePreview from "@/components/@shared/UI/ProfileImagePreview";
 import { useAuth } from "@/core/context/AuthProvider";
 import useImageUpload from "@/lib/hooks/useImageUpload";
 import Image from "next/image";
+import { ChangeEvent, useState } from "react";
 
 export default function Account() {
   const { user } = useAuth(true);
@@ -14,6 +15,12 @@ export default function Account() {
     imagePreview,
     clearFileInput,
   } = useImageUpload(user?.image);
+
+  const [name, setName] = useState(user?.nickname);
+
+  const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setName(e.target.value);
+  };
 
   return (
     <main className="mx-auto mt-[6.25rem] flex max-w-[49.5rem] flex-col gap-6 px-6 [&&]:max-md:mt-[5.25rem] [&&]:max-sm:px-4">
@@ -34,11 +41,12 @@ export default function Account() {
           </div>
         </ProfileImagePreview>
         <InputLabel label="이름">
-          <InputAlt />
+          <InputAlt value={name} onChange={handleNameChange} />
         </InputLabel>
         <InputLabel label="이메일">
           <InputAlt
             className="cursor-default text-text-disabled [&&]:bg-background-tertiary [&&]:hover:border-border-primary [&&]:focus:border-border-primary"
+            value={user?.email}
             readOnly
           />
         </InputLabel>
