@@ -45,7 +45,7 @@ export interface LoginResponse extends Tokens {
 
 export interface UpdateUserForm {
   nickname?: string;
-  image: string;
+  image?: string;
 }
 
 export interface MessageResponse {
