@@ -8,10 +8,10 @@ import useImageUpload from "@/lib/hooks/useImageUpload";
 import { useMutation } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 
 export default function Account() {
-  const { user, updateMe } = useAuth(true);
+  const { user, updateMe, isPending: isAuthPending } = useAuth(true);
   const {
     file,
     fileInputValue,
@@ -19,6 +19,7 @@ export default function Account() {
     handleFileInputChange,
     imagePreview,
     clearFileInput,
+    setImagePreview,
   } = useImageUpload(user?.image);
 
   const [name, setName] = useState(user?.nickname ?? "");
@@ -50,6 +51,13 @@ export default function Account() {
     e.preventDefault();
     submitChange();
   };
+
+  useEffect(() => {
+    if (!isAuthPending) {
+      setName(user?.nickname ?? "");
+      setImagePreview(user?.image ?? null);
+    }
+  }, [isAuthPending]);
 
   return (
     <main className="mx-auto mt-[6.25rem] flex max-w-[49.5rem] flex-col gap-6 px-6 [&&]:max-md:mt-[5.25rem] [&&]:max-sm:px-4">
@@ -85,6 +93,7 @@ export default function Account() {
               className="cursor-default text-text-disabled [&&]:bg-background-tertiary [&&]:hover:border-border-primary [&&]:focus:border-border-primary"
               type="password"
               value="password"
+              readOnly
             />
             <Link href="/reset-password">
               <Button

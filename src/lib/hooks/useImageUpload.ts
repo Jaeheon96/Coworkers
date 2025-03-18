@@ -52,5 +52,6 @@ export default function useImageUpload(defaultPreview: string | null = null) {
     clearFileInput, // FileInput과 다른 스테이트들을 초기화하는 함수입니다. 파라미터 없이 사용하면 됩니다.
     getImageUrl, // API에 이미지를 업로드해 성공시 업로드한 이미지의 URL을, 실패시 API가 반환한 AxiosError를 그대로 반환하는 함수입니다. 위의 file을 파라미터로 받습니다.
     imagePreview, // 이미지에 src로 쓸 수 있는 스트링입니다. FileInput에 들어간 이미지를 띄워줍니다.
+    setImagePreview,
   };
 }
