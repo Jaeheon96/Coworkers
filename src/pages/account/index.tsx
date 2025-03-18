@@ -7,6 +7,7 @@ import { UpdateUserForm } from "@/core/dtos/user/auth";
 import useImageUpload from "@/lib/hooks/useImageUpload";
 import { useMutation } from "@tanstack/react-query";
 import Image from "next/image";
+import Link from "next/link";
 import { ChangeEvent, FormEvent, useState } from "react";
 
 export default function Account() {
@@ -85,13 +86,15 @@ export default function Account() {
               type="password"
               value="password"
             />
-            <Button
-              className="absolute right-4 top-2 h-8 w-[4.625rem] text-sm font-semibold text-white [&&]:max-sm:top-1.5"
-              variant="solid"
-              size="large"
-            >
-              변경하기
-            </Button>
+            <Link href="/reset-password">
+              <Button
+                className="absolute right-4 top-2 h-8 w-[4.625rem] text-sm font-semibold text-white [&&]:max-sm:top-1.5"
+                variant="solid"
+                size="large"
+              >
+                변경하기
+              </Button>
+            </Link>
           </div>
         </InputLabel>
         <div className="flex items-start justify-between">
