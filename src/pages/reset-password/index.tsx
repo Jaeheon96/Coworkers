@@ -2,6 +2,7 @@ import Button from "@/components/@shared/UI/Button";
 import InputLabel from "@/components/@shared/UI/InputLabel";
 import PasswordInput from "@/components/@shared/UI/PasswordInput";
 import resetLostPassword from "@/core/api/user/resetLostPassword";
+import resetPassword from "@/core/api/user/resetPassword";
 import useAuthFormErrors from "@/lib/hooks/useAuthFormErrors";
 import { useMutation } from "@tanstack/react-query";
 import Image from "next/image";
@@ -31,7 +32,7 @@ export default function ResetPassword() {
     handleValidation(e);
   };
 
-  const { mutate: resetPassword, isPending: isResetPending } = useMutation({
+  const { mutate: recoverPassword, isPending: isRecoverPending } = useMutation({
     mutationFn: resetLostPassword,
     throwOnError: false,
     onError: (e) => {
@@ -42,9 +43,23 @@ export default function ResetPassword() {
     },
   });
 
+  const { mutate: resetPasswordMutate, isPending: isResetPending } =
+    useMutation({
+      mutationFn: resetPassword,
+      throwOnError: false,
+      onError: (e) => {
+        console.error(e);
+      },
+      onSuccess: () => {
+        push("/");
+      },
+    });
+
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    resetPassword({ ...resetForm, token: query.token as string });
+    if (query.token)
+      recoverPassword({ ...resetForm, token: query.token as string });
+    else resetPasswordMutate(resetForm);
   };
 
   const isButtonDisabled =
@@ -95,7 +110,7 @@ export default function ResetPassword() {
           className="mb-6"
           disabled={isButtonDisabled}
         >
-          {isResetPending ? (
+          {isRecoverPending || isResetPending ? (
             <div className="flex w-full justify-center">
               <div className="relative h-6 w-6 animate-spin">
                 <Image fill src="icons/icon-ongoing.svg" alt="처리중..." />
