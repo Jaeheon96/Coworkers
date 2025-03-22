@@ -38,7 +38,7 @@ export default function Header() {
                 </div>
               </Link>
             </div>
-            {!isPending && user && (
+            {!isPending && user?.memberships && (
               <Dropdown
                 trigger={
                   <div className="flex items-center gap-2.5 text-text-lg font-medium [&&]:max-sm:hidden">
