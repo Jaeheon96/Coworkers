@@ -1,8 +1,14 @@
 import Button from "@/components/@shared/UI/Button";
 import Modal from "@/components/@shared/UI/Modal/Modal";
 import PasswordInput from "@/components/@shared/UI/PasswordInput";
+import deleteUser from "@/core/api/user/deleteUser";
+import signIn from "@/core/api/user/signIn";
+import { useAuth } from "@/core/context/AuthProvider";
 import checkPasswordFormat from "@/lib/utils/checkPasswordFormat";
-import { ChangeEvent, useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { AxiosError } from "axios";
+import { useRouter } from "next/router";
+import { ChangeEvent, FormEvent, useState } from "react";
 
 interface Props {
   isOpen: boolean;
@@ -12,6 +18,9 @@ interface Props {
 export default function VerifyUserModal({ isOpen, onClose }: Props) {
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+
+  const { user, logout } = useAuth();
+  const { push } = useRouter();
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
@@ -26,9 +35,40 @@ export default function VerifyUserModal({ isOpen, onClose }: Props) {
     setErrorMessage("");
   };
 
+  const { mutate: deleteMe } = useMutation({
+    mutationFn: deleteUser,
+    throwOnError: false,
+    onError: (e: AxiosError) => {
+      console.error(e);
+    },
+    onSuccess: () => {
+      logout();
+      push("/");
+    },
+  });
+
+  const { mutate: verifyPassword } = useMutation({
+    mutationFn: signIn,
+    throwOnError: false,
+    onError: (e: AxiosError) => {
+      console.error(e);
+    },
+    onSuccess: () => {
+      deleteMe();
+    },
+  });
+
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    verifyPassword({
+      email: user?.email ?? "",
+      password,
+    });
+  };
+
   return (
     <Modal isOpen={isOpen} onClose={onClose} isCloseButton>
-      <form className="flex w-96 flex-col gap-10 px-9">
+      <form className="flex w-96 flex-col gap-10 px-9" onSubmit={handleSubmit}>
         <div className="relative flex w-full flex-col gap-4">
           <h3 className="text-center text-text-lg font-medium text-text-primary">
             본인확인
