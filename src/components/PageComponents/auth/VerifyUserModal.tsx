@@ -1,4 +1,4 @@
-import Button from "@/components/@shared/UI/Button";
+import LoadingButton from "@/components/@shared/UI/LoadingButton";
 import Modal from "@/components/@shared/UI/Modal/Modal";
 import PasswordInput from "@/components/@shared/UI/PasswordInput";
 import deleteUser from "@/core/api/user/deleteUser";
@@ -35,19 +35,20 @@ export default function VerifyUserModal({ isOpen, onClose }: Props) {
     setErrorMessage("");
   };
 
-  const { mutate: deleteMe } = useMutation({
+  const { mutate: deleteMe, isPending: isDeletionPending } = useMutation({
     mutationFn: deleteUser,
     throwOnError: false,
     onError: (e: AxiosError) => {
       console.error(e);
     },
     onSuccess: () => {
-      logout();
+      onClose();
       push("/");
+      logout();
     },
   });
 
-  const { mutate: verifyPassword } = useMutation({
+  const { mutate: verifyPassword, isPending: isVerifyPending } = useMutation({
     mutationFn: signIn,
     throwOnError: false,
     onError: (e: AxiosError) => {
@@ -66,6 +67,8 @@ export default function VerifyUserModal({ isOpen, onClose }: Props) {
     });
   };
 
+  const isPending = isVerifyPending || isDeletionPending;
+
   return (
     <Modal isOpen={isOpen} onClose={onClose} isCloseButton>
       <form className="flex w-96 flex-col gap-10 px-9" onSubmit={handleSubmit}>
@@ -83,9 +86,9 @@ export default function VerifyUserModal({ isOpen, onClose }: Props) {
             {errorMessage}
           </span>
         </div>
-        <Button type="submit" variant="solid" size="large">
+        <LoadingButton isPending={isPending} disabled={isPending}>
           확인
-        </Button>
+        </LoadingButton>
       </form>
     </Modal>
   );
