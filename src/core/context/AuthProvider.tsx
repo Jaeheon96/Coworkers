@@ -74,7 +74,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     },
     retry: false,
     staleTime: 1000 * 60 * 30,
-    gcTime: Infinity,
     throwOnError: false,
   });
 
@@ -86,7 +85,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     queryKey: ["user"],
     queryFn: getUser,
     staleTime: 1000 * 60 * 10,
-    gcTime: Infinity,
     enabled: isTokenSet,
   });
 
@@ -107,6 +105,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     mutationFn: signOut,
     onSuccess: () => {
       setIsTokenSet(false);
+      queryClient.setQueryData([TOKENS.ACCESS_TOKEN], null);
+      queryClient.setQueryData(["user"], null);
       queryClient.removeQueries({ queryKey: [TOKENS.ACCESS_TOKEN] });
       queryClient.removeQueries({ queryKey: ["user"] });
     },
