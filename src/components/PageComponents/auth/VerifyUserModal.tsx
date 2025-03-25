@@ -68,6 +68,7 @@ export default function VerifyUserModal({ isOpen, onClose }: Props) {
   };
 
   const isPending = isVerifyPending || isDeletionPending;
+  const isDisabled = isPending || !!errorMessage || !password;
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} isCloseButton>
@@ -86,7 +87,7 @@ export default function VerifyUserModal({ isOpen, onClose }: Props) {
             {errorMessage}
           </span>
         </div>
-        <LoadingButton isPending={isPending} disabled={isPending}>
+        <LoadingButton isPending={isPending} disabled={isDisabled}>
           확인
         </LoadingButton>
       </form>
