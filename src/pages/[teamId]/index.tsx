@@ -12,6 +12,7 @@ import { Roles } from "@/core/types/member";
 import useModalStore from "@/lib/hooks/stores/modalStore";
 import refineTasks from "@/lib/utils/refineTasks";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
@@ -68,7 +69,7 @@ export default function Team() {
   return (
     <>
       <main className="mx-auto mt-[5.25rem] max-w-[75rem] [&&]:max-md:px-6 [&&]:max-sm:px-4">
-        <div className="mb-6 flex h-16 w-full cursor-default justify-between rounded-xl border border-solid border-border-primary bg-background-secondary bg-[url('/images/image-thumbnailTeam.png')] bg-[right_5rem_top_0] bg-no-repeat px-6 py-5 text-text-xl font-bold text-text-inverse">
+        <div className="relative mb-6 flex h-16 w-full cursor-default justify-between rounded-xl border border-solid border-border-primary bg-background-secondary px-6 py-5 text-text-xl font-bold text-text-inverse">
           <p>{group?.name}</p>
           <TeamGear
             teamId={teamId}
@@ -77,6 +78,14 @@ export default function Team() {
             memberId={user?.id ?? 0}
             isAdmin={isAdmin}
             refreshGroup={refreshGroup}
+          />
+          <Image
+            src="/images/image-thumbnailTeam.png"
+            alt="팀"
+            width={180}
+            height={64}
+            className="absolute right-20 top-0"
+            style={{ objectFit: "cover" }}
           />
         </div>
         <section className="mb-12 flex flex-col gap-4">
