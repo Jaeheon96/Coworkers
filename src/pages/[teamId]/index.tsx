@@ -15,6 +15,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import thumbnailSrc from "../../../public/images/image-thumbnailTeam.png";
 
 export default function Team() {
   const { user } = useAuth(true);
@@ -80,12 +81,10 @@ export default function Team() {
             refreshGroup={refreshGroup}
           />
           <Image
-            src="/images/image-thumbnailTeam.png"
+            src={thumbnailSrc}
             alt="팀"
-            width={180}
-            height={64}
-            className="absolute right-20 top-0"
-            style={{ objectFit: "cover" }}
+            className="absolute right-20 top-0 object-cover"
+            priority
           />
         </div>
         <section className="mb-12 flex flex-col gap-4">
