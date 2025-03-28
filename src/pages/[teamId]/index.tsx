@@ -84,6 +84,7 @@ export default function Team() {
             src={thumbnailSrc}
             alt="팀"
             className="absolute right-20 top-0 object-cover"
+            quality={50}
             priority
           />
         </div>
