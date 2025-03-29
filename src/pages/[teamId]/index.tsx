@@ -83,9 +83,15 @@ export default function Team() {
           <Image
             src={thumbnailSrc}
             alt="팀"
-            className="absolute right-20 top-0 object-cover"
+            style={{
+              position: "absolute",
+              right: "5rem",
+              top: 0,
+              objectFit: "cover",
+            }}
             quality={50}
             priority
+            fetchPriority="high"
           />
         </div>
         <section className="mb-12 flex flex-col gap-4">
