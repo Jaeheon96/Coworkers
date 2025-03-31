@@ -91,7 +91,6 @@ export default function Team() {
             }}
             quality={50}
             priority
-            fetchPriority="high"
           />
         </div>
         <section className="mb-12 flex flex-col gap-4">
