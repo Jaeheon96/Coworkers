@@ -1,11 +1,11 @@
 import { Task } from "@/core/dtos/tasks/tasks";
-import { useState } from "react";
+import { lazy, Suspense, useState } from "react";
 import { useRouter } from "next/router";
 import FloatingButton from "@/components/@shared/UI/FloatingButton";
 import TaskLists from "@/components/PageComponents/tasks/TaskLists";
 import TaskCardList from "@/components/PageComponents/tasks/TaskCardList";
 import useModalStore from "@/lib/hooks/stores/modalStore";
-import AddTaskModal from "@/components/PageComponents/tasks/AddTaskModal";
+// import AddTaskModal from "@/components/PageComponents/tasks/AddTaskModal";
 import EditTaskModal from "@/components/PageComponents/tasks/EditTaskModal";
 import SectionHeader from "@/components/PageComponents/tasks/SectionHeader";
 import DeleteTaskModal from "@/components/PageComponents/tasks/DeleteTaskModal";
@@ -57,6 +57,10 @@ export default function Tasks() {
     closeTaskDetail();
   };
 
+  const LazyAddTaskModal = lazy(
+    () => import("@/components/PageComponents/tasks/AddTaskModal"),
+  );
+
   if (!user) return null;
 
   return (
@@ -89,7 +93,12 @@ export default function Tasks() {
       >
         + 할 일 추가
       </FloatingButton>
-      <AddTaskModal teamId={teamId} selectedTaskListId={selectedTaskListId} />
+      <Suspense fallback={<p>로딩중...</p>}>
+        <LazyAddTaskModal
+          teamId={teamId}
+          selectedTaskListId={selectedTaskListId}
+        />
+      </Suspense>
       {selectedTaskItem && (
         <EditTaskModal
           taskToEdit={selectedTaskItem}
