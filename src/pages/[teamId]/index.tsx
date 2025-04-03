@@ -65,8 +65,6 @@ export default function Team() {
     if (!isPending && !group) replace("/wrongteam");
   }, [isPending, group]);
 
-  if (!group) return null;
-
   return (
     <>
       <main className="mx-auto mt-[5.25rem] max-w-[75rem] [&&]:max-md:px-6 [&&]:max-sm:px-4">
