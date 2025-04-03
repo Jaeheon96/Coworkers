@@ -12,7 +12,7 @@ import Image from "next/image";
 interface Props {
   isOpen: boolean;
   onClose: () => void;
-  team: GroupResponse;
+  team?: GroupResponse;
 }
 
 export default function MailInviteModal({ isOpen, onClose, team }: Props) {
@@ -29,13 +29,13 @@ export default function MailInviteModal({ isOpen, onClose, team }: Props) {
 
   const { mutate: sendInvitation, isPending: isSendPending } = useMutation({
     mutationFn: async () => {
-      const invitationCode = await getInvitationCode(`${team.id}`);
+      const invitationCode = await getInvitationCode(`${team?.id}`);
       await emailjs.send(
         process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID ?? "",
         process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID ?? "",
         {
           to_name: "none",
-          from_name: team.name,
+          from_name: team?.name,
           message: `https://${process.env.NEXT_PUBLIC_URL}/participate/${invitationCode}`,
           reply_to: "codeitfe0402@gmail.com",
           to_email: email,

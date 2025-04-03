@@ -11,13 +11,13 @@ import MailInviteModal from "./MailInviteModal";
 interface Props {
   isOpen: boolean;
   onClose: () => void;
-  team: GroupResponse;
+  team?: GroupResponse;
 }
 
 export default function TeamLinkModal({ isOpen, onClose, team }: Props) {
   const [isMailInvitationOpen, setIsMailInvitationOpen] = useState(false);
 
-  const teamId = `${team.id}`;
+  const teamId = `${team?.id}`;
 
   const mutationFn = async () => {
     const invitationCode = await getInvitationCode(teamId);
