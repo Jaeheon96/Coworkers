@@ -1,6 +1,5 @@
 import type { Config } from "tailwindcss";
 // eslint-disable-next-line import/no-extraneous-dependencies
-import defaultTheme from "tailwindcss/defaultTheme";
 import forms from "@tailwindcss/forms";
 import typography from "@tailwindcss/typography";
 import aspectRatio from "@tailwindcss/aspect-ratio";
@@ -72,10 +71,6 @@ const config: Config = {
 
       backgroundImage: {
         "brand-gradient": "linear-gradient(to right, #10B981, #A3E635)",
-      },
-
-      fontFamily: {
-        sans: ["Pretendard", ...defaultTheme.fontFamily.sans],
       },
 
       fontSize: {
