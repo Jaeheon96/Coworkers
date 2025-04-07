@@ -7,6 +7,7 @@ import { ChatRequestBody, Message } from "@/core/dtos/gpt/chatApi";
 
 interface Props {
   dataContext?: string;
+  isTasksPending?: boolean;
 }
 
 const MESSAGE_CLASSNAME = {
@@ -17,7 +18,7 @@ const MESSAGE_CLASSNAME = {
 
 const CONTEXT_LIMIT = 5;
 
-export default function Chat({ dataContext }: Props) {
+export default function Chat({ dataContext, isTasksPending = false }: Props) {
   const [isStarted, setIsStarted] = useState(false);
   const [text, setText] = useState<string>("");
   const [messages, setMessages] = useState<Message[]>([]);
@@ -81,6 +82,12 @@ export default function Chat({ dataContext }: Props) {
     if (!messageBoxRef.current) return;
     messageBoxRef.current.scrollIntoView({ behavior: "smooth", block: "end" });
   }, [messages]);
+
+  if (isTasksPending) {
+    return (
+      <div className="h-96 w-full animate-pulse rounded-xl bg-background-secondary" />
+    );
+  }
 
   return isStarted ? (
     <div className="flex h-96 w-full flex-col justify-between gap-4 rounded-xl bg-background-secondary p-6">

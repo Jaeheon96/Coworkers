@@ -50,7 +50,7 @@ export default function Team() {
     queryClient.invalidateQueries({ queryKey: ["group", teamId] });
   };
 
-  const { data: tasks } = useQuery({
+  const { data: tasks, isPending: isTasksPending } = useQuery({
     queryKey: ["tasks", teamId],
     queryFn: () => getTasks(teamId),
     staleTime: 1000 * 60,
@@ -94,21 +94,21 @@ export default function Team() {
         <section className="mb-12 flex flex-col gap-4">
           <SectionHeader
             title="할 일 목록"
-            length={`${group?.taskLists.length ?? 0}개`}
+            length={
+              isTasksPending ? undefined : `${group?.taskLists.length ?? 0}개`
+            }
             addText="+ 새로운 목록 추가하기"
             onAddClick={() => openModal(addTaskListModalName)}
           />
-          {group?.taskLists.length ? (
-            <TaskLists tasks={group.taskLists} teamId={teamId} />
-          ) : (
-            <div className="flex w-full items-center justify-center py-16 text-text-md font-medium text-text-default">
-              아직 할 일 목록이 없습니다.
-            </div>
-          )}
+          <TaskLists
+            tasks={group?.taskLists ?? []}
+            teamId={teamId}
+            isPending={isTasksPending}
+          />
         </section>
         <section className="mb-16 flex flex-col gap-4">
           <SectionHeader title="어시스턴트" />
-          <Chat dataContext={chatData} />
+          <Chat dataContext={chatData} isTasksPending={isTasksPending} />
         </section>
         <section className="mb-16 flex flex-col gap-4">
           <SectionHeader
