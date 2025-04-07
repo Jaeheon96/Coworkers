@@ -14,6 +14,7 @@ import TaskListMenu from "./TaskListMenu";
 interface Props {
   tasks: GroupTask[];
   teamId: string;
+  isPending?: boolean;
 }
 
 interface PatchOrderMutationForm {
@@ -21,7 +22,7 @@ interface PatchOrderMutationForm {
   newIndex: number;
 }
 
-export default function TaskLists({ tasks, teamId }: Props) {
+export default function TaskLists({ tasks, teamId, isPending = false }: Props) {
   const indexColors = [
     "bg-point-purple",
     "bg-point-blue",
@@ -70,6 +71,26 @@ export default function TaskLists({ tasks, teamId }: Props) {
   useEffect(() => {
     setVisibleTasks(tasks);
   }, [tasks]);
+
+  if (isPending)
+    return (
+      <div className="flex flex-col">
+        <div className="mb-4 h-10 animate-pulse rounded-xl bg-background-secondary" />
+        <div className="mb-4 h-10 animate-pulse rounded-xl bg-background-secondary" />
+        <div className="mb-4 h-10 animate-pulse rounded-xl bg-background-secondary" />
+        <div className="mb-4 h-10 animate-pulse rounded-xl bg-background-secondary" />
+        <div className="mb-4 h-10 animate-pulse rounded-xl bg-background-secondary" />
+        <div className="mb-4 h-10 animate-pulse rounded-xl bg-background-secondary" />
+        <div className="mb-4 h-10 animate-pulse rounded-xl bg-background-secondary" />
+      </div>
+    );
+
+  if (tasks.length === 0)
+    return (
+      <div className="flex w-full items-center justify-center py-16 text-text-md font-medium text-text-default">
+        아직 할 일 목록이 없습니다.
+      </div>
+    );
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
