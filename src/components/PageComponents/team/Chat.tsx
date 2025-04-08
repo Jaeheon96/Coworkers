@@ -4,6 +4,7 @@ import postChat from "@/core/api/gpt/postChat";
 import Image from "next/image";
 import Button from "@/components/@shared/UI/Button";
 import { ChatRequestBody, Message } from "@/core/dtos/gpt/chatApi";
+import { twMerge } from "tailwind-merge";
 
 interface Props {
   dataContext?: string;
@@ -78,16 +79,15 @@ export default function Chat({ dataContext, isTasksPending = false }: Props) {
     });
   };
 
+  const backgroundClassName = twMerge(
+    "flex h-96 w-full items-center justify-center rounded-xl bg-background-secondary",
+    isTasksPending ? "animate-pulse" : null,
+  );
+
   useEffect(() => {
     if (!messageBoxRef.current) return;
     messageBoxRef.current.scrollIntoView({ behavior: "smooth", block: "end" });
   }, [messages]);
-
-  if (isTasksPending) {
-    return (
-      <div className="h-96 w-full animate-pulse rounded-xl bg-background-secondary" />
-    );
-  }
 
   return isStarted ? (
     <div className="flex h-96 w-full flex-col justify-between gap-4 rounded-xl bg-background-secondary p-6">
@@ -127,20 +127,22 @@ export default function Chat({ dataContext, isTasksPending = false }: Props) {
       </form>
     </div>
   ) : (
-    <div className="flex h-96 w-full items-center justify-center rounded-xl bg-background-secondary">
-      <div className="mx-4 flex w-full flex-col items-center gap-6">
-        <p className="text-center text-text-2xl font-medium">AI 어시스턴트</p>
-        <Button
-          variant="solid"
-          size="large"
-          className="max-w-64"
-          type="button"
-          disabled={chatMutation.isPending}
-          onClick={handleStart}
-        >
-          시작하기
-        </Button>
-      </div>
+    <div className={backgroundClassName}>
+      {isTasksPending ? null : (
+        <div className="mx-4 flex w-full flex-col items-center gap-6">
+          <p className="text-center text-text-2xl font-medium">AI 어시스턴트</p>
+          <Button
+            variant="solid"
+            size="large"
+            className="max-w-64"
+            type="button"
+            disabled={chatMutation.isPending}
+            onClick={handleStart}
+          >
+            시작하기
+          </Button>
+        </div>
+      )}
     </div>
   );
 }
