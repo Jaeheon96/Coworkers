@@ -112,7 +112,7 @@ export default function TaskLists({ tasks, teamId, isPending = false }: Props) {
                 >
                   {(draggableProvided) => (
                     <div
-                      className="relative mb-4 flex h-10 shrink-0 cursor-grab items-center justify-between rounded-xl bg-background-secondary pl-3 pr-2 text-text-md font-medium text-text-primary"
+                      className="relative mb-4 flex h-10 shrink-0 cursor-grab items-center justify-between rounded-xl bg-background-secondary pl-3 text-text-md font-medium text-text-primary"
                       ref={draggableProvided.innerRef}
                       {...draggableProvided.draggableProps}
                       {...draggableProvided.dragHandleProps}

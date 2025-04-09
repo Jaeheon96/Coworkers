@@ -1,3 +1,4 @@
+import Head from "next/head";
 import AddTaskListModal from "@/components/@shared/AddTaskListModal";
 import Chat from "@/components/PageComponents/team/Chat";
 import Members from "@/components/PageComponents/team/Members";
@@ -67,6 +68,9 @@ export default function Team() {
 
   return (
     <>
+      <Head>
+        <title>{`코워커스${group ? `: ${group.name}` : ""}`}</title>
+      </Head>
       <main className="mx-auto mt-[5.25rem] max-w-[75rem] [&&]:max-md:px-6 [&&]:max-sm:px-4">
         <div className="relative mb-6 flex h-16 w-full cursor-default justify-between rounded-xl border border-solid border-border-primary bg-background-secondary px-6 py-5 text-text-xl font-bold text-text-inverse">
           <p>{group?.name}</p>
