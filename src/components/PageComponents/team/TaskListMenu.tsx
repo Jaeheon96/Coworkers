@@ -47,8 +47,10 @@ export default function TaskListMenu({
     <>
       <Dropdown
         trigger={
-          <div className="relative h-4 w-4">
-            <Image fill src="/icons/icon-kebab.svg" alt="메뉴" />
+          <div className="flex h-10 w-10 items-center justify-end pr-2">
+            <div className="relative h-4 w-4">
+              <Image fill src="/icons/icon-kebab.svg" alt="메뉴" />
+            </div>
           </div>
         }
         menuClassName={menuClassName}

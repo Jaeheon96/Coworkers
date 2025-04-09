@@ -138,6 +138,7 @@ export default function Chat({ dataContext, isTasksPending = false }: Props) {
             type="button"
             disabled={chatMutation.isPending}
             onClick={handleStart}
+            name="AI 어시스턴트 시작"
           >
             시작하기
           </Button>
