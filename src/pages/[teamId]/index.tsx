@@ -10,6 +10,7 @@ import getTasks from "@/core/api/group/getTasks";
 import getTeamData from "@/core/api/group/getTeamData";
 import { useAuth } from "@/core/context/AuthProvider";
 import { Roles } from "@/core/types/member";
+import { COWORKERS_TITLE } from "@/lib/constants/sharedConstants";
 import useModalStore from "@/lib/hooks/stores/modalStore";
 import refineTasks from "@/lib/utils/refineTasks";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -69,7 +70,7 @@ export default function Team() {
   return (
     <>
       <Head>
-        <title>{`코워커스${group ? `: ${group.name}` : ""}`}</title>
+        <title>{`${COWORKERS_TITLE}${group ? ` - ${group.name}` : ""}`}</title>
       </Head>
       <main className="mx-auto mt-[5.25rem] max-w-[75rem] [&&]:max-md:px-6 [&&]:max-sm:px-4">
         <div className="relative mb-6 flex h-16 w-full cursor-default justify-between rounded-xl border border-solid border-border-primary bg-background-secondary px-6 py-5 text-text-xl font-bold text-text-inverse">

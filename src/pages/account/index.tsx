@@ -8,6 +8,7 @@ import { UpdateUserForm } from "@/core/dtos/user/auth";
 import useModalStore from "@/lib/hooks/stores/modalStore";
 import useImageUpload from "@/lib/hooks/useImageUpload";
 import { useMutation } from "@tanstack/react-query";
+import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
@@ -70,6 +71,9 @@ export default function Account() {
 
   return (
     <>
+      <Head>
+        <title>계정 설정</title>
+      </Head>
       <main className="mx-auto mt-[6.25rem] flex max-w-[49.5rem] flex-col gap-6 px-6 [&&]:max-md:mt-[5.25rem] [&&]:max-sm:px-4">
         <h1 className="text-text-xl font-bold text-text-primary">계정 설정</h1>
         <form className="flex w-full flex-col gap-6" onSubmit={handleSubmit}>
