@@ -11,6 +11,7 @@ import useModalStore from "@/lib/hooks/stores/modalStore";
 import useAuthFormErrors from "@/lib/hooks/useAuthFormErrors";
 import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
+import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -75,6 +76,9 @@ export default function Login() {
 
   return (
     <>
+      <Head>
+        <title>로그인</title>
+      </Head>
       <main className="mx-auto mt-[8.75rem] flex max-w-[28.75rem] flex-col items-center px-4 [&&]:max-md:mt-[6.25rem] [&&]:max-sm:mt-6">
         <h1 className="mb-20 text-text-4xl font-medium [&&]:max-md:text-2xl [&&]:max-sm:mb-6">
           로그인

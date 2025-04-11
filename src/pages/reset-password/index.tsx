@@ -5,6 +5,7 @@ import resetLostPassword from "@/core/api/user/resetLostPassword";
 import resetPassword from "@/core/api/user/resetPassword";
 import useAuthFormErrors from "@/lib/hooks/useAuthFormErrors";
 import { useMutation } from "@tanstack/react-query";
+import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { ChangeEvent, FormEvent, useState } from "react";
@@ -69,58 +70,63 @@ export default function ResetPassword() {
     !!errors.passwordConfirmation;
 
   return (
-    <main className="mx-auto mt-[8.75rem] flex max-w-[28.75rem] flex-col items-center px-4 [&&]:max-md:mt-[6.25rem] [&&]:max-sm:mt-6">
-      <h1 className="mb-20 text-text-4xl font-medium [&&]:max-md:text-2xl [&&]:max-sm:mb-6">
-        비밀번호 재설정
-      </h1>
-      <form className="flex w-full flex-col" onSubmit={handleSubmit}>
-        <InputLabel
-          label="새 비밀번호"
-          className="mb-12"
-          errorMessage={errors.password}
-        >
-          <PasswordInput
-            name="password"
-            value={resetForm.password}
-            isError={!!errors.password}
-            onChange={handleInputChange}
-            onBlur={handleValidation}
-            placeholder="비밀번호 (영문, 숫자 포함, 12자 이내)를 입력해주세요."
-          />
-        </InputLabel>
-        <InputLabel
-          label="비밀번호 확인"
-          className="mb-16"
-          errorMessage={errors.passwordConfirmation}
-        >
-          <PasswordInput
-            name="passwordConfirmation"
-            value={resetForm.passwordConfirmation}
-            isError={!!errors.passwordConfirmation}
-            onChange={handleInputChange}
-            onBlur={handleConfirmationBlur}
-            onFocus={handleConfirmationFocus}
-            placeholder="새 비밀번호를 다시 한번 입력해주세요."
-          />
-        </InputLabel>
-        <Button
-          variant="solid"
-          size="large"
-          type="submit"
-          className="mb-6"
-          disabled={isButtonDisabled}
-        >
-          {isRecoverPending || isResetPending ? (
-            <div className="flex w-full justify-center">
-              <div className="relative h-6 w-6 animate-spin">
-                <Image fill src="icons/icon-ongoing.svg" alt="처리중..." />
+    <>
+      <Head>
+        <title>비밀번호 재설정</title>
+      </Head>
+      <main className="mx-auto mt-[8.75rem] flex max-w-[28.75rem] flex-col items-center px-4 [&&]:max-md:mt-[6.25rem] [&&]:max-sm:mt-6">
+        <h1 className="mb-20 text-text-4xl font-medium [&&]:max-md:text-2xl [&&]:max-sm:mb-6">
+          비밀번호 재설정
+        </h1>
+        <form className="flex w-full flex-col" onSubmit={handleSubmit}>
+          <InputLabel
+            label="새 비밀번호"
+            className="mb-12"
+            errorMessage={errors.password}
+          >
+            <PasswordInput
+              name="password"
+              value={resetForm.password}
+              isError={!!errors.password}
+              onChange={handleInputChange}
+              onBlur={handleValidation}
+              placeholder="비밀번호 (영문, 숫자 포함, 12자 이내)를 입력해주세요."
+            />
+          </InputLabel>
+          <InputLabel
+            label="비밀번호 확인"
+            className="mb-16"
+            errorMessage={errors.passwordConfirmation}
+          >
+            <PasswordInput
+              name="passwordConfirmation"
+              value={resetForm.passwordConfirmation}
+              isError={!!errors.passwordConfirmation}
+              onChange={handleInputChange}
+              onBlur={handleConfirmationBlur}
+              onFocus={handleConfirmationFocus}
+              placeholder="새 비밀번호를 다시 한번 입력해주세요."
+            />
+          </InputLabel>
+          <Button
+            variant="solid"
+            size="large"
+            type="submit"
+            className="mb-6"
+            disabled={isButtonDisabled}
+          >
+            {isRecoverPending || isResetPending ? (
+              <div className="flex w-full justify-center">
+                <div className="relative h-6 w-6 animate-spin">
+                  <Image fill src="icons/icon-ongoing.svg" alt="처리중..." />
+                </div>
               </div>
-            </div>
-          ) : (
-            "재설정"
-          )}
-        </Button>
-      </form>
-    </main>
+            ) : (
+              "재설정"
+            )}
+          </Button>
+        </form>
+      </main>
+    </>
   );
 }
