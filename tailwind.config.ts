@@ -4,6 +4,7 @@ import forms from "@tailwindcss/forms";
 import typography from "@tailwindcss/typography";
 import aspectRatio from "@tailwindcss/aspect-ratio";
 import lineClamp from "@tailwindcss/line-clamp";
+import { fontFamily } from "tailwindcss/defaultTheme";
 
 const config: Config = {
   content: [
@@ -71,6 +72,10 @@ const config: Config = {
 
       backgroundImage: {
         "brand-gradient": "linear-gradient(to right, #10B981, #A3E635)",
+      },
+
+      fontFamily: {
+        pretendard: ["Pretendard", ...fontFamily.sans],
       },
 
       fontSize: {
