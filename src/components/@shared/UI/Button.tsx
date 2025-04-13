@@ -50,7 +50,7 @@ export default function Button({
       className={twMerge(
         clsx(
           /* 기본 버튼 스타일 */
-          "flex items-center justify-center gap-2.5 rounded-xl text-center font-[Pretendard] font-semibold transition-all duration-200",
+          "flex items-center justify-center gap-2.5 rounded-xl text-center font-semibold transition-all duration-200",
           /* Size 스타일 */
           isLarge && "h-12 w-full text-base leading-[19px]",
           isXSmall && "h-8 w-auto min-w-[80px] text-sm leading-[17px]",

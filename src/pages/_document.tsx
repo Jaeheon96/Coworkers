@@ -11,7 +11,7 @@ export default function Document() {
         ></script>
         <script src="https://developers.kakao.com/sdk/js/kakao.js"></script> */}
       </Head>
-      <body className="bg-background-primary font-[pretendard] text-text-primary antialiased">
+      <body className="font-pretendard bg-background-primary text-text-primary antialiased">
         <Main />
         <NextScript />
       </body>

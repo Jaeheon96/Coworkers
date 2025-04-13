@@ -44,7 +44,7 @@ export default function FloatingButton({
       className={twMerge(
         clsx(
           // 공통 스타일
-          "inline-flex items-center justify-center rounded-[40px] px-5 font-[Pretendard] font-semibold shadow-xl",
+          "inline-flex items-center justify-center rounded-[40px] px-5 font-semibold shadow-xl",
           "transition-all duration-200",
           // 사이즈별 스타일
           isLarge && "h-12 text-base leading-[19px]",
