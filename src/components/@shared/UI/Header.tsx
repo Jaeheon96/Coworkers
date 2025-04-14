@@ -62,6 +62,7 @@ export default function Header() {
                         fill
                         src="/icons/icon-arrow_down.svg"
                         alt="펼치기"
+                        priority
                       />
                     </div>
                   </div>
@@ -82,6 +83,7 @@ export default function Header() {
                             }
                             className="rounded-md"
                             alt="팀"
+                            priority
                           />
                         </div>
                         <p className="truncate">{team.group.name}</p>
