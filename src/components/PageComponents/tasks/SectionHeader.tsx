@@ -1,7 +1,7 @@
 import AddTaskListModal from "@/components/@shared/AddTaskListModal";
 import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-import TaskDate from "./TaskDate";
+import dynamic from "next/dynamic";
 
 export interface SectionHeaderProps {
   teamId: string;
@@ -20,11 +20,13 @@ export default function SectionHeader({
     queryClient.invalidateQueries({ queryKey: ["group", teamId] });
   };
 
+  const DynamicTaskDate = dynamic(() => import("./TaskDate"));
+
   return (
     <>
       <h1 className="text-text-xl font-bold text-text-primary">할 일</h1>
       <div className="my-6 flex items-center justify-between">
-        <TaskDate
+        <DynamicTaskDate
           selectedDate={selectedDate}
           setSelectedDate={setSelectedDate}
         />
