@@ -1,17 +1,16 @@
 import { Task } from "@/core/dtos/tasks/tasks";
-import { lazy, Suspense, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/router";
 import FloatingButton from "@/components/@shared/UI/FloatingButton";
-import TaskLists from "@/components/PageComponents/tasks/TaskLists";
 import TaskCardList from "@/components/PageComponents/tasks/TaskCardList";
 import useModalStore from "@/lib/hooks/stores/modalStore";
-// import AddTaskModal from "@/components/PageComponents/tasks/AddTaskModal";
 import EditTaskModal from "@/components/PageComponents/tasks/EditTaskModal";
 import SectionHeader from "@/components/PageComponents/tasks/SectionHeader";
 import DeleteTaskModal from "@/components/PageComponents/tasks/DeleteTaskModal";
 import { AnimatePresence } from "framer-motion";
 import TaskDetail from "@/components/PageComponents/tasks/TaskDetail";
 import { useAuth } from "@/core/context/AuthProvider";
+import dynamic from "next/dynamic";
 
 export default function Tasks() {
   const router = useRouter();
@@ -57,8 +56,12 @@ export default function Tasks() {
     closeTaskDetail();
   };
 
-  const LazyAddTaskModal = lazy(
+  const DynamicAddTaskModal = dynamic(
     () => import("@/components/PageComponents/tasks/AddTaskModal"),
+  );
+
+  const DynamicTaskLists = dynamic(
+    () => import("@/components/PageComponents/tasks/TaskLists"),
   );
 
   if (!user) return null;
@@ -73,7 +76,7 @@ export default function Tasks() {
         />
       </section>
       <section>
-        <TaskLists
+        <DynamicTaskLists
           teamId={teamId}
           selectedTaskListId={selectedTaskListId}
           onTaskListClick={handleTaskListClick}
@@ -93,12 +96,10 @@ export default function Tasks() {
       >
         + 할 일 추가
       </FloatingButton>
-      <Suspense fallback={<p>로딩중...</p>}>
-        <LazyAddTaskModal
-          teamId={teamId}
-          selectedTaskListId={selectedTaskListId}
-        />
-      </Suspense>
+      <DynamicAddTaskModal
+        teamId={teamId}
+        selectedTaskListId={selectedTaskListId}
+      />
       {selectedTaskItem && (
         <EditTaskModal
           taskToEdit={selectedTaskItem}
