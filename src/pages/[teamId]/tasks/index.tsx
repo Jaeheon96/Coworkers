@@ -7,8 +7,6 @@ import useModalStore from "@/lib/hooks/stores/modalStore";
 import EditTaskModal from "@/components/PageComponents/tasks/EditTaskModal";
 import SectionHeader from "@/components/PageComponents/tasks/SectionHeader";
 import DeleteTaskModal from "@/components/PageComponents/tasks/DeleteTaskModal";
-import { AnimatePresence } from "framer-motion";
-import TaskDetail from "@/components/PageComponents/tasks/TaskDetail";
 import { useAuth } from "@/core/context/AuthProvider";
 import dynamic from "next/dynamic";
 
@@ -64,6 +62,14 @@ export default function Tasks() {
     () => import("@/components/PageComponents/tasks/TaskLists"),
   );
 
+  const DynamicAnimatePresence = dynamic(() =>
+    import("framer-motion").then((mod) => mod.AnimatePresence),
+  );
+
+  const DynamicTaskDetail = dynamic(
+    () => import("@/components/PageComponents/tasks/TaskDetail"),
+  );
+
   if (!user) return null;
 
   return (
@@ -107,9 +113,9 @@ export default function Tasks() {
         />
       )}
       {selectedTaskItem && <DeleteTaskModal taskItem={selectedTaskItem} />}
-      <AnimatePresence>
+      <DynamicAnimatePresence>
         {selectedTaskItem && (
-          <TaskDetail
+          <DynamicTaskDetail
             selectedDate={selectedDate}
             taskItem={selectedTaskItem}
             setSelectedTaskItem={setSelectedTaskItem}
@@ -118,7 +124,7 @@ export default function Tasks() {
             openDeleteTaskModal={() => openDeleteTaskModal(selectedTaskItem)}
           />
         )}
-      </AnimatePresence>
+      </DynamicAnimatePresence>
     </div>
   );
 }
