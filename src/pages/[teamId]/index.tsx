@@ -35,7 +35,7 @@ export default function Team() {
   const openModal = useModalStore((state) => state.openModal);
   const closeModal = useModalStore((state) => state.closeModal);
 
-  const { query, isReady, replace } = useRouter();
+  const { query, isReady, replace, prefetch } = useRouter();
   const teamId = query.teamId as string;
   const queryClient = useQueryClient();
 
@@ -62,6 +62,10 @@ export default function Team() {
   const chatData = tasks ? refineTasks(tasks) : "";
   const isAdmin =
     user?.id === group?.members.find((e) => e.role === Roles.ADMIN)?.userId;
+
+  useEffect(() => {
+    prefetch(`${teamId}/tasks`);
+  }, [teamId]);
 
   useEffect(() => {
     if (!isPending && !group) replace("/wrongteam");
