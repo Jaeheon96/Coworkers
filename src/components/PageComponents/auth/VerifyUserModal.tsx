@@ -83,7 +83,7 @@ export default function VerifyUserModal({ isOpen, onClose }: Props) {
             isError={!!errorMessage}
             placeholder="비밀번호를 입력해주세요."
           />
-          <span className="absolute bottom-[-1.5625rem] text-text-md font-medium text-status-danger [&&]:max-sm:bottom-[-1.8125rem]">
+          <span className="-bottom-6.25 [&&]:max-sm:-bottom-7.25 absolute text-text-md font-medium text-status-danger">
             {errorMessage}
           </span>
         </div>

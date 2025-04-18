@@ -74,7 +74,7 @@ export default function ResetPassword() {
       <Head>
         <title>비밀번호 재설정</title>
       </Head>
-      <main className="mx-auto mt-[8.75rem] flex max-w-[28.75rem] flex-col items-center px-4 [&&]:max-md:mt-[6.25rem] [&&]:max-sm:mt-6">
+      <main className="max-w-115 [&&]:max-md:mt-25 mt-35 mx-auto flex flex-col items-center px-4 [&&]:max-sm:mt-6">
         <h1 className="mb-20 text-text-4xl font-medium [&&]:max-md:text-2xl [&&]:max-sm:mb-6">
           비밀번호 재설정
         </h1>

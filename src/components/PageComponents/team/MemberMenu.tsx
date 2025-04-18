@@ -28,7 +28,7 @@ export default function MemberMenu({ image, name, email }: Props) {
             <Image fill src="/icons/icon-kebab.svg" alt="메뉴" />
           </div>
         }
-        menuClassName="flex flex-col text-text-primary font-regular text-text-md w-[7.5rem] bg-background-secondary border border-solid border-border-primary right-0 top-6"
+        menuClassName="flex flex-col text-text-primary font-regular text-text-md w-30 bg-background-secondary border border-solid border-border-primary right-0 top-6"
       >
         <DropdownItem
           onClick={() => openModal(profileModalName)}

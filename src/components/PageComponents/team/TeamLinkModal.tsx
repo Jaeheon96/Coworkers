@@ -78,7 +78,7 @@ export default function TeamLinkModal({ isOpen, onClose, team }: Props) {
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} isCloseButton>
-      <div className="flex w-[22rem] flex-col gap-10 px-9">
+      <div className="w-88 flex flex-col gap-10 px-9">
         <div className="flex w-full flex-col gap-2">
           <h3 className="text-center text-text-lg font-medium text-text-primary">
             멤버 초대

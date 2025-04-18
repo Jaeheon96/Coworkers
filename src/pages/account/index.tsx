@@ -74,7 +74,7 @@ export default function Account() {
       <Head>
         <title>계정 설정</title>
       </Head>
-      <main className="mx-auto mt-[6.25rem] flex max-w-[49.5rem] flex-col gap-6 px-6 [&&]:max-md:mt-[5.25rem] [&&]:max-sm:px-4">
+      <main className="[&&]:max-md:mt-21 mt-25 mx-auto flex max-w-[49.5rem] flex-col gap-6 px-6 [&&]:max-sm:px-4">
         <h1 className="text-text-xl font-bold text-text-primary">계정 설정</h1>
         <form className="flex w-full flex-col gap-6" onSubmit={handleSubmit}>
           <ProfileImagePreview
@@ -111,7 +111,7 @@ export default function Account() {
               />
               <Link href="/reset-password">
                 <Button
-                  className="absolute right-4 top-2 h-8 w-[4.625rem] text-sm font-semibold text-white [&&]:max-sm:top-1.5"
+                  className="w-18.5 absolute right-4 top-2 h-8 text-sm font-semibold text-white [&&]:max-sm:top-1.5"
                   variant="solid"
                   size="large"
                 >
@@ -135,7 +135,7 @@ export default function Account() {
               </span>
             </span>
             <Button
-              className="h-8 w-[4.625rem] text-sm font-semibold text-white"
+              className="w-18.5 h-8 text-sm font-semibold text-white"
               variant="solid"
               size="large"
               type="submit"

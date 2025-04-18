@@ -36,7 +36,7 @@ export default function FrequencyDropdown({
     <Dropdown
       menuClassName="w-28 left-0 top-12 border border-border-primary bg-background-secondary"
       trigger={
-        <div className="flex h-[2.75rem] w-[6.81rem] items-center justify-between rounded-xl bg-[#18212F] px-3 py-3 text-text-md">
+        <div className="bg-background-quaternary flex h-11 w-[6.81rem] items-center justify-between rounded-xl px-3 py-3 text-text-md">
           <span
             className={
               selectedOption ? "text-text-primary" : "text-text-default"

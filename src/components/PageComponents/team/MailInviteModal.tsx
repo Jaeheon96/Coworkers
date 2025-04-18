@@ -82,10 +82,7 @@ export default function MailInviteModal({ isOpen, onClose, team }: Props) {
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} isCloseButton>
-      <form
-        className="flex w-[22rem] flex-col gap-6 px-9"
-        onSubmit={handleSubmit}
-      >
+      <form className="w-88 flex flex-col gap-6 px-9" onSubmit={handleSubmit}>
         <div className="flex w-full flex-col gap-4">
           <h3 className="text-center text-text-lg font-medium text-text-primary">
             이메일로 초대 보내기

@@ -121,7 +121,6 @@ export default function TaskLists({ tasks, teamId, isPending = false }: Props) {
                       <Link
                         href={`${teamId}/tasks?tasklist=${task.id}`}
                         className="flex h-full items-center px-3 hover:underline"
-                        prefetch={false}
                       >
                         {task.name}
                       </Link>

@@ -125,7 +125,7 @@ export default function AddTaskModal({
 
   return (
     <Modal isOpen={isOpen} onClose={closeAddTaskModal} isCloseButton>
-      <div className="h-auto w-[24rem] px-6 py-8">
+      <div className="h-auto w-96 px-6 py-8">
         <h2 className="text-center text-text-lg text-text-primary">
           할 일 만들기
         </h2>
@@ -143,7 +143,7 @@ export default function AddTaskModal({
               type="text"
               value={taskData.name}
               onChange={handleInputChange}
-              className="w-[21rem]"
+              className="w-84"
               placeholder="할 일 제목을 입력해주세요. 30자 이하"
               isValid={taskData.name.length <= 30}
               errorMessage="30자 이하로 입력해주세요"
@@ -154,7 +154,7 @@ export default function AddTaskModal({
             label="시작 날짜 및 시간"
           >
             <DatePicker
-              className="h-12 w-[21rem] rounded-xl [&&]:border-border-primary [&&]:bg-background-secondary [&&]:text-text-primary [&&]:placeholder:text-text-default [&&]:hover:border-interaction-hover [&&]:focus:border-interaction-hover [&&]:focus:outline-none [&&]:focus:ring-0"
+              className="w-84 h-12 rounded-xl [&&]:border-border-primary [&&]:bg-background-secondary [&&]:text-text-primary [&&]:placeholder:text-text-default [&&]:hover:border-interaction-hover [&&]:focus:border-interaction-hover [&&]:focus:outline-none [&&]:focus:ring-0"
               onChange={handleDateChange}
               selected={new Date(taskData.startDate)}
               showTimeSelect

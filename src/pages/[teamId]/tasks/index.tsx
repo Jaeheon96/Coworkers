@@ -73,7 +73,7 @@ export default function Tasks() {
   if (!user) return null;
 
   return (
-    <div className="mx-auto h-auto max-w-[75rem] px-6 pb-24 pt-10">
+    <div className="max-w-300 mx-auto h-auto px-6 pb-24 pt-10">
       <section>
         <SectionHeader
           teamId={teamId}

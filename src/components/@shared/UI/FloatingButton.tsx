@@ -47,8 +47,8 @@ export default function FloatingButton({
           "inline-flex items-center justify-center rounded-[40px] px-5 font-semibold shadow-xl",
           "transition-all duration-200",
           // 사이즈별 스타일
-          isLarge && "h-12 text-base leading-[19px]",
-          isMedium && "h-10 text-sm leading-[17px]",
+          isLarge && "leading-lg h-12 text-base",
+          isMedium && "leading-md h-10 text-sm",
           // Solid 스타일
           isSolid &&
             !isDisabled &&

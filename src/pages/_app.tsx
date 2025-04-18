@@ -14,29 +14,8 @@ import { useState } from "react";
 import { AuthProvider } from "@/core/context/AuthProvider";
 import type { AppProps } from "next/app";
 import { ToastContainer } from "react-toastify";
-
-// import SetupHeader from "@/components/@shared/UI/SetupHeader";
-// import AuthHeader from "@/components/@shared/UI/AuthHeader";
 import Header from "@/components/@shared/UI/Header";
 
-// function HeaderWrapper({ headerType }: { headerType?: string }) {
-//   const { user, isPending } = useAuth();
-//   const [isAuthHeaderVisible, setIsAuthHeaderVisible] = useState(false);
-
-//   useEffect(() => {
-//     if (user && !isPending) {
-//       setIsAuthHeaderVisible(true);
-//     } else {
-//       setIsAuthHeaderVisible(false);
-//     }
-//   }, [user, isPending]);
-
-//   if (headerType === "setup") {
-//     return <SetupHeader />;
-//   }
-
-//   return isAuthHeaderVisible ? <AuthHeader /> : <SetupHeader />;
-// }
 export default function App({
   Component,
   pageProps: { session, ...pageProps },
@@ -67,7 +46,7 @@ export default function App({
           theme="dark"
           closeOnClick
         />
-        <div className="pt-[60px]">
+        <div className="pt-15">
           <Component {...pageProps} />
         </div>
         <ReactQueryDevtools initialIsOpen={false} />
