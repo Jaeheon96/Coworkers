@@ -36,6 +36,7 @@ const config: Config = {
           primary: "#0F172A",
           secondary: "#1E293B",
           tertiary: "#334155",
+          quaternary: "#18212F",
           inverse: "#FFFFFF",
         },
         // 상호작용 색상
@@ -68,6 +69,31 @@ const config: Config = {
           inverse: "#F8FAFC",
           brand: "#10B981",
         },
+      },
+
+      lineHeight: {
+        md: "1.0625rem",
+        lg: "1.1875rem",
+      },
+
+      spacing: {
+        "6.25": "1.5625rem",
+        "7.25": "1.8125rem",
+        "10.5": "2.625rem",
+        "13": "3.25rem",
+        "15": "3.75rem",
+        "18.5": "4.625rem",
+        "21": "5.25rem",
+        "25": "6.25rem",
+        "30": "7.5rem",
+        "33": "8.25rem",
+        "35": "8.75rem",
+        "68": "17rem",
+        "84": "21rem",
+        "88": "22rem",
+        "115": "28.75rem",
+        "123": "30.75rem",
+        "300": "75rem",
       },
 
       backgroundImage: {

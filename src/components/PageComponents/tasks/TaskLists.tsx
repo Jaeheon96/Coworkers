@@ -42,7 +42,7 @@ export default function TaskLists({
 
   if (taskLists?.length === 0) {
     return (
-      <div className="pt-[17rem] text-center text-text-md font-medium text-text-default sm:pt-[11rem] md:pt-[14rem]">
+      <div className="pt-68 text-center text-text-md font-medium text-text-default md:pt-56 sm:pt-44">
         <p>아직 할 일 목록이 없습니다.</p>
         <p>새로운 목록을 추가해보세요.</p>
       </div>
@@ -71,7 +71,7 @@ export default function TaskLists({
           <SwiperSlide key={taskList.id}>
             <div
               onClick={() => onTaskListClick(taskList.id)}
-              className={`max-w-[8rem] truncate text-center text-text-lg font-medium ${selectedTaskListId === taskList.id ? "text-text-tertiary underline" : "text-text-default"}`}
+              className={`max-w-32 truncate text-center text-text-lg font-medium ${selectedTaskListId === taskList.id ? "text-text-tertiary underline" : "text-text-default"}`}
             >
               <Link href={`/${teamId}/tasks?tasklist=${taskList.id}`}>
                 {taskList.name}

@@ -33,7 +33,7 @@ input::-webkit-outer-spin-button {
 
 .swiper-button-prev:after,
 .swiper-button-next:after {
-  @apply text-[20px] !important;
+  @apply text-xl !important;
 }
 
 .swiper-button-prev,

@@ -61,7 +61,7 @@ export default function ResetPasswordModal({ isOpen, onClose }: Props) {
   if (isMailSent)
     return (
       <Modal isOpen={isOpen} onClose={onClose}>
-        <div className="flex w-[22rem] flex-col gap-10 px-9">
+        <div className="w-88 flex flex-col gap-10 px-9">
           <p className="text-center font-medium">메일을 발송했습니다.</p>
           <Button variant="solid" size="large" onClick={onClose}>
             확인
@@ -72,10 +72,7 @@ export default function ResetPasswordModal({ isOpen, onClose }: Props) {
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} isCloseButton>
-      <form
-        className="flex w-[22rem] flex-col gap-10 px-9"
-        onSubmit={handleSubmit}
-      >
+      <form className="w-88 flex flex-col gap-10 px-9" onSubmit={handleSubmit}>
         <div className="relative flex w-full flex-col gap-4">
           <h3 className="text-center text-text-lg font-medium text-text-primary">
             비밀번호 재설정
@@ -86,7 +83,7 @@ export default function ResetPasswordModal({ isOpen, onClose }: Props) {
             isError={!!errorMessage}
             placeholder="이메일을 입력해주세요."
           />
-          <span className="absolute bottom-[-1.5625rem] text-text-md font-medium text-status-danger [&&]:max-sm:bottom-[-1.8125rem]">
+          <span className="-bottom-6.25 [&&]:max-sm:-bottom-7.25 absolute text-text-md font-medium text-status-danger">
             {errorMessage}
           </span>
         </div>

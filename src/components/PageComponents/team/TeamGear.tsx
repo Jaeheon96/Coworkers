@@ -62,7 +62,7 @@ export default function TeamGear({
             <Image fill src="/icons/icon-gear.svg" alt="팀 설정" />
           </div>
         }
-        menuClassName="flex flex-col text-text-primary font-regular text-text-md w-[7.5rem] bg-background-secondary border border-solid border-border-primary right-0 top-8"
+        menuClassName="flex flex-col text-text-primary font-regular text-text-md w-30 bg-background-secondary border border-solid border-border-primary right-0 top-8"
       >
         {isAdmin ? (
           <>

@@ -33,7 +33,7 @@ export default function FrequencyWeekly({
       <ul className="flex items-center justify-between">
         {dayOptions.map((dayOption) => (
           <li
-            className={`flex h-12 w-[2.75rem] items-center justify-center rounded-xl ${selectedWeekDays.includes(dayOption.value) ? "bg-brand-primary" : "bg-[#18212F]"}`}
+            className={`flex h-12 w-11 items-center justify-center rounded-xl ${selectedWeekDays.includes(dayOption.value) ? "bg-brand-primary" : "bg-background-quaternary"}`}
             key={dayOption.label}
             onClick={() => handleDayClick(dayOption.value)}
           >

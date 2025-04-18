@@ -90,7 +90,7 @@ export default function Signup() {
       <Head>
         <title>회원가입</title>
       </Head>
-      <main className="mx-auto mb-10 mt-[8.75rem] flex max-w-[28.75rem] flex-col items-center px-4 [&&]:max-md:mt-[6.25rem] [&&]:max-sm:mt-6">
+      <main className="max-w-115 [&&]:max-md:mt-25 mt-35 mx-auto mb-10 flex flex-col items-center px-4 [&&]:max-sm:mt-6">
         <h1 className="mb-20 text-text-4xl font-medium [&&]:max-md:text-2xl [&&]:max-sm:mb-6">
           회원가입
         </h1>
@@ -192,7 +192,7 @@ export default function Signup() {
               간편 회원가입하기
             </span>
             <div className="flex gap-4">
-              <div className="relative h-[2.625rem] w-[2.625rem] cursor-pointer">
+              <div className="h-10.5 w-10.5 relative cursor-pointer">
                 <Image fill src="/images/image-kakaotalk.png" alt="카카오톡" />
               </div>
             </div>

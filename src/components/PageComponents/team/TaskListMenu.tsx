@@ -41,7 +41,7 @@ export default function TaskListMenu({
     queryClient.invalidateQueries({ queryKey: ["group", teamId] });
   };
 
-  const menuClassName = `flex flex-col text-text-primary font-regular text-text-md w-[7.5rem] bg-background-secondary border border-solid border-border-primary ${isAtBottom ? "right-0 bottom-6" : "right-0 top-6"}`;
+  const menuClassName = `flex flex-col text-text-primary font-regular text-text-md w-30 bg-background-secondary border border-solid border-border-primary ${isAtBottom ? "right-0 bottom-6" : "right-0 top-6"}`;
 
   return (
     <>

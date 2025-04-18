@@ -79,7 +79,7 @@ export default function Login() {
       <Head>
         <title>로그인</title>
       </Head>
-      <main className="mx-auto mt-[8.75rem] flex max-w-[28.75rem] flex-col items-center px-4 [&&]:max-md:mt-[6.25rem] [&&]:max-sm:mt-6">
+      <main className="max-w-115 [&&]:max-md:mt-25 mt-35 mx-auto flex flex-col items-center px-4 [&&]:max-sm:mt-6">
         <h1 className="mb-20 text-text-4xl font-medium [&&]:max-md:text-2xl [&&]:max-sm:mb-6">
           로그인
         </h1>
@@ -114,7 +114,7 @@ export default function Login() {
           </InputLabel>
           <div className="mb-10 text-right">
             <span
-              className="cursor-pointer text-base font-medium text-brand-primary underline underline-offset-2 [&&]:max-sm:text-[0.875rem]"
+              className="cursor-pointer text-base font-medium text-brand-primary underline underline-offset-2 [&&]:max-sm:text-sm [&&]:max-sm:leading-6"
               onClick={() => {
                 openModal(resetPasswordModalName);
               }}
@@ -162,7 +162,7 @@ export default function Login() {
               간편 로그인하기
             </span>
             <div className="flex gap-4">
-              <div className="relative h-[2.625rem] w-[2.625rem] cursor-pointer">
+              <div className="h-10.5 w-10.5 relative cursor-pointer">
                 <Image fill src="/images/image-kakaotalk.png" alt="카카오톡" />
               </div>
             </div>

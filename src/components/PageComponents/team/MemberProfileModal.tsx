@@ -29,7 +29,7 @@ export default function MemberProfileModal({
   return (
     <Modal isOpen={isOpen} onClose={onClose} isCloseButton>
       <div className="mx-4 flex w-[17.5rem] flex-col items-center gap-6">
-        <div className="relative h-[3.25rem] w-[3.25rem]">
+        <div className="h-13 w-13 relative">
           <Image
             fill
             src={image ?? "/icons/icon-default_profile.svg"}

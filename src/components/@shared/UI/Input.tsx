@@ -19,7 +19,7 @@ export default function Input({
   ...props
 }: InputProps) {
   const inputClasses = twMerge(
-    `h-[48px] w-[460px] rounded-xl [&&]:border-border-primary [&&]:border-opacity-10 [&&]:bg-background-secondary p-4 [&&]:placeholder:text-text-default [&&]:hover:border-interaction-hover [&&]:focus:border-interaction-hover [&&]:focus:outline-none [&&]:focus:ring-0 
+    `h-12 w-115 rounded-xl [&&]:border-border-primary [&&]:border-opacity-10 [&&]:bg-background-secondary p-4 [&&]:placeholder:text-text-default [&&]:hover:border-interaction-hover [&&]:focus:border-interaction-hover [&&]:focus:outline-none [&&]:focus:ring-0 
     ${isValid ? "[&&]:border-border-primary" : "[&&]:border-status-danger [&&]:focus:border-status-danger"}`,
     className,
   );

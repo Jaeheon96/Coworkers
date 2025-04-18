@@ -17,8 +17,8 @@ export default function Header() {
 
   return (
     <>
-      <header className="fixed top-0 z-30 flex h-[3.75rem] w-full justify-center border-b border-border-primary bg-background-secondary px-6 [&&]:max-sm:px-4">
-        <div className="flex h-full w-[75rem] items-center justify-between">
+      <header className="h-15 fixed top-0 z-30 flex w-full justify-center border-b border-border-primary bg-background-secondary px-6 [&&]:max-sm:px-4">
+        <div className="w-300 flex h-full items-center justify-between">
           <div className="flex items-center gap-10">
             <div className="flex items-center gap-4">
               <div
@@ -37,7 +37,7 @@ export default function Header() {
                       priority
                     />
                   </div>
-                  <div className="relative h-8 w-[8.25rem] [&&]:max-md:h-5 [&&]:max-md:w-[5.25rem]">
+                  <div className="[&&]:max-md:w-21 w-33 relative h-8 [&&]:max-md:h-5">
                     <Image
                       fill
                       src="/icons/icon-title.svg"
@@ -134,7 +134,7 @@ export default function Header() {
                   </p>
                 </div>
               }
-              menuClassName="border border-solid border-border-primary right-0 top-8 bg-background-secondary flex flex-col text-text-lg font-regular w-[8.5rem] [&&]:max-sm:text-text-md [&&]:max-sm:w-[7.5rem]"
+              menuClassName="border border-solid border-border-primary right-0 top-8 bg-background-secondary flex flex-col text-text-lg font-regular w-[8.5rem] [&&]:max-sm:text-text-md [&&]:max-sm:w-30"
               closeOnClick
             >
               <Link href="myhistory">

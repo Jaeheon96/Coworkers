@@ -35,7 +35,7 @@ export default function Team() {
   const openModal = useModalStore((state) => state.openModal);
   const closeModal = useModalStore((state) => state.closeModal);
 
-  const { query, isReady, replace, prefetch } = useRouter();
+  const { query, isReady, replace } = useRouter();
   const teamId = query.teamId as string;
   const queryClient = useQueryClient();
 
@@ -64,10 +64,6 @@ export default function Team() {
     user?.id === group?.members.find((e) => e.role === Roles.ADMIN)?.userId;
 
   useEffect(() => {
-    prefetch(`${teamId}/tasks`);
-  }, [teamId]);
-
-  useEffect(() => {
     if (!isPending && !group) replace("/wrongteam");
   }, [isPending, group]);
 
@@ -80,7 +76,7 @@ export default function Team() {
           content={`코워커스${group ? ` ${group.name}` : null}`}
         />
       </Head>
-      <main className="mx-auto mt-[5.25rem] max-w-[75rem] [&&]:max-md:px-6 [&&]:max-sm:px-4">
+      <main className="mt-21 max-w-300 mx-auto [&&]:max-md:px-6 [&&]:max-sm:px-4">
         <div className="relative mb-6 flex h-16 w-full cursor-default justify-between rounded-xl border border-solid border-border-primary bg-background-secondary px-6 py-5 text-text-xl font-bold text-text-inverse">
           <p>{group?.name}</p>
           <TeamGear

@@ -8,7 +8,7 @@ export default function Addteam() {
   if (!user) return null;
 
   return (
-    <div className="mx-auto mt-52 max-w-[30.75rem] px-4">
+    <div className="max-w-123 mx-auto mt-52 px-4">
       <Head>
         <title>팀 만들기</title>
       </Head>

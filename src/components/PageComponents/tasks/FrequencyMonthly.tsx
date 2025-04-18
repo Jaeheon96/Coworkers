@@ -22,7 +22,7 @@ export default function FrequencyMonthly({
         type="number"
         value={selectedMonthDay}
         onChange={handleInputChange}
-        className="w-[21rem]"
+        className="w-84"
         placeholder="반복 일자를 입력해주세요."
       />
     </InputLabel>

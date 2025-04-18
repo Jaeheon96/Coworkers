@@ -90,7 +90,7 @@ export default function EditTaskModal({
 
   return (
     <Modal isOpen={isOpen} onClose={() => closeEditModal()} isCloseButton>
-      <div className="h-auto w-[24rem] px-6 py-8">
+      <div className="h-auto w-96 px-6 py-8">
         <h2 className="text-center text-text-lg text-text-primary">
           할 일 수정하기
         </h2>
@@ -108,7 +108,7 @@ export default function EditTaskModal({
               type="text"
               value={taskData.name}
               onChange={handleInputChange}
-              className="w-[21rem]"
+              className="w-84"
               placeholder="할 일 제목을 입력해주세요. 30자 이하"
               isValid={(taskData.name?.length ?? 0) <= 30}
               errorMessage="30자 이하로 입력해주세요"

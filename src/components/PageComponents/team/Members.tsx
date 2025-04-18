@@ -11,7 +11,7 @@ export default function Members({ members }: Props) {
     <div className="[&&]:grid [&&]:grid-cols-3 [&&]:gap-6 [&&]:md:grid-cols-2 [&&]:sm:grid-cols-1 [&&]:sm:gap-4">
       {members.map((member) => (
         <div
-          className="h-[4.625rem] cursor-default rounded-2xl bg-background-secondary px-6 py-5"
+          className="h-18.5 cursor-default rounded-2xl bg-background-secondary px-6 py-5"
           key={member.userId}
         >
           <div className="flex h-full w-full items-center justify-between">

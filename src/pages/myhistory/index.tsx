@@ -51,7 +51,7 @@ export default function Myhistory() {
 
   if (isError) {
     return (
-      <div className="mx-auto flex h-screen max-w-[75rem] flex-col px-6 pb-24 pt-10 font-medium">
+      <div className="max-w-300 mx-auto flex h-screen flex-col px-6 pb-24 pt-10 font-medium">
         <h1 className="text-text-xl font-bold text-text-primary">
           마이 히스토리
         </h1>
@@ -69,7 +69,7 @@ export default function Myhistory() {
 
   if (allHistory.length === 0) {
     return (
-      <div className="mx-auto flex h-screen max-w-[75rem] flex-col px-6 pb-24 pt-10 font-medium">
+      <div className="max-w-300 mx-auto flex h-screen flex-col px-6 pb-24 pt-10 font-medium">
         <h1 className="text-text-xl font-bold text-text-primary">
           마이 히스토리
         </h1>
@@ -81,7 +81,7 @@ export default function Myhistory() {
   }
 
   return (
-    <div className="mx-auto h-auto max-w-[75rem] px-6 pb-24 pt-10">
+    <div className="max-w-300 mx-auto h-auto px-6 pb-24 pt-10">
       <h1 className="text-text-xl font-bold text-text-primary">
         마이 히스토리
       </h1>
@@ -95,7 +95,7 @@ export default function Myhistory() {
                 .map((taskDone) => (
                   <li
                     key={taskDone.id}
-                    className="flex min-h-[2.75rem] items-center gap-2 rounded-xl bg-background-secondary px-4 py-2.5"
+                    className="flex min-h-11 items-center gap-2 rounded-xl bg-background-secondary px-4 py-2.5"
                   >
                     <Image
                       src="/icons/icon-faCheck.svg"
