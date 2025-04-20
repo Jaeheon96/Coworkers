@@ -1,5 +1,5 @@
 import useClickOutside from "@/lib/hooks/useClickOutSide";
-import { ReactNode, useState } from "react";
+import { ButtonHTMLAttributes, ReactNode, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
 interface DropdownProps {
@@ -8,6 +8,7 @@ interface DropdownProps {
   menuClassName?: string;
   disabled?: boolean;
   closeOnClick?: boolean;
+  buttonProps?: ButtonHTMLAttributes<HTMLButtonElement>;
 }
 
 export default function Dropdown({
@@ -16,6 +17,7 @@ export default function Dropdown({
   menuClassName,
   disabled = false,
   closeOnClick,
+  buttonProps,
 }: DropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -41,7 +43,12 @@ export default function Dropdown({
       className="relative flex items-center"
       onClick={handleBoxClick}
     >
-      <button type="button" onClick={toggleDropdown} disabled={disabled}>
+      <button
+        type="button"
+        onClick={toggleDropdown}
+        disabled={disabled}
+        {...buttonProps}
+      >
         {trigger}
       </button>
       {isOpen && <ul className={menuClassCombined}>{children}</ul>}
