@@ -17,8 +17,8 @@ export default function Header() {
 
   return (
     <>
-      <header className="h-15 fixed top-0 z-30 flex w-full justify-center border-b border-border-primary bg-background-secondary px-6 [&&]:max-sm:px-4">
-        <div className="w-300 flex h-full items-center justify-between">
+      <header className="fixed top-0 z-30 flex h-15 w-full justify-center border-b border-border-primary bg-background-secondary px-6 [&&]:max-sm:px-4">
+        <div className="flex h-full w-300 items-center justify-between">
           <div className="flex items-center gap-10">
             <div className="flex items-center gap-4">
               <div
@@ -37,7 +37,7 @@ export default function Header() {
                       priority
                     />
                   </div>
-                  <div className="[&&]:max-md:w-21 w-33 relative h-8 [&&]:max-md:h-5">
+                  <div className="relative h-8 w-33 [&&]:max-md:h-5 [&&]:max-md:w-21">
                     <Image
                       fill
                       src="/icons/icon-title.svg"
@@ -69,6 +69,9 @@ export default function Header() {
                 }
                 menuClassName="border border-solid border-border-primary bg-background-secondary p-4 left-0 top-12 flex flex-col gap-4 text-text-lg font-medium w-[13.625rem] [&&]:max-sm:hidden"
                 closeOnClick
+                buttonProps={{
+                  name: "메뉴",
+                }}
               >
                 <div className="flex max-h-64 flex-col gap-2 overflow-hidden hover:overflow-y-auto">
                   {user.memberships.map((team) => (
