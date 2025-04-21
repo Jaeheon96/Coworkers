@@ -51,7 +51,7 @@ export default function Header() {
             {!isPending && user?.memberships && (
               <Dropdown
                 trigger={
-                  <div className="flex items-center gap-2.5 text-text-lg font-medium [&&]:max-sm:hidden">
+                  <div className="flex items-center gap-2.5 text-text-lg font-medium">
                     <p className="max-w-36 truncate">
                       {user.memberships.find(
                         (team) => `${team.groupId}` === query.teamId,
@@ -71,6 +71,7 @@ export default function Header() {
                 closeOnClick
                 buttonProps={{
                   name: "메뉴",
+                  className: "[&&]:max-sm:hidden",
                 }}
               >
                 <div className="flex max-h-64 flex-col gap-2 overflow-hidden hover:overflow-y-auto">
