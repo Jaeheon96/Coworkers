@@ -87,7 +87,7 @@ export default function TaskLists({ tasks, teamId, isPending = false }: Props) {
 
   if (tasks.length === 0)
     return (
-      <div className="flex w-full items-center justify-center py-16 text-text-md font-medium text-text-default">
+      <div className="flex h-[24.5rem] w-full items-center justify-center py-16 text-text-md font-medium text-text-default">
         아직 할 일 목록이 없습니다.
       </div>
     );
@@ -97,7 +97,7 @@ export default function TaskLists({ tasks, teamId, isPending = false }: Props) {
       <Droppable droppableId="droppable" type="card">
         {(droppableProvided) => (
           <div
-            className="styled-scrollbar flex max-h-[24.5rem] flex-col overflow-y-auto max-sm:[&::-webkit-scrollbar]:w-1"
+            className="styled-scrollbar flex h-[24.5rem] flex-col overflow-y-auto max-sm:[&::-webkit-scrollbar]:w-1"
             ref={droppableProvided.innerRef}
             {...droppableProvided.droppableProps}
           >
