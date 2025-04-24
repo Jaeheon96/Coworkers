@@ -2,7 +2,6 @@ import { Task } from "@/core/dtos/tasks/tasks";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import FloatingButton from "@/components/@shared/UI/FloatingButton";
-import TaskCardList from "@/components/PageComponents/tasks/TaskCardList";
 import useModalStore from "@/lib/hooks/stores/modalStore";
 import EditTaskModal from "@/components/PageComponents/tasks/EditTaskModal";
 import SectionHeader from "@/components/PageComponents/tasks/SectionHeader";
@@ -62,6 +61,10 @@ export default function Tasks() {
     () => import("@/components/PageComponents/tasks/TaskLists"),
   );
 
+  const DynamicTaskCardList = dynamic(
+    () => import("@/components/PageComponents/tasks/TaskCardList"),
+  );
+
   const DynamicAnimatePresence = dynamic(() =>
     import("framer-motion").then((mod) => mod.AnimatePresence),
   );
@@ -73,7 +76,7 @@ export default function Tasks() {
   if (!user) return null;
 
   return (
-    <div className="max-w-300 mx-auto h-auto px-6 pb-24 pt-10">
+    <div className="mx-auto h-auto max-w-300 px-6 pb-24 pt-10">
       <section>
         <SectionHeader
           teamId={teamId}
@@ -87,7 +90,7 @@ export default function Tasks() {
           selectedTaskListId={selectedTaskListId}
           onTaskListClick={handleTaskListClick}
         />
-        <TaskCardList
+        <DynamicTaskCardList
           teamId={teamId}
           selectedTaskListId={selectedTaskListId}
           selectedDate={selectedDate}
