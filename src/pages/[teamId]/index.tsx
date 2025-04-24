@@ -3,7 +3,6 @@ import AddTaskListModal from "@/components/@shared/AddTaskListModal";
 import Chat from "@/components/PageComponents/team/Chat";
 import Members from "@/components/PageComponents/team/Members";
 import SectionHeader from "@/components/PageComponents/team/SectionHeader";
-import TaskLists from "@/components/PageComponents/team/TaskLists";
 import TeamGear from "@/components/PageComponents/team/TeamGear";
 import TeamLinkModal from "@/components/PageComponents/team/TeamLinkModal";
 import getTasks from "@/core/api/group/getTasks";
@@ -17,6 +16,8 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import dynamic from "next/dynamic";
+import TaskListSkeleton from "@/components/PageComponents/team/TaskListSkeleton";
 import thumbnailSrc from "../../../public/images/image-thumbnailTeam.png";
 
 export default function Team() {
@@ -63,6 +64,14 @@ export default function Team() {
   const isAdmin =
     user?.id === group?.members.find((e) => e.role === Roles.ADMIN)?.userId;
 
+  const DynamicTaskLists = dynamic(
+    () => import("@/components/PageComponents/team/TaskLists"),
+    {
+      loading: TaskListSkeleton,
+      ssr: false,
+    },
+  );
+
   useEffect(() => {
     if (!isPending && !group) replace("/wrongteam");
   }, [isPending, group]);
@@ -76,7 +85,7 @@ export default function Team() {
           content={`코워커스${group ? ` ${group.name}` : null}`}
         />
       </Head>
-      <main className="mt-21 max-w-300 mx-auto [&&]:max-md:px-6 [&&]:max-sm:px-4">
+      <main className="mx-auto mt-21 max-w-300 [&&]:max-md:px-6 [&&]:max-sm:px-4">
         <div className="relative mb-6 flex h-16 w-full cursor-default justify-between rounded-xl border border-solid border-border-primary bg-background-secondary px-6 py-5 text-text-xl font-bold text-text-inverse">
           <p>{group?.name}</p>
           <TeamGear
@@ -109,7 +118,7 @@ export default function Team() {
             addText="+ 새로운 목록 추가하기"
             onAddClick={() => openModal(addTaskListModalName)}
           />
-          <TaskLists
+          <DynamicTaskLists
             tasks={group?.taskLists ?? []}
             teamId={teamId}
             isPending={isTasksPending}

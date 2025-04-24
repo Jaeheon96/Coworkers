@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import patchTaskListOrder from "@/core/api/taskList/patchTaskListOrder";
 import TaskListMenu from "./TaskListMenu";
+import TaskListSkeleton from "./TaskListSkeleton";
 
 interface Props {
   tasks: GroupTask[];
@@ -72,18 +73,7 @@ export default function TaskLists({ tasks, teamId, isPending = false }: Props) {
     setVisibleTasks(tasks);
   }, [tasks]);
 
-  if (isPending)
-    return (
-      <div className="flex flex-col">
-        <div className="mb-4 h-10 animate-pulse rounded-xl bg-background-secondary" />
-        <div className="mb-4 h-10 animate-pulse rounded-xl bg-background-secondary" />
-        <div className="mb-4 h-10 animate-pulse rounded-xl bg-background-secondary" />
-        <div className="mb-4 h-10 animate-pulse rounded-xl bg-background-secondary" />
-        <div className="mb-4 h-10 animate-pulse rounded-xl bg-background-secondary" />
-        <div className="mb-4 h-10 animate-pulse rounded-xl bg-background-secondary" />
-        <div className="mb-4 h-10 animate-pulse rounded-xl bg-background-secondary" />
-      </div>
-    );
+  if (isPending) return <TaskListSkeleton />;
 
   if (tasks.length === 0)
     return (
