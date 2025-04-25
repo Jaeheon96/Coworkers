@@ -115,7 +115,7 @@ export default function Chat({ dataContext, isTasksPending = false }: Props) {
         />
         <div className="absolute right-6 top-0 flex h-full w-fit items-center">
           <button
-            className="flex h-8 w-8 items-center justify-center rounded-full bg-brand-primary"
+            className="flex h-8 w-8 items-center justify-center rounded-full [&&]:bg-brand-primary"
             type="submit"
             disabled={chatMutation.isPending}
           >
