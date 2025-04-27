@@ -21,6 +21,7 @@ export default function PasswordInput(props: Props) {
           fill
           src={`/icons/icon-visibility_${isVisible ? "on" : "off"}.svg`}
           alt="가시성 토글"
+          priority
         />
       </div>
       <InputAlt

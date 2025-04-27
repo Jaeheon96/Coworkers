@@ -79,7 +79,7 @@ export default function Login() {
       <Head>
         <title>로그인</title>
       </Head>
-      <main className="max-w-115 [&&]:max-md:mt-25 mt-35 mx-auto flex flex-col items-center px-4 [&&]:max-sm:mt-6">
+      <main className="mx-auto mt-35 flex max-w-115 flex-col items-center px-4 [&&]:max-md:mt-25 [&&]:max-sm:mt-6">
         <h1 className="mb-20 text-text-4xl font-medium [&&]:max-md:text-2xl [&&]:max-sm:mb-6">
           로그인
         </h1>
@@ -162,8 +162,13 @@ export default function Login() {
               간편 로그인하기
             </span>
             <div className="flex gap-4">
-              <div className="h-10.5 w-10.5 relative cursor-pointer">
-                <Image fill src="/images/image-kakaotalk.png" alt="카카오톡" />
+              <div className="relative h-10.5 w-10.5 cursor-pointer">
+                <Image
+                  fill
+                  src="/images/image-kakaotalk.png"
+                  alt="카카오톡"
+                  priority
+                />
               </div>
             </div>
           </div>
