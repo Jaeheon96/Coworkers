@@ -3,10 +3,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import Dropdown from "./Dropdown";
 import DropdownItem from "./Item";
 import NavSidebar from "./NavSidebar";
 import SetupHeader from "./SetupHeader";
+import AnimatedDropdown from "./AnimatedDropdown";
 
 export default function Header() {
   const { isPending, user, logout } = useAuth();
@@ -49,7 +49,7 @@ export default function Header() {
               </Link>
             </div>
             {!isPending && user?.memberships && (
-              <Dropdown
+              <AnimatedDropdown
                 trigger={
                   <div className="flex items-center gap-2.5 text-text-lg font-medium">
                     <p className="max-w-36 truncate">
@@ -77,7 +77,7 @@ export default function Header() {
                 <div className="flex max-h-64 flex-col gap-2 overflow-hidden hover:overflow-y-auto">
                   {user.memberships.map((team) => (
                     <Link href={`/${team.groupId}`} key={team.groupId}>
-                      <DropdownItem itemClassName="flex w-full items-center gap-3 rounded-lg p-2 hover:bg-background-tertiary">
+                      <DropdownItem itemClassName="transition-colors duration-100 flex w-full items-center gap-3 rounded-lg p-2 hover:bg-background-tertiary">
                         <div className="relative h-8 w-8 shrink-0 rounded-md">
                           <Image
                             fill
@@ -96,14 +96,14 @@ export default function Header() {
                   ))}
                 </div>
                 <Link href="/addteam">
-                  <DropdownItem itemClassName="rounded-xl border border-solid border-slate-50 w-full h-12 flex justify-center gap-1 items-center hover:bg-background-tertiary">
+                  <DropdownItem itemClassName="transition-colors duration-100 rounded-xl border border-solid border-slate-50 w-full h-12 flex justify-center gap-1 items-center hover:bg-background-tertiary">
                     <div className="relative h-4 w-4">
                       <Image fill src="/icons/icon-plus.svg" alt="추가" />
                     </div>
                     팀 추가하기
                   </DropdownItem>
                 </Link>
-              </Dropdown>
+              </AnimatedDropdown>
             )}
           </div>
           {!isPending && !user && (
@@ -123,7 +123,7 @@ export default function Header() {
             </div>
           )}
           {!isPending && user && (
-            <Dropdown
+            <AnimatedDropdown
               trigger={
                 <div className="flex items-center gap-2">
                   <div className="relative h-4 w-4">
@@ -144,7 +144,7 @@ export default function Header() {
               <Link href="myhistory">
                 <DropdownItem
                   onClick={() => {}}
-                  itemClassName="py-3.5 text-center [&&]:max-sm:py-3 hover:bg-background-tertiary rounded-t-xl"
+                  itemClassName="transition-colors duration-100 py-3.5 text-center [&&]:max-sm:py-3 hover:bg-background-tertiary rounded-t-xl"
                 >
                   마이 히스토리
                 </DropdownItem>
@@ -152,18 +152,18 @@ export default function Header() {
               <Link href="account">
                 <DropdownItem
                   onClick={() => {}}
-                  itemClassName="py-3.5 text-center [&&]:max-sm:py-3 hover:bg-background-tertiary"
+                  itemClassName="transition-colors duration-100 py-3.5 text-center [&&]:max-sm:py-3 hover:bg-background-tertiary"
                 >
                   계정 설정
                 </DropdownItem>
               </Link>
               <DropdownItem
                 onClick={logout}
-                itemClassName="py-3.5 text-center [&&]:max-sm:py-3 hover:bg-background-tertiary rounded-b-xl"
+                itemClassName="transition-colors duration-100 py-3.5 text-center [&&]:max-sm:py-3 hover:bg-background-tertiary rounded-b-xl"
               >
                 로그아웃
               </DropdownItem>
-            </Dropdown>
+            </AnimatedDropdown>
           )}
         </div>
       </header>
