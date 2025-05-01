@@ -77,26 +77,27 @@ const config: Config = {
       },
 
       spacing: {
-        "6.25": "1.5625rem",
-        "7.25": "1.8125rem",
-        "10.5": "2.625rem",
-        "13": "3.25rem",
-        "15": "3.75rem",
-        "18.5": "4.625rem",
-        "21": "5.25rem",
-        "25": "6.25rem",
-        "30": "7.5rem",
-        "33": "8.25rem",
-        "35": "8.75rem",
-        "68": "17rem",
-        "84": "21rem",
-        "88": "22rem",
-        "115": "28.75rem",
-        "123": "30.75rem",
-        "300": "75rem",
+        "6.25": "1.5625rem", // 25px
+        "7.25": "1.8125rem", // 29px
+        "10.5": "2.625rem", // 42px
+        "13": "3.25rem", // 52px
+        "15": "3.75rem", // 60px
+        "18.5": "4.625rem", // 74px
+        "21": "5.25rem", // 84px
+        "25": "6.25rem", // 100px
+        "30": "7.5rem", // 120px
+        "33": "8.25rem", // 132px
+        "35": "8.75rem", // 140px
+        "68": "17rem", // 272px
+        "84": "21rem", // 336px
+        "88": "22rem", // 352px
+        "115": "28.75rem", // 460px
+        "123": "30.75rem", // 492px
+        "300": "75rem", // 1200px
       },
 
       backgroundImage: {
+        "gradient-main": "linear-gradient(to right, #10B981, #CEF57E)",
         "brand-gradient": "linear-gradient(to right, #10B981, #A3E635)",
       },
 
@@ -105,6 +106,7 @@ const config: Config = {
       },
 
       fontSize: {
+        "text-title": ["4rem", "100%"], // 64px / 100%
         "text-4xl": ["2.5rem", "3rem"], // 40px / 48px
         "text-3xl": ["2rem", "2.375rem"], // 32px / 38px
         "text-2xl": ["1.5rem", "1.75rem"], // 24px / 28px
