@@ -14,8 +14,8 @@ export default function Home() {
         <title>{COWORKERS_TITLE}</title>
       </Head>
       <main>
-        <section className="flex flex-col items-center gap-[42.25rem] px-4 [&&]:max-md:gap-[35rem] [&&]:max-sm:gap-[26.25rem]">
-          <div className="absolute -z-10 h-full w-full [&&]:max-sm:-top-36">
+        <section className="relative mb-15 flex flex-col items-center gap-[42.25rem] px-4 [&&]:max-md:mb-0 [&&]:max-md:gap-[35rem] [&&]:max-sm:gap-[26.25rem]">
+          <div className="absolute -z-10 h-full w-full">
             <Image
               fill
               style={{
@@ -39,7 +39,7 @@ export default function Home() {
                 />
               </div>
             </h1>
-            <h1 className="text-text-title bg-gradient-main bg-clip-text font-semibold text-transparent [&&]:max-md:text-5xl [&&]:max-sm:text-text-3xl">
+            <h1 className="bg-gradient-main bg-clip-text text-text-title font-semibold text-transparent [&&]:max-md:text-5xl [&&]:max-sm:text-text-3xl">
               Coworkers
             </h1>
           </div>
@@ -55,6 +55,117 @@ export default function Home() {
               지금 시작하기
             </button>
           </Link>
+        </section>
+        <section className="mx-auto flex w-full max-w-[65.25rem] flex-col items-center gap-20 px-6 [&&]:max-md:gap-6 [&&]:max-sm:px-4">
+          <div className="h-105 [&&]:max-md:h-88.5 [&&]:max-sm:h-117 rounded-4xl w-full bg-gradient-main p-px shadow-[0_0_12px_2px_rgba(255,255,255,0.25)] backdrop-blur-md">
+            <div className="pl-43.5 rounded-4xl h-full w-full bg-background-primary [&&]:max-md:flex [&&]:max-md:justify-center [&&]:max-md:pl-0">
+              <div className="gap-48.5 [&&]:max-sm:flex-col-start flex h-full w-fit flex-row-reverse items-center justify-end [&&]:max-md:justify-end [&&]:max-md:gap-25 [&&]:max-sm:flex-col [&&]:max-sm:items-start [&&]:max-sm:gap-10">
+                <div className="flex flex-col gap-4">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-solid border-border-primary bg-background-secondary shadow-[0_0_12px_2px_rgba(0,0,0,0.25)]">
+                    <div className="relative h-6 w-6">
+                      <Image
+                        priority
+                        src="/icons/icon-folder.svg"
+                        fill
+                        alt="그룹으로 관리해요"
+                      />
+                    </div>
+                  </div>
+                  <p className="cursor-default text-text-2xl font-medium [&&]:max-md:text-text-2lg">
+                    그룹으로
+                    <br />할 일을 관리해요
+                  </p>
+                </div>
+                <div className="w-72.75 h-84.5 [&&]:max-md:w-58.75 [&&]:max-md:h-68.5 relative self-end [&&]:max-sm:self-center [&&]:max-sm:justify-self-end">
+                  <Image
+                    priority
+                    quality={100}
+                    src="/images/image-landingTeam.png"
+                    fill
+                    alt="모바일로도 가능해요"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="h-105 [&&]:max-md:h-88.5 [&&]:max-sm:h-117 pr-43.5 rounded-4xl flex w-full justify-end border border-solid border-border-primary bg-background-secondary backdrop-blur-md [&&]:max-md:justify-center [&&]:max-md:pr-0">
+            <div className="gap-48.5 flex h-full w-fit items-center justify-end [&&]:max-md:justify-end [&&]:max-md:gap-25 [&&]:max-sm:flex-col [&&]:max-sm:flex-col-reverse [&&]:max-sm:items-start [&&]:max-sm:gap-10">
+              <div className="flex flex-col items-end gap-4 [&&]:max-sm:items-start">
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-solid border-border-primary bg-background-secondary shadow-[0_0_12px_2px_rgba(0,0,0,0.25)]">
+                  <div className="relative h-6 w-6">
+                    <Image
+                      src="/icons/icon-mail.svg"
+                      fill
+                      alt="간단하게 초대해요"
+                    />
+                  </div>
+                </div>
+                <p className="cursor-default text-right text-text-2xl font-medium [&&]:max-md:text-text-2lg [&&]:max-sm:text-left">
+                  간단하게 멤버들을
+                  <br />
+                  초대해요
+                </p>
+              </div>
+              <div className="w-72.75 h-84.5 [&&]:max-md:w-58.75 [&&]:max-md:h-68.5 relative self-start [&&]:max-sm:self-center [&&]:max-sm:justify-self-end">
+                <Image
+                  src="/images/image-landingInvite.png"
+                  quality={100}
+                  fill
+                  alt="모바일로도 가능해요"
+                />
+              </div>
+            </div>
+          </div>
+          <div className="h-105 [&&]:max-md:h-88.5 [&&]:max-sm:h-117 pl-43.5 rounded-4xl flex w-full bg-slate-950 backdrop-blur-md [&&]:max-md:justify-center [&&]:max-md:pl-0">
+            <div className="gap-48.5 flex h-full w-fit flex-row-reverse items-center justify-end [&&]:max-md:justify-end [&&]:max-md:gap-25 [&&]:max-sm:flex-col [&&]:max-sm:flex-col-reverse [&&]:max-sm:items-start [&&]:max-sm:gap-10">
+              <div className="flex flex-col gap-4 [&&]:max-sm:items-start">
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-solid border-border-primary bg-background-secondary shadow-[0_0_12px_2px_rgba(0,0,0,0.25)]">
+                  <div className="relative h-6 w-6">
+                    <Image
+                      src="/icons/icon-done.svg"
+                      fill
+                      alt="간편하게 체크해요"
+                    />
+                  </div>
+                </div>
+                <p className="cursor-default text-text-2xl font-medium [&&]:max-md:text-text-2lg">
+                  할 일도 간편하게
+                  <br />
+                  체크해요
+                </p>
+              </div>
+              <div className="w-72.75 h-84.5 [&&]:max-md:w-58.75 [&&]:max-md:h-68.5 relative self-start [&&]:max-sm:self-center [&&]:max-sm:justify-self-end">
+                <Image
+                  src="/images/image-landingComments.png"
+                  quality={100}
+                  fill
+                  alt="모바일로도 가능해요"
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+        <section className="relative flex h-[67.5rem] w-full justify-center pt-[14.375rem] [&&]:max-md:h-[58.75rem] [&&]:max-md:pt-44 [&&]:max-sm:h-[40rem] [&&]:max-sm:pt-[7.75rem]">
+          <div className="absolute bottom-0 -z-10 h-full w-full">
+            <Image
+              fill
+              quality={100}
+              style={{ objectFit: "cover" }}
+              src="/images/image-landingBottom.png"
+              alt="시작해보세요"
+            />
+          </div>
+          <div className="flex cursor-default flex-col gap-6 [&&]:max-sm:gap-4">
+            <p className="text-center text-text-4xl font-semibold [&&]:max-sm:text-text-2xl">
+              지금 바로 시작해보세요
+            </p>
+            <p className="text-center text-text-2xl font-medium [&&]:max-sm:text-text-lg">
+              팀원 모두와 같은 방향,
+              <span className="[&&]:max-sm:hidden"> </span>
+              <br className="hidden [&&]:max-sm:block" />
+              같은 속도로 나아가는 가장 쉬운 방법
+            </p>
+          </div>
         </section>
       </main>
     </>
