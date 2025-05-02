@@ -39,7 +39,7 @@ export default async function handler(
     case "GET": {
       const refreshToken = req.cookies.coworkers_refresh;
       if (!refreshToken) {
-        res.status(401).json({ message: "No Refresh Token" });
+        res.status(204).send(undefined);
         return;
       }
       let tokenResponse: AxiosResponse<AccessTokenForm>;
@@ -51,18 +51,12 @@ export default async function handler(
         res.status(200).json(tokenResponse.data);
       } catch (error) {
         const err = error as AxiosError;
-        if (err.response?.status === 401) {
-          res
-            .status(401)
-            .setHeader(
-              "Set-Cookie",
-              `${REFRESH_COOKIE_NAME}=none; Secure; HttpOnly; Path=/; SameSite=Lax; Expires=-1; Max-Age=-1;`,
-            )
-            .json({ message: "Expired Refresh Token" });
-          return;
-        }
         res
           .status(err.response?.status ?? 500)
+          .setHeader(
+            "Set-Cookie",
+            `${REFRESH_COOKIE_NAME}=none; Secure; HttpOnly; Path=/; SameSite=Lax; Expires=-1; Max-Age=-1;`,
+          )
           .json(err.response?.data ?? { message: "Next-API Server Error" });
       }
       break;
@@ -75,7 +69,7 @@ export default async function handler(
           "Set-Cookie",
           `${REFRESH_COOKIE_NAME}=none; Secure; HttpOnly; Path=/; SameSite=Lax; Expires=-1; Max-Age=-1;`,
         )
-        .send(true);
+        .send(undefined);
       break;
     }
 
