@@ -61,6 +61,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     resInterceptor: 0,
   });
   const [isTokenSet, setIsTokenSet] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const setAccessToken = (accessToken: string) => {
+    queryClient.setQueryData([TOKENS.ACCESS_TOKEN], accessToken);
+    setIsLoggedIn(true);
+  };
+
+  const { mutate: getInitialToken, isPending: initialPending } = useMutation({
+    mutationFn: refreshToken,
+    onSuccess: (data) => {
+      if (data) setAccessToken(data.accessToken);
+    },
+  });
 
   const {
     data: token,
@@ -69,11 +82,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   } = useQuery({
     queryKey: [TOKENS.ACCESS_TOKEN],
     queryFn: async () => {
-      const { accessToken } = await refreshToken();
-      return accessToken;
+      const res = await refreshToken();
+      if (res) return res.accessToken;
+      setIsLoggedIn(false);
+      return null;
     },
+    enabled: isLoggedIn,
     retry: false,
-    staleTime: 1000 * 60 * 30,
+    staleTime: 1000 * 60 * 5,
     throwOnError: false,
   });
 
@@ -88,12 +104,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     enabled: isTokenSet,
   });
 
-  const isPending = isTokenPending || (!!token && isUserPending);
+  const isPending =
+    initialPending ||
+    (isLoggedIn && isTokenPending) ||
+    (!!token && isUserPending);
 
   const { mutateAsync: login, isPending: isLoginPending } = useMutation({
     mutationFn: (loginForm: LoginForm) => signIn(loginForm),
-    onSuccess: () => {
-      getToken();
+    onSuccess: (data) => {
+      setAccessToken(data.accessToken);
     },
     onError: (e) => {
       console.error(e);
@@ -105,6 +124,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     mutationFn: signOut,
     onSuccess: () => {
       setIsTokenSet(false);
+      setIsLoggedIn(false);
       queryClient.setQueryData([TOKENS.ACCESS_TOKEN], null);
       queryClient.setQueryData(["user"], null);
       queryClient.removeQueries({ queryKey: [TOKENS.ACCESS_TOKEN] });
@@ -142,6 +162,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
     ejectAxiosInterceptors(interceptors);
   }, [token]);
+
+  useEffect(() => {
+    getInitialToken();
+  }, []);
 
   const authValues = useMemo(
     () => ({
