@@ -17,15 +17,17 @@ export default function Header() {
 
   return (
     <>
-      <header className="fixed top-0 z-30 flex h-15 w-full justify-center border-b border-border-primary bg-background-secondary px-6 [&&]:max-sm:px-4">
+      <header className="fixed top-0 z-30 flex h-15 w-full justify-center border-b border-border-primary bg-background-secondary px-6 [&&]:max-sm:pl-0 [&&]:max-sm:pr-4">
         <div className="flex h-full w-300 items-center justify-between">
-          <div className="flex items-center gap-10">
-            <div className="flex items-center gap-4">
+          <div className="flex h-full items-center gap-10">
+            <div className="flex h-full items-center gap-4">
               <div
-                className="relative hidden h-6 w-6 cursor-pointer [&&]:max-sm:block"
+                className="hidden h-full w-fit cursor-pointer items-center pl-4 [&&]:max-sm:flex"
                 onClick={() => setIsNavSidebarOpen(true)}
               >
-                <Image fill src="/icons/icon-gnb_menu.svg" alt="메뉴" />
+                <div className="relative h-6 w-6">
+                  <Image fill src="/icons/icon-gnb_menu.svg" alt="메뉴" />
+                </div>
               </div>
               <Link href="/">
                 <div className="flex items-center gap-0.5">
