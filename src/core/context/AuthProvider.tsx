@@ -62,16 +62,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   });
   const [isTokenSet, setIsTokenSet] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [initialPending, setInitialPending] = useState(true);
 
   const setAccessToken = (accessToken: string) => {
     queryClient.setQueryData([TOKENS.ACCESS_TOKEN], accessToken);
     setIsLoggedIn(true);
   };
 
-  const { mutate: getInitialToken, isPending: initialPending } = useMutation({
+  const { mutate: getInitialToken } = useMutation({
     mutationFn: refreshToken,
     onSuccess: (data) => {
       if (data) setAccessToken(data.accessToken);
+      setInitialPending(false);
     },
   });
 
