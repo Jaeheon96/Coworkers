@@ -1,5 +1,8 @@
 import Head from "next/head";
-import { COWORKERS_TITLE } from "@/lib/constants/sharedConstants";
+import {
+  COWORKERS_BASE_DESCRIPTION,
+  COWORKERS_TITLE,
+} from "@/lib/constants/sharedConstants";
 import Image from "next/image";
 import { useAuth } from "@/core/context/AuthProvider";
 import Link from "next/link";
@@ -12,6 +15,34 @@ export default function Home() {
     <>
       <Head>
         <title>{COWORKERS_TITLE}</title>
+        <meta name="description" content={`${COWORKERS_BASE_DESCRIPTION}`} />
+        <meta
+          name="keyword"
+          content="팀, 투두리스트, 일정관리, 코워커스, team, to-do list, schedule, Coworkers"
+        />
+
+        <meta property="og:title" content={`${COWORKERS_TITLE}`} />
+        <meta property="og:type" content="website" />
+        <meta
+          property="og:description"
+          content={`${COWORKERS_BASE_DESCRIPTION}`}
+        />
+        <meta
+          property="og:image"
+          content={`${process.env.NEXT_PUBLIC_URL}/icons/icon-logo_coworkers_large.png`}
+        />
+        <meta property="og:url" content={`${process.env.NEXT_PUBLIC_URL}`} />
+
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content={`${COWORKERS_TITLE}`} />
+        <meta
+          name="twitter:image"
+          content={`${process.env.NEXT_PUBLIC_URL}/icons/icon-logo_coworkers_large.png`}
+        />
+        <meta
+          name="twitter:description"
+          content={`${COWORKERS_BASE_DESCRIPTION}`}
+        />
       </Head>
       <main>
         <section className="relative mb-15 flex flex-col items-center gap-[42.25rem] px-4 [&&]:max-md:mb-0 [&&]:max-md:gap-[35rem] [&&]:max-sm:gap-[26.25rem]">
@@ -57,9 +88,9 @@ export default function Home() {
           </Link>
         </section>
         <section className="mx-auto flex w-full max-w-[65.25rem] flex-col items-center gap-20 px-6 [&&]:max-md:gap-6 [&&]:max-sm:px-4">
-          <div className="h-105 [&&]:max-md:h-88.5 [&&]:max-sm:h-117 rounded-4xl w-full bg-gradient-main p-px shadow-[0_0_12px_2px_rgba(255,255,255,0.25)] backdrop-blur-md">
-            <div className="pl-43.5 rounded-4xl h-full w-full bg-background-primary [&&]:max-md:flex [&&]:max-md:justify-center [&&]:max-md:pl-0">
-              <div className="gap-48.5 [&&]:max-sm:flex-col-start flex h-full w-fit flex-row-reverse items-center justify-end [&&]:max-md:justify-end [&&]:max-md:gap-25 [&&]:max-sm:flex-col [&&]:max-sm:items-start [&&]:max-sm:gap-10">
+          <div className="h-105 w-full rounded-4xl bg-gradient-main p-px shadow-[0_0_12px_2px_rgba(255,255,255,0.25)] backdrop-blur-md [&&]:max-md:h-88.5 [&&]:max-sm:h-117">
+            <div className="h-full w-full rounded-4xl bg-background-primary pl-43.5 [&&]:max-md:flex [&&]:max-md:justify-center [&&]:max-md:pl-0">
+              <div className="[&&]:max-sm:flex-col-start flex h-full w-fit flex-row-reverse items-center justify-end gap-48.5 [&&]:max-md:justify-end [&&]:max-md:gap-25 [&&]:max-sm:flex-col [&&]:max-sm:items-start [&&]:max-sm:gap-10">
                 <div className="flex flex-col gap-4">
                   <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-solid border-border-primary bg-background-secondary shadow-[0_0_12px_2px_rgba(0,0,0,0.25)]">
                     <div className="relative h-6 w-6">
@@ -76,7 +107,7 @@ export default function Home() {
                     <br />할 일을 관리해요
                   </p>
                 </div>
-                <div className="w-72.75 h-84.5 [&&]:max-md:w-58.75 [&&]:max-md:h-68.5 relative self-end [&&]:max-sm:self-center [&&]:max-sm:justify-self-end">
+                <div className="relative h-84.5 w-72.75 self-end [&&]:max-md:h-68.5 [&&]:max-md:w-58.75 [&&]:max-sm:self-center [&&]:max-sm:justify-self-end">
                   <Image
                     priority
                     quality={100}
@@ -88,8 +119,8 @@ export default function Home() {
               </div>
             </div>
           </div>
-          <div className="h-105 [&&]:max-md:h-88.5 [&&]:max-sm:h-117 pr-43.5 rounded-4xl flex w-full justify-end border border-solid border-border-primary bg-background-secondary backdrop-blur-md [&&]:max-md:justify-center [&&]:max-md:pr-0">
-            <div className="gap-48.5 flex h-full w-fit items-center justify-end [&&]:max-md:justify-end [&&]:max-md:gap-25 [&&]:max-sm:flex-col [&&]:max-sm:flex-col-reverse [&&]:max-sm:items-start [&&]:max-sm:gap-10">
+          <div className="flex h-105 w-full justify-end rounded-4xl border border-solid border-border-primary bg-background-secondary pr-43.5 backdrop-blur-md [&&]:max-md:h-88.5 [&&]:max-md:justify-center [&&]:max-md:pr-0 [&&]:max-sm:h-117">
+            <div className="flex h-full w-fit items-center justify-end gap-48.5 [&&]:max-md:justify-end [&&]:max-md:gap-25 [&&]:max-sm:flex-col [&&]:max-sm:flex-col-reverse [&&]:max-sm:items-start [&&]:max-sm:gap-10">
               <div className="flex flex-col items-end gap-4 [&&]:max-sm:items-start">
                 <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-solid border-border-primary bg-background-secondary shadow-[0_0_12px_2px_rgba(0,0,0,0.25)]">
                   <div className="relative h-6 w-6">
@@ -106,7 +137,7 @@ export default function Home() {
                   초대해요
                 </p>
               </div>
-              <div className="w-72.75 h-84.5 [&&]:max-md:w-58.75 [&&]:max-md:h-68.5 relative self-start [&&]:max-sm:self-center [&&]:max-sm:justify-self-end">
+              <div className="relative h-84.5 w-72.75 self-start [&&]:max-md:h-68.5 [&&]:max-md:w-58.75 [&&]:max-sm:self-center [&&]:max-sm:justify-self-end">
                 <Image
                   src="/images/image-landingInvite.png"
                   quality={100}
@@ -116,8 +147,8 @@ export default function Home() {
               </div>
             </div>
           </div>
-          <div className="h-105 [&&]:max-md:h-88.5 [&&]:max-sm:h-117 pl-43.5 rounded-4xl flex w-full bg-slate-950 backdrop-blur-md [&&]:max-md:justify-center [&&]:max-md:pl-0">
-            <div className="gap-48.5 flex h-full w-fit flex-row-reverse items-center justify-end [&&]:max-md:justify-end [&&]:max-md:gap-25 [&&]:max-sm:flex-col [&&]:max-sm:flex-col-reverse [&&]:max-sm:items-start [&&]:max-sm:gap-10">
+          <div className="flex h-105 w-full rounded-4xl bg-slate-950 pl-43.5 backdrop-blur-md [&&]:max-md:h-88.5 [&&]:max-md:justify-center [&&]:max-md:pl-0 [&&]:max-sm:h-117">
+            <div className="flex h-full w-fit flex-row-reverse items-center justify-end gap-48.5 [&&]:max-md:justify-end [&&]:max-md:gap-25 [&&]:max-sm:flex-col [&&]:max-sm:flex-col-reverse [&&]:max-sm:items-start [&&]:max-sm:gap-10">
               <div className="flex flex-col gap-4 [&&]:max-sm:items-start">
                 <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-solid border-border-primary bg-background-secondary shadow-[0_0_12px_2px_rgba(0,0,0,0.25)]">
                   <div className="relative h-6 w-6">
@@ -134,7 +165,7 @@ export default function Home() {
                   체크해요
                 </p>
               </div>
-              <div className="w-72.75 h-84.5 [&&]:max-md:w-58.75 [&&]:max-md:h-68.5 relative self-start [&&]:max-sm:self-center [&&]:max-sm:justify-self-end">
+              <div className="relative h-84.5 w-72.75 self-start [&&]:max-md:h-68.5 [&&]:max-md:w-58.75 [&&]:max-sm:self-center [&&]:max-sm:justify-self-end">
                 <Image
                   src="/images/image-landingComments.png"
                   quality={100}

@@ -62,28 +62,37 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   });
   const [isTokenSet, setIsTokenSet] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [initialPending, setInitialPending] = useState(true);
 
-  const setAccessToken = (accessToken: string) => {
-    queryClient.setQueryData([TOKENS.ACCESS_TOKEN], accessToken);
-    setIsLoggedIn(true);
-  };
-
-  const { mutate: getInitialToken, isPending: initialPending } = useMutation({
-    mutationFn: refreshToken,
-    onSuccess: (data) => {
-      if (data) setAccessToken(data.accessToken);
+  const { mutate: logout } = useMutation({
+    mutationFn: signOut,
+    onSuccess: () => {
+      setIsTokenSet(false);
+      setIsLoggedIn(false);
+      ejectAxiosInterceptors(interceptors);
+      queryClient.setQueryData([TOKENS.ACCESS_TOKEN], null);
+      queryClient.setQueryData(["user"], null);
+      queryClient.removeQueries({ queryKey: [TOKENS.ACCESS_TOKEN] });
+      queryClient.removeQueries({ queryKey: ["user"] });
+    },
+    onError: (e) => {
+      alert("로그아웃중 오류 발생: 잠시후 다시 시도해 주세요.");
+      console.error(e);
     },
   });
 
-  const {
-    data: token,
-    refetch: getToken,
-    isPending: isTokenPending,
-  } = useQuery({
+  const { data: token, refetch: getToken } = useQuery({
     queryKey: [TOKENS.ACCESS_TOKEN],
     queryFn: async () => {
       const res = await refreshToken();
-      if (res) return res.accessToken;
+      if (res) {
+        setIsLoggedIn(true);
+        setInterceptors(
+          setAxiosInterceptors(res.accessToken, getToken, logout),
+        );
+        setIsTokenSet(true);
+        return res.accessToken;
+      }
       setIsLoggedIn(false);
       return null;
     },
@@ -92,6 +101,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     staleTime: 1000 * 60 * 5,
     throwOnError: false,
   });
+
+  const getInitialToken = async () => {
+    await getToken();
+    setInitialPending(false);
+  };
+
+  const setAccessToken = (accessToken: string) => {
+    queryClient.setQueryData([TOKENS.ACCESS_TOKEN], accessToken);
+    setInterceptors(setAxiosInterceptors(accessToken, getToken, logout));
+    setIsTokenSet(true);
+    setIsLoggedIn(true);
+  };
 
   const {
     data: user,
@@ -104,10 +125,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     enabled: isTokenSet,
   });
 
-  const isPending =
-    initialPending ||
-    (isLoggedIn && isTokenPending) ||
-    (!!token && isUserPending);
+  const isPending = initialPending || (!!token && isUserPending);
 
   const { mutateAsync: login, isPending: isLoginPending } = useMutation({
     mutationFn: (loginForm: LoginForm) => signIn(loginForm),
@@ -117,22 +135,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     onError: (e) => {
       console.error(e);
       return e;
-    },
-  });
-
-  const { mutate: logout } = useMutation({
-    mutationFn: signOut,
-    onSuccess: () => {
-      setIsTokenSet(false);
-      setIsLoggedIn(false);
-      queryClient.setQueryData([TOKENS.ACCESS_TOKEN], null);
-      queryClient.setQueryData(["user"], null);
-      queryClient.removeQueries({ queryKey: [TOKENS.ACCESS_TOKEN] });
-      queryClient.removeQueries({ queryKey: ["user"] });
-    },
-    onError: (e) => {
-      alert("로그아웃중 오류 발생: 잠시후 다시 시도해 주세요.");
-      console.error(e);
     },
   });
 
@@ -153,15 +155,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       return e;
     },
   });
-
-  useEffect(() => {
-    if (token) {
-      setInterceptors(setAxiosInterceptors(token, getToken, logout));
-      setIsTokenSet(true);
-      return;
-    }
-    ejectAxiosInterceptors(interceptors);
-  }, [token]);
 
   useEffect(() => {
     getInitialToken();
