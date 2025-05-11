@@ -9,12 +9,27 @@ export interface ArticlePost {
   image?: string;
 }
 
-export interface ArticlePostResponse {
+export interface ArticleAbstract {
   id: number;
   title: string;
   image: string | null;
   writer: Writer;
   likeCount: number;
+  commentCount: number;
   createdAt: string;
   updatedAt: string;
+}
+
+export interface ArticlesResponse {
+  list: ArticleAbstract[];
+  totalCount: number;
+}
+
+export type ArticlesOrderBy = "recent" | "like";
+
+export interface GetArticlesQuery {
+  page?: number;
+  pageSize?: number;
+  orderBy?: ArticlesOrderBy;
+  keyword?: string;
 }
