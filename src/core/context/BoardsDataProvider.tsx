@@ -5,15 +5,15 @@ import getArticles from "../api/boards/getArticles";
 import { ArticlesResponse, GetArticlesQuery } from "../dtos/boards/boards";
 
 interface BoardsContextValues {
-  hotArticles: ArticlesResponse | undefined;
-  isHotArticlesPending: boolean;
+  bestArticles: ArticlesResponse | undefined;
+  isBestArticlesPending: boolean;
   articles: ArticlesResponse | undefined;
   isArticlesPending: boolean;
 }
 
 const initialContextValues: BoardsContextValues = {
-  hotArticles: undefined,
-  isHotArticlesPending: true,
+  bestArticles: undefined,
+  isBestArticlesPending: true,
   articles: undefined,
   isArticlesPending: true,
 };
@@ -26,7 +26,7 @@ export function BoardsDataProvider({ children }: { children: ReactNode }) {
   const { query, isReady: isRouterReady } = useRouter();
   const { page, orderBy, keyword }: GetArticlesQuery = query;
 
-  const { data: hotArticles, isPending: isHotArticlesPending } = useQuery({
+  const { data: bestArticles, isPending: isBestArticlesPending } = useQuery({
     queryKey: ["Articles", 1, 3, "like"],
     queryFn: () => getArticles({ pageSize: 3, orderBy: "like" }),
     throwOnError: false,
@@ -43,12 +43,12 @@ export function BoardsDataProvider({ children }: { children: ReactNode }) {
 
   const contextValues = useMemo(
     () => ({
-      hotArticles,
+      bestArticles,
       articles,
-      isHotArticlesPending,
+      isBestArticlesPending,
       isArticlesPending,
     }),
-    [hotArticles, articles, isHotArticlesPending, isArticlesPending],
+    [bestArticles, articles, isBestArticlesPending, isArticlesPending],
   );
 
   return (
