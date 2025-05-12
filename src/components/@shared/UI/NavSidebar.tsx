@@ -17,7 +17,9 @@ export default function NavSidebar({
   handleClose,
   memberships,
 }: Props) {
-  const { query } = useRouter();
+  const { query, pathname } = useRouter();
+
+  const boardsClassName = `text-text-md font-medium${pathname === "/boards" ? " text-brand-primary" : ""}`;
 
   useEffect(() => {
     if (isOpen) {
@@ -88,6 +90,9 @@ export default function NavSidebar({
                   </Link>
                 );
               })}
+              <Link href="/boards" onClick={handleClose}>
+                <p className={boardsClassName}>자유게시판</p>
+              </Link>
             </div>
           </motion.aside>
         </motion.div>
