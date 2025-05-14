@@ -1,6 +1,7 @@
 import SearchBox from "./SearchBox";
 import BestArticles from "./BestArticles";
 import ArticlesSortDropdown from "./ArticlesSortDropdown";
+import Articles from "./Articles";
 
 export default function BoardsInterface() {
   return (
@@ -22,6 +23,7 @@ export default function BoardsInterface() {
           </h2>
           <ArticlesSortDropdown />
         </div>
+        <Articles />
       </section>
     </main>
   );
