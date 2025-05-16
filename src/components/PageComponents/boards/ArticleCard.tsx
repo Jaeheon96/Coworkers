@@ -14,7 +14,7 @@ export default function ArticleCard({ article }: Props) {
 
   if (!article) return null;
   return (
-    <div className="[&&]:max-sm:h-40.5 relative flex h-44 w-full flex-col justify-between gap-6 rounded-xl border border-background-tertiary bg-background-secondary px-8 py-6 [&&]:max-sm:gap-4 [&&]:max-sm:px-4 [&&]:max-sm:pb-4 [&&]:max-sm:pt-6">
+    <li className="relative flex h-44 w-full flex-col justify-between gap-6 rounded-xl border border-background-tertiary bg-background-secondary px-8 py-6 [&&]:max-sm:h-40.5 [&&]:max-sm:gap-4 [&&]:max-sm:px-4 [&&]:max-sm:pb-4 [&&]:max-sm:pt-6">
       <div className="flex w-full flex-col gap-3">
         <div className="relative flex w-full justify-between gap-4 [&&]:max-sm:gap-6 [&&]:max-sm:pr-20">
           <p className="line-clamp-2 max-h-14 text-text-2lg font-medium leading-7 text-text-secondary [&&]:max-sm:text-sm [&&]:max-sm:leading-6">
@@ -70,6 +70,6 @@ export default function ArticleCard({ article }: Props) {
           {user?.id === article.writer.id ? <ArticleMenuDropdown /> : null}
         </div>
       </div>
-    </div>
+    </li>
   );
 }
