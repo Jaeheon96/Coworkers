@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import { useQuery } from "@tanstack/react-query";
 import { createContext, ReactNode, useContext, useMemo } from "react";
+import getPages from "@/lib/utils/getPages";
 import getArticles from "../api/boards/getArticles";
 import { ArticlesResponse, GetArticlesQuery } from "../dtos/boards/boards";
 
@@ -9,6 +10,8 @@ interface BoardsContextValues {
   isBestArticlesPending: boolean;
   articles: ArticlesResponse | undefined;
   isArticlesPending: boolean;
+  pages: number[];
+  lastPage: number;
 }
 
 const initialContextValues: BoardsContextValues = {
@@ -16,9 +19,12 @@ const initialContextValues: BoardsContextValues = {
   isBestArticlesPending: true,
   articles: undefined,
   isArticlesPending: true,
+  pages: [],
+  lastPage: 0,
 };
 
 const PAGE_SIZE = 10;
+const PAGES_LENGTH = 5;
 
 const BoardsDataContext = createContext(initialContextValues);
 
@@ -41,14 +47,27 @@ export function BoardsDataProvider({ children }: { children: ReactNode }) {
     enabled: isRouterReady,
   });
 
+  const lastPage = Math.ceil((articles?.totalCount ?? 0) / PAGE_SIZE);
+
+  const pages = getPages(page ?? 1, PAGES_LENGTH, lastPage);
+
   const contextValues = useMemo(
     () => ({
       bestArticles,
       articles,
       isBestArticlesPending,
       isArticlesPending,
+      pages,
+      lastPage,
     }),
-    [bestArticles, articles, isBestArticlesPending, isArticlesPending],
+    [
+      bestArticles,
+      articles,
+      isBestArticlesPending,
+      isArticlesPending,
+      pages,
+      lastPage,
+    ],
   );
 
   return (
