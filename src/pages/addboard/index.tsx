@@ -17,7 +17,7 @@ export default function Addboard() {
     content: "",
   });
 
-  const { push } = useRouter();
+  const { replace } = useRouter();
 
   const handleFormValues = (key: string, value: string) => {
     setFormValues((prev) => ({
@@ -56,7 +56,7 @@ export default function Addboard() {
     },
     throwOnError: false,
     onSuccess: (data) => {
-      if (data) push(`/boards/${data.id}`);
+      if (data) replace(`/boards/${data.id}`);
     },
     onError: (e) => {
       console.error(e);
