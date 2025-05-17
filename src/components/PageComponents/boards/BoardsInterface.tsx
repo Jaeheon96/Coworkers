@@ -16,7 +16,7 @@ export default function BoardsInterface() {
         </h2>
         <BestArticles />
       </section>
-      <section className="flex flex-col gap-8 [&&]:max-sm:gap-6">
+      <section className="flex flex-col gap-8 pb-14 [&&]:max-sm:gap-6">
         <div className="flex items-center justify-between">
           <h2 className="cursor-default text-text-xl font-bold [&&]:max-sm:text-text-lg [&&]:max-sm:font-medium">
             게시글
