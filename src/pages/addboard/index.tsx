@@ -8,6 +8,7 @@ import useArticleValidation from "@/lib/hooks/useArticleValidation";
 import useImageUpload from "@/lib/hooks/useImageUpload";
 import { useMutation } from "@tanstack/react-query";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import { ChangeEvent, FocusEvent, FormEvent, useState } from "react";
 
 export default function Addboard() {
@@ -15,6 +16,8 @@ export default function Addboard() {
     title: "",
     content: "",
   });
+
+  const { replace } = useRouter();
 
   const handleFormValues = (key: string, value: string) => {
     setFormValues((prev) => ({
@@ -37,19 +40,24 @@ export default function Addboard() {
 
   const { mutate: submit, isPending } = useMutation({
     mutationFn: async () => {
-      if (!checkValidation()) return;
+      if (!checkValidation()) return undefined;
 
       let imageUrl: string | null = null;
       if (file) {
         imageUrl = await getImageUrl(file);
       }
 
-      await postArticle({
+      const res = await postArticle({
         ...formValues,
         image: imageUrl ?? undefined,
       });
+
+      return res;
     },
     throwOnError: false,
+    onSuccess: (data) => {
+      if (data) replace(`/boards/${data.id}`);
+    },
     onError: (e) => {
       console.error(e);
     },
