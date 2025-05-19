@@ -1,3 +1,5 @@
+import Link from "next/link";
+import Image from "next/image";
 import SearchBox from "./SearchBox";
 import BestArticles from "./BestArticles";
 import ArticlesSortDropdown from "./ArticlesSortDropdown";
@@ -16,7 +18,7 @@ export default function BoardsInterface() {
         </h2>
         <BestArticles />
       </section>
-      <section className="flex flex-col gap-8 pb-14 [&&]:max-sm:gap-6">
+      <section className="flex flex-col gap-8 pb-14 [&&]:max-sm:gap-6 [&&]:max-sm:pb-30">
         <div className="flex items-center justify-between">
           <h2 className="cursor-default text-text-xl font-bold [&&]:max-sm:text-text-lg [&&]:max-sm:font-medium">
             게시글
@@ -24,6 +26,15 @@ export default function BoardsInterface() {
           <ArticlesSortDropdown />
         </div>
         <Articles />
+        <Link
+          className="fixed bottom-11 right-12 flex h-12 items-center justify-center gap-1 rounded-4xl bg-brand-primary px-5 text-text-lg text-white transition duration-100 hover:scale-110 [&&]:max-md:right-6 [&&]:max-sm:right-4"
+          href="/addboard"
+        >
+          <div className="relative h-4 w-4">
+            <Image src="/icons/icon-plus.svg" fill alt="게시글 쓰기" />
+          </div>
+          글쓰기
+        </Link>
       </section>
     </main>
   );
