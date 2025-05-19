@@ -12,6 +12,7 @@ interface BoardsContextValues {
   isArticlesPending: boolean;
   pages: number[];
   lastPage: number;
+  pagesLength: number;
 }
 
 const initialContextValues: BoardsContextValues = {
@@ -21,6 +22,7 @@ const initialContextValues: BoardsContextValues = {
   isArticlesPending: true,
   pages: [],
   lastPage: 0,
+  pagesLength: 5,
 };
 
 const PAGE_SIZE = 10;
@@ -59,6 +61,7 @@ export function BoardsDataProvider({ children }: { children: ReactNode }) {
       isArticlesPending,
       pages,
       lastPage,
+      pagesLength: PAGES_LENGTH,
     }),
     [
       bestArticles,

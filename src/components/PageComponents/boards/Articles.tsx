@@ -9,7 +9,7 @@ export default function Articles() {
   if (isArticlesPending) return <ArticlesLoading />;
   return (
     <div className="flex w-full flex-col items-center gap-16 [&&]:max-sm:gap-8">
-      <ul className="flex flex-col gap-8 [&&]:max-sm:gap-6">
+      <ul className="flex w-full flex-col gap-8 [&&]:max-sm:gap-6">
         {articles?.list.map((article) => (
           <ArticleCard article={article} key={article.id} />
         ))}
