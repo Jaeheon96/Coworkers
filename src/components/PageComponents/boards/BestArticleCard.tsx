@@ -1,5 +1,6 @@
 import { ArticleAbstract } from "@/core/dtos/boards/boards";
 import Image from "next/image";
+import Link from "next/link";
 import { twMerge } from "tailwind-merge";
 
 interface Props {
@@ -9,7 +10,7 @@ interface Props {
 
 export default function BestArticleCard({ article, className }: Props) {
   const cardClassName = twMerge(
-    "h-55 [&&]:max-sm:h-44.5 justify-between relative flex w-full flex-col rounded-xl border border-background-tertiary bg-background-secondary gap-6 px-6 pb-4 pt-12 [&&]:max-sm:px-4 [&&]:max-sm:pt-10 [&&]:max-sm:gap-4",
+    "h-55 [&&]:max-sm:h-44.5 justify-between transition-colors hover:bg-background-tertiary duration-100 relative flex w-full flex-col rounded-xl border border-background-tertiary bg-background-secondary gap-6 px-6 pb-4 pt-12 [&&]:max-sm:px-4 [&&]:max-sm:pt-10 [&&]:max-sm:gap-4",
     className,
   );
 
@@ -18,7 +19,7 @@ export default function BestArticleCard({ article, className }: Props) {
   if (!article) return null;
 
   return (
-    <div className={cardClassName}>
+    <Link className={cardClassName} href={`/boards/${article.id}`}>
       <div className="absolute left-4.5 top-2 flex items-center gap-1 [&&]:max-sm:left-3.5 [&&]:max-sm:top-2.375">
         <div className="relative h-4 w-4">
           <Image fill src="/icons/icon-medal.svg" alt="베스트" priority />
@@ -76,6 +77,6 @@ export default function BestArticleCard({ article, className }: Props) {
           </p>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
