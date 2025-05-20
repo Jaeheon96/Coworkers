@@ -1,11 +1,32 @@
 import Link from "next/link";
 import Image from "next/image";
-import SearchBox from "./SearchBox";
-import BestArticles from "./BestArticles";
-import ArticlesSortDropdown from "./ArticlesSortDropdown";
-import Articles from "./Articles";
+import dynamic from "next/dynamic";
+import SearchBoxLoading from "./SearchBoxLoading";
+import BestArticlesLoading from "./BestArticlesLoading";
+import ArticlesSortDropdownLoading from "./ArticlesSortDropdownLoading";
+import ArticlesLoading from "./ArticlesLoading";
 
 export default function BoardsInterface() {
+  const SearchBox = dynamic(() => import("./SearchBox"), {
+    ssr: false,
+    loading: SearchBoxLoading,
+  });
+
+  const BestArticles = dynamic(() => import("./BestArticles"), {
+    ssr: false,
+    loading: BestArticlesLoading,
+  });
+
+  const ArticlesSortDropdown = dynamic(() => import("./ArticlesSortDropdown"), {
+    ssr: false,
+    loading: ArticlesSortDropdownLoading,
+  });
+
+  const Articles = dynamic(() => import("./Articles"), {
+    ssr: false,
+    loading: ArticlesLoading,
+  });
+
   return (
     <main className="mx-auto mt-10 max-w-312 px-6 [&&]:max-sm:mt-8 [&&]:max-sm:px-4">
       <h1 className="mb-10 cursor-default text-text-2xl font-bold [&&]:max-md:mb-8 [&&]:max-sm:mb-6 [&&]:max-sm:text-text-2lg">
