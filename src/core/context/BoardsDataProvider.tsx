@@ -1,5 +1,9 @@
 import { useRouter } from "next/router";
-import { useQuery } from "@tanstack/react-query";
+import {
+  QueryObserverResult,
+  RefetchOptions,
+  useQuery,
+} from "@tanstack/react-query";
 import { createContext, ReactNode, useContext, useMemo } from "react";
 import getPages from "@/lib/utils/getPages";
 import getArticles from "../api/boards/getArticles";
@@ -13,6 +17,14 @@ interface BoardsContextValues {
   pages: number[];
   lastPage: number;
   pagesLength: number;
+  isBestArticlesError: boolean;
+  isArticlesError: boolean;
+  refetchBestArticles: (
+    options?: RefetchOptions,
+  ) => Promise<QueryObserverResult<ArticlesResponse, Error>>;
+  refetchArticles: (
+    options?: RefetchOptions,
+  ) => Promise<QueryObserverResult<ArticlesResponse, Error>>;
 }
 
 const initialContextValues: BoardsContextValues = {
@@ -23,6 +35,10 @@ const initialContextValues: BoardsContextValues = {
   pages: [],
   lastPage: 0,
   pagesLength: 5,
+  isBestArticlesError: false,
+  isArticlesError: false,
+  refetchBestArticles: () => Promise.reject(),
+  refetchArticles: () => Promise.reject(),
 };
 
 const PAGE_SIZE = 10;
@@ -34,14 +50,24 @@ export function BoardsDataProvider({ children }: { children: ReactNode }) {
   const { query, isReady: isRouterReady } = useRouter();
   const { page, orderBy, keyword }: GetArticlesQuery = query;
 
-  const { data: bestArticles, isPending: isBestArticlesPending } = useQuery({
+  const {
+    data: bestArticles,
+    isPending: isBestArticlesPending,
+    isError: isBestArticlesError,
+    refetch: refetchBestArticles,
+  } = useQuery({
     queryKey: ["Articles", 1, 3, "like"],
     queryFn: () => getArticles({ pageSize: 3, orderBy: "like" }),
     throwOnError: false,
     staleTime: 1000 * 60,
   });
 
-  const { data: articles, isPending: isArticlesPending } = useQuery({
+  const {
+    data: articles,
+    isPending: isArticlesPending,
+    isError: isArticlesError,
+    refetch: refetchArticles,
+  } = useQuery({
     queryKey: ["Articles", page ?? 1, PAGE_SIZE, orderBy ?? "recent", keyword],
     queryFn: () => getArticles({ page, orderBy, keyword }),
     throwOnError: false,
@@ -62,6 +88,10 @@ export function BoardsDataProvider({ children }: { children: ReactNode }) {
       pages,
       lastPage,
       pagesLength: PAGES_LENGTH,
+      isBestArticlesError,
+      isArticlesError,
+      refetchBestArticles,
+      refetchArticles,
     }),
     [
       bestArticles,
@@ -70,6 +100,10 @@ export function BoardsDataProvider({ children }: { children: ReactNode }) {
       isArticlesPending,
       pages,
       lastPage,
+      isBestArticlesError,
+      isArticlesError,
+      refetchBestArticles,
+      refetchArticles,
     ],
   );
 
