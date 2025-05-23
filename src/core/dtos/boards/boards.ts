@@ -33,3 +33,9 @@ export interface GetArticlesQuery {
   orderBy?: ArticlesOrderBy;
   keyword?: string;
 }
+
+export interface ArticleResponse extends ArticleAbstract {
+  content: string;
+  isLiked: boolean | null;
+  commentCount: number;
+}
