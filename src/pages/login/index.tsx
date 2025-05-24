@@ -150,7 +150,7 @@ export default function Login() {
               가입하기
             </Link>
           </div>
-          <div className="mb-4 flex items-center gap-6">
+          {/* <div className="mb-4 flex items-center gap-6">
             <div className="h-0 w-full border-t border-solid border-border-primary" />
             <span className="text-text-lg font-regular text-white [&&]:max-sm:font-medium">
               OR
@@ -171,7 +171,7 @@ export default function Login() {
                 />
               </div>
             </div>
-          </div>
+          </div> */}
         </form>
       </main>
       <ResetPasswordModal
