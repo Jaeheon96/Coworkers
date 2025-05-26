@@ -48,7 +48,7 @@ export default function AnimatedDropdown({
   return (
     <div
       ref={dropDownRef}
-      className="relative flex items-center"
+      className="relative flex h-fit items-center"
       onClick={handleBoxClick}
     >
       <button

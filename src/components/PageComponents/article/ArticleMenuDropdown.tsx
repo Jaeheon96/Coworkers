@@ -14,7 +14,7 @@ export default function ArticleMenuDropdown() {
       buttonProps={{
         name: "게시글 메뉴",
       }}
-      menuClassName="border border-solid border-border-primary right-0 bottom-full bg-background-secondary flex flex-col text-text-md font-regular w-30 [&&]:max-sm:text-text-xs [&&]:max-sm:rounded-lg [&&]:max-sm:top-[2.875rem]"
+      menuClassName="border border-solid border-border-primary right-0 top-8 bg-background-secondary flex flex-col text-text-md font-regular w-30 [&&]:max-sm:text-text-xs [&&]:max-sm:rounded-lg [&&]:max-sm:w-24"
     >
       <DropdownItem
         onClick={() => {}}

@@ -1,6 +1,10 @@
 import InvalidRequest from "@/components/@shared/UI/invalidRequest";
+import ArticleInterface from "@/components/PageComponents/article/ArticleInterface";
 import getArticle from "@/core/api/boards/getArticle";
+import { ArticleCommentsProvider } from "@/core/context/ArticleCommentsProvider";
 import { ArticleResponse } from "@/core/dtos/boards/boards";
+import StandardError from "@/core/types/standardError";
+import { AxiosError } from "axios";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 
 export const getServerSideProps = async (
@@ -10,10 +14,10 @@ export const getServerSideProps = async (
   let article: ArticleResponse | null = null;
   try {
     article = await getArticle(id);
-    /* eslint-disable  @typescript-eslint/no-explicit-any */
-  } catch (e: any) {
-    /* eslint-disable  @typescript-eslint/no-unsafe-member-access */
-    if (e.status === 404) return { notFound: true };
+  } catch (error: unknown) {
+    const e = error as AxiosError<StandardError>;
+    if (e.response?.status === 404 || e.status === 404)
+      return { notFound: true };
   }
 
   return { props: { article } };
@@ -24,5 +28,10 @@ export default function Article({
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   if (!article)
     return <InvalidRequest>게시글을 불러오는데 실패했습니다.</InvalidRequest>;
-  return <div>게시글 페이지</div>;
+
+  return (
+    <ArticleCommentsProvider>
+      <ArticleInterface article={article} />
+    </ArticleCommentsProvider>
+  );
 }

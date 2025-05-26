@@ -39,3 +39,26 @@ export interface ArticleResponse extends ArticleAbstract {
   isLiked: boolean | null;
   commentCount: number;
 }
+
+export interface ArticleComment {
+  id: number;
+  content: string;
+  createdAt: string;
+  updatedAt: string;
+  writer: {
+    id: number;
+    nickname: string;
+    image: string | null;
+  };
+}
+
+export interface GetArticleCommentsQuery {
+  articleId: string;
+  limit: number;
+  cursor?: number;
+}
+
+export interface ArticleCommentsResponse {
+  list: ArticleComment[];
+  nextCursor: number | null;
+}
