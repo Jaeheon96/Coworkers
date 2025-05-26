@@ -3,7 +3,6 @@ import type { Config } from "tailwindcss";
 import forms from "@tailwindcss/forms";
 import typography from "@tailwindcss/typography";
 import aspectRatio from "@tailwindcss/aspect-ratio";
-import lineClamp from "@tailwindcss/line-clamp";
 import { fontFamily } from "tailwindcss/defaultTheme";
 
 const config: Config = {
@@ -72,8 +71,9 @@ const config: Config = {
       },
 
       lineHeight: {
-        md: "1.0625rem",
+        xl: "1.625rem",
         lg: "1.1875rem",
+        md: "1.0625rem",
       },
 
       borderRadius: {
@@ -98,6 +98,7 @@ const config: Config = {
         "40.5": "10.125rem", // 162px
         "43.5": "10.875rem", // 174px
         "44.5": "11.125rem", // 178px
+        "46": "11.5rem", // 184px
         "48.5": "12.125rem", // 194px
         "55": "13.75rem", // 220px
         "58.75": "14.6875rem", // 235px
@@ -193,7 +194,6 @@ const config: Config = {
     forms,
     typography,
     aspectRatio,
-    lineClamp,
     require("tailwind-scrollbar-hide"),
     require("flowbite/plugin"),
   ],
