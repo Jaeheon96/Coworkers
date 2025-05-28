@@ -1,5 +1,6 @@
 import AnimatedDropdown from "@/components/@shared/UI/AnimatedDropdown";
 import DropdownItem from "@/components/@shared/UI/Item";
+import useModalStore from "@/lib/hooks/stores/modalStore";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -7,6 +8,8 @@ import { useRouter } from "next/router";
 export default function ArticleMenuDropdown() {
   const { query } = useRouter();
   const articleId = query.id as string;
+
+  const openModal = useModalStore((state) => state.openModal);
 
   return (
     <AnimatedDropdown
@@ -30,7 +33,9 @@ export default function ArticleMenuDropdown() {
         </DropdownItem>
       </Link>
       <DropdownItem
-        onClick={() => {}}
+        onClick={() => {
+          openModal("deleteArticleModal");
+        }}
         itemClassName="transition-colors flex items-center duration-100 justify-center hover:bg-background-tertiary rounded-b-xl h-10 [&&]:max-sm:rounded-b-lg [&&]:max-sm:text-text-xs"
       >
         삭제하기
