@@ -33,7 +33,7 @@ export default function LoadingButton({
           <div className={imageContatinerClassName}>
             <Image
               fill
-              src="icons/icon-ongoing.svg"
+              src="/icons/icon-ongoing.svg"
               alt="처리중..."
               className={imageClass}
             />

@@ -1,12 +1,15 @@
 import Link from "next/link";
 import Image from "next/image";
 import dynamic from "next/dynamic";
+import { useAuth } from "@/core/context/AuthProvider";
 import SearchBoxLoading from "./SearchBoxLoading";
 import BestArticlesLoading from "./BestArticlesLoading";
 import ArticlesSortDropdownLoading from "./ArticlesSortDropdownLoading";
 import ArticlesLoading from "./ArticlesLoading";
 
 export default function BoardsInterface() {
+  const { user } = useAuth();
+
   const SearchBox = dynamic(() => import("./SearchBox"), {
     ssr: false,
     loading: SearchBoxLoading,
@@ -47,15 +50,17 @@ export default function BoardsInterface() {
           <ArticlesSortDropdown />
         </div>
         <Articles />
-        <Link
-          className="fixed bottom-11 right-12 flex h-12 items-center justify-center gap-1 rounded-4xl bg-brand-primary px-5 text-text-lg text-white transition duration-100 hover:scale-110 [&&]:max-md:right-6 [&&]:max-sm:right-4"
-          href="/addboard"
-        >
-          <div className="relative h-4 w-4">
-            <Image src="/icons/icon-plus.svg" fill alt="게시글 쓰기" />
-          </div>
-          글쓰기
-        </Link>
+        {user && (
+          <Link
+            className="fixed bottom-11 right-12 flex h-12 items-center justify-center gap-1 rounded-4xl bg-brand-primary px-5 text-text-lg text-white transition duration-100 hover:scale-110 [&&]:max-md:right-6 [&&]:max-sm:right-4"
+            href="/addboard"
+          >
+            <div className="relative h-4 w-4">
+              <Image src="/icons/icon-plus.svg" fill alt="게시글 쓰기" />
+            </div>
+            글쓰기
+          </Link>
+        )}
       </section>
     </main>
   );

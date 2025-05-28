@@ -2,9 +2,12 @@ import FileInput from "@/components/@shared/UI/FileInput";
 import InputAlt from "@/components/@shared/UI/InputAlt";
 import InputLabel from "@/components/@shared/UI/InputLabel";
 import LoadingButton from "@/components/@shared/UI/LoadingButton";
-import postArticle from "@/core/api/boards/postArticle";
-import { useAuth } from "@/core/context/AuthProvider";
-import { ArticlePost } from "@/core/dtos/boards/boards";
+import patchArticle from "@/core/api/boards/patchArticle";
+import {
+  ArticlePatch,
+  ArticlePost,
+  ArticleResponse,
+} from "@/core/dtos/boards/boards";
 import StandardError from "@/core/types/standardError";
 import useArticleValidation from "@/lib/hooks/useArticleValidation";
 import useImageUpload from "@/lib/hooks/useImageUpload";
@@ -14,12 +17,14 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { ChangeEvent, FocusEvent, FormEvent, useState } from "react";
 
-export default function Addboard() {
-  useAuth(true);
+interface Props {
+  article: ArticleResponse;
+}
 
+export default function EditArticleForm({ article }: Props) {
   const [formValues, setFormValues] = useState<ArticlePost>({
-    title: "",
-    content: "",
+    title: article.title,
+    content: article.content,
   });
 
   const { replace } = useRouter();
@@ -41,7 +46,7 @@ export default function Addboard() {
     getImageUrl,
     imagePreview,
     clearFileInput,
-  } = useImageUpload();
+  } = useImageUpload(article.image);
 
   const { mutate: submit, isPending } = useMutation({
     mutationFn: async () => {
@@ -50,10 +55,24 @@ export default function Addboard() {
         imageUrl = await getImageUrl(file);
       }
 
-      const res = await postArticle({
-        ...formValues,
-        image: imageUrl ?? undefined,
-      });
+      const editForm: ArticlePatch = {
+        title:
+          formValues.title === article.title ? undefined : formValues.title,
+        content:
+          formValues.content === article.content
+            ? undefined
+            : formValues.content,
+        image: article.image === imagePreview ? undefined : imageUrl,
+      };
+
+      if (
+        typeof editForm.title === "undefined" &&
+        typeof editForm.content === "undefined" &&
+        typeof editForm.image === "undefined"
+      )
+        return article;
+
+      const res = await patchArticle(`${article.id}`, editForm);
 
       return res;
     },
@@ -99,7 +118,7 @@ export default function Addboard() {
         <div className="mb-10 w-full border-b border-border-primary pb-10 [&&]:max-md:mb-8 [&&]:max-md:pb-8 [&&]:max-sm:mb-6 [&&]:max-sm:pb-6">
           <div className="flex w-full items-center justify-between">
             <h1 className="cursor-default text-text-xl font-bold [&&]:max-sm:text-text-2lg">
-              게시글 쓰기
+              게시글 수정
             </h1>
             <LoadingButton
               className="h-12 w-[11.5rem] [&&]:max-sm:hidden"
