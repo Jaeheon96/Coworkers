@@ -8,7 +8,7 @@ export default async function getArticles(query?: GetArticlesQuery) {
     .get(
       `articles?${page ? `page=${page}` : ""}${pageSize ? `&pageSize=${pageSize}` : ""}${orderBy ? `&orderBy=${orderBy}` : ""}${keyword ? `&keyword=${keyword}` : ""}`,
     )
-    .catch((e: AxiosError) => Promise.reject(e.response ?? e));
+    .catch((e: AxiosError) => Promise.reject(e));
 
   return res.data;
 }

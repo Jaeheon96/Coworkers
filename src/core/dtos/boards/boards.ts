@@ -37,7 +37,6 @@ export interface GetArticlesQuery {
 export interface ArticleResponse extends ArticleAbstract {
   content: string;
   isLiked: boolean | null;
-  commentCount: number;
 }
 
 export interface ArticleComment {
@@ -61,4 +60,10 @@ export interface GetArticleCommentsQuery {
 export interface ArticleCommentsResponse {
   list: ArticleComment[];
   nextCursor: number | null;
+}
+
+export interface ArticlePatch {
+  title?: string;
+  content?: string;
+  image?: string | null;
 }
