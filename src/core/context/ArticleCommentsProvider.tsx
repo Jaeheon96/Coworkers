@@ -1,10 +1,13 @@
 import { QueryFunctionContext, useInfiniteQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
-import { createContext, ReactNode, useContext, useMemo } from "react";
+import { createContext, ReactNode, useContext, useMemo, useState } from "react";
 import getArticleComments from "../api/boards/getArticleComments";
 import { ArticleComment } from "../dtos/boards/boards";
 
 interface ArticleCommentsContextValues {
+  commentsCount: number | undefined;
+  increaseCommentsCount: () => void;
+  decreaseCommentsCount: () => void;
   comments: ArticleComment[] | undefined;
   hasNextPage: boolean;
   fetchNextComments: () => void;
@@ -19,6 +22,9 @@ interface InfiniteQueryContext extends QueryFunctionContext {
 }
 
 const initialContextValues: ArticleCommentsContextValues = {
+  commentsCount: undefined,
+  increaseCommentsCount: () => {},
+  decreaseCommentsCount: () => {},
   comments: undefined,
   hasNextPage: false,
   fetchNextComments: () => {},
@@ -32,9 +38,17 @@ const LIMIT = 5;
 
 const ArticleCommentsContext = createContext(initialContextValues);
 
-export function ArticleCommentsProvider({ children }: { children: ReactNode }) {
+export function ArticleCommentsProvider({
+  initialCommentsCount,
+  children,
+}: {
+  initialCommentsCount: number;
+  children: ReactNode;
+}) {
   const { query } = useRouter();
   const articleId = query.id as string;
+
+  const [commentsCount, setCommentsCount] = useState(initialCommentsCount);
 
   const {
     data: commentsData,
@@ -61,6 +75,13 @@ export function ArticleCommentsProvider({ children }: { children: ReactNode }) {
   const comments = commentsData?.pages.map((e) => e.list).flat();
 
   const contextValues = useMemo(() => {
+    const increaseCommentsCount = () => {
+      setCommentsCount((prev) => prev + 1);
+    };
+
+    const decreaseCommentsCount = () => {
+      setCommentsCount((prev) => prev - 1);
+    };
     const fetchNextComments = () => {
       fetchNextPage();
     };
@@ -68,6 +89,9 @@ export function ArticleCommentsProvider({ children }: { children: ReactNode }) {
       refetch();
     };
     return {
+      commentsCount,
+      increaseCommentsCount,
+      decreaseCommentsCount,
       comments,
       hasNextPage,
       fetchNextComments,
@@ -77,6 +101,7 @@ export function ArticleCommentsProvider({ children }: { children: ReactNode }) {
       refetchComments,
     };
   }, [
+    commentsCount,
     comments,
     hasNextPage,
     fetchNextPage,

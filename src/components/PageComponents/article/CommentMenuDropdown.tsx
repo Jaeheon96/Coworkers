@@ -1,12 +1,38 @@
 import AnimatedDropdown from "@/components/@shared/UI/AnimatedDropdown";
 import DropdownItem from "@/components/@shared/UI/Item";
+import deleteArticleComment from "@/core/api/boards/deleteArticleComment";
+import { useArticleComments } from "@/core/context/ArticleCommentsProvider";
+import StandardError from "@/core/types/standardError";
+import { useMutation } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 import Image from "next/image";
 
 interface Props {
   handlePatchFormOpen: () => void;
+  commentId: number;
 }
 
-export default function CommentMenuDropdown({ handlePatchFormOpen }: Props) {
+export default function CommentMenuDropdown({
+  handlePatchFormOpen,
+  commentId,
+}: Props) {
+  const { decreaseCommentsCount, refetchComments } = useArticleComments();
+
+  const { mutate: deleteComment } = useMutation({
+    mutationFn: () => deleteArticleComment(commentId),
+    onSuccess: () => {
+      refetchComments();
+      decreaseCommentsCount();
+    },
+    onError: (error) => {
+      const e = error as AxiosError<StandardError>;
+      console.error(error);
+      alert(
+        `댓글 삭제중 오류 발생 - 에러 코드: ${e.response?.status ?? e.status}`,
+      );
+    },
+  });
+
   return (
     <AnimatedDropdown
       trigger={
@@ -27,7 +53,9 @@ export default function CommentMenuDropdown({ handlePatchFormOpen }: Props) {
         수정하기
       </DropdownItem>
       <DropdownItem
-        onClick={() => {}}
+        onClick={() => {
+          deleteComment();
+        }}
         itemClassName="transition-colors flex items-center duration-100 justify-center hover:bg-background-tertiary rounded-b-xl h-10 [&&]:max-sm:rounded-b-lg [&&]:max-sm:text-text-xs"
       >
         삭제하기

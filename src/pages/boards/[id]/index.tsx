@@ -38,7 +38,7 @@ export default function Article({
     return <InvalidRequest>게시글을 불러오는데 실패했습니다.</InvalidRequest>;
 
   return (
-    <ArticleCommentsProvider>
+    <ArticleCommentsProvider initialCommentsCount={article.commentCount}>
       <ArticleInterface article={article} />
     </ArticleCommentsProvider>
   );
