@@ -19,9 +19,9 @@ interface Props {
 
 export default function ArticleInterface({ article }: Props) {
   const { user } = useAuth();
-  const { refetchComments } = useArticleComments();
+  const { commentsCount, increaseCommentsCount, refetchComments } =
+    useArticleComments();
 
-  const [commentsCount, setCommentsCount] = useState(article.commentCount);
   const [commentContent, setCommentContent] = useState("");
   const [commentError, setCommentError] = useState("");
 
@@ -35,7 +35,7 @@ export default function ArticleInterface({ article }: Props) {
         setCommentContent("");
         setCommentError("");
         refetchComments();
-        setCommentsCount((prev) => prev + 1);
+        increaseCommentsCount();
       },
       onError: (error: AxiosError<StandardError>) => {
         if (error.response?.status === 401) {

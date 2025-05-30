@@ -34,6 +34,7 @@ export default function ArticleCommentCard({ comment }: Props) {
                 handlePatchFormOpen={() => {
                   setIsPatchFormOpen(true);
                 }}
+                commentId={comment.id}
               />
             ) : null}
           </div>
