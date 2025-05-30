@@ -15,13 +15,13 @@ export default function Home() {
     <>
       <Head>
         <title>{COWORKERS_TITLE}</title>
-        <meta name="description" content={`${COWORKERS_BASE_DESCRIPTION}`} />
+        <meta name="description" content={COWORKERS_BASE_DESCRIPTION} />
         <meta
           name="keyword"
           content="팀, 투두리스트, 일정관리, 코워커스, team, to-do list, schedule, Coworkers"
         />
 
-        <meta property="og:title" content={`${COWORKERS_TITLE}`} />
+        <meta property="og:title" content={COWORKERS_TITLE} />
         <meta property="og:type" content="website" />
         <meta
           property="og:description"
@@ -31,18 +31,15 @@ export default function Home() {
           property="og:image"
           content={`${process.env.NEXT_PUBLIC_URL}/icons/icon-logo_coworkers_large.png`}
         />
-        <meta property="og:url" content={`${process.env.NEXT_PUBLIC_URL}`} />
+        <meta property="og:url" content={process.env.NEXT_PUBLIC_URL} />
 
         <meta name="twitter:card" content="summary" />
-        <meta name="twitter:title" content={`${COWORKERS_TITLE}`} />
+        <meta name="twitter:title" content={COWORKERS_TITLE} />
         <meta
           name="twitter:image"
           content={`${process.env.NEXT_PUBLIC_URL}/icons/icon-logo_coworkers_large.png`}
         />
-        <meta
-          name="twitter:description"
-          content={`${COWORKERS_BASE_DESCRIPTION}`}
-        />
+        <meta name="twitter:description" content={COWORKERS_BASE_DESCRIPTION} />
       </Head>
       <main>
         <section className="relative mb-15 flex flex-col items-center gap-[42.25rem] px-4 [&&]:max-md:mb-0 [&&]:max-md:gap-[35rem] [&&]:max-sm:gap-[26.25rem]">
