@@ -43,7 +43,10 @@ export default function Article({
     <>
       <Head>
         <title>{`${COWORKERS_TITLE} - ${article.title}`}</title>
-        <meta name="description" content={article.content} />
+        <meta
+          name="description"
+          content={`코워커스 자유게시판 게시글: ${article.title}`}
+        />
         <meta
           name="keyword"
           content="팀, 투두리스트, 일정관리, 코워커스, 자유게시판, 게시글, team, to-do list, schedule, Coworkers, article"
