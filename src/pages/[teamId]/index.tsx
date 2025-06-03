@@ -1,5 +1,6 @@
 import Head from "next/head";
 import AddTaskListModal from "@/components/@shared/AddTaskListModal";
+import InvalidRequest from "@/components/@shared/UI/invalidRequest";
 import Chat from "@/components/PageComponents/team/Chat";
 import Members from "@/components/PageComponents/team/Members";
 import SectionHeader from "@/components/PageComponents/team/SectionHeader";
@@ -15,9 +16,9 @@ import refineTasks from "@/lib/utils/refineTasks";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
 import dynamic from "next/dynamic";
 import TaskListSkeleton from "@/components/PageComponents/team/TaskListSkeleton";
+import { AxiosError } from "axios";
 import thumbnailSrc from "../../../public/images/image-thumbnailTeam.png";
 
 export default function Team() {
@@ -36,11 +37,15 @@ export default function Team() {
   const openModal = useModalStore((state) => state.openModal);
   const closeModal = useModalStore((state) => state.closeModal);
 
-  const { query, isReady, replace } = useRouter();
+  const { query, isReady } = useRouter();
   const teamId = query.teamId as string;
   const queryClient = useQueryClient();
 
-  const { data: group, isPending } = useQuery({
+  const {
+    data: group,
+    error: groupError,
+    refetch: refetchGroup,
+  } = useQuery({
     queryKey: ["group", teamId],
     queryFn: () => getTeamData(teamId),
     staleTime: 1000 * 60,
@@ -72,9 +77,26 @@ export default function Team() {
     },
   );
 
-  useEffect(() => {
-    if (!isPending && !group) replace("/wrongteam");
-  }, [isPending, group]);
+  if (groupError) {
+    const e = groupError as AxiosError;
+    if (e.status === 404) {
+      return (
+        <InvalidRequest>
+          <p>404 에러: 요청하신 팀 정보를 찾을 수 없습니다.</p>
+        </InvalidRequest>
+      );
+    }
+
+    return (
+      <InvalidRequest
+        retry={() => {
+          refetchGroup();
+        }}
+      >
+        <p>팀 데이터를 불러오던 중 오류가 발생했습니다.</p>
+      </InvalidRequest>
+    );
+  }
 
   return (
     <>
