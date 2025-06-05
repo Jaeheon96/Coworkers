@@ -19,7 +19,7 @@ export default function NavSidebar({
 }: Props) {
   const { query, pathname } = useRouter();
 
-  const boardsClassName = `text-text-md font-medium${pathname === "/boards" ? " text-brand-primary" : ""}`;
+  const boardsClassName = `text-text-md font-medium${pathname === "/boards" || pathname.startsWith("/boards/") ? " text-brand-primary" : ""}`;
 
   useEffect(() => {
     if (isOpen) {
