@@ -73,7 +73,7 @@ export default function Home() {
           </div>
           <Link
             href={`${!isPending && !user ? `/login?${routerQueries.loginDirection}=/addteam` : "/addteam"}`}
-            className="mb-30 flex w-full justify-center [&&]:max-sm:mb-12"
+            className="mb-30 flex justify-center [&&]:max-sm:mb-12 [&&]:max-sm:w-full"
           >
             <button
               type="button"
