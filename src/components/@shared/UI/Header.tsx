@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { routerQueries } from "@/core/types/queries";
 import DropdownItem from "./Item";
 import NavSidebar from "./NavSidebar";
 import SetupHeader from "./SetupHeader";
@@ -10,10 +11,14 @@ import AnimatedDropdown from "./AnimatedDropdown";
 
 export default function Header() {
   const { isPending, user, logout } = useAuth();
-  const { pathname, query } = useRouter();
+  const { pathname, query, asPath } = useRouter();
+  const router = useRouter();
+  console.log(router);
   const [isNavSidebarOpen, setIsNavSidebarOpen] = useState(false);
 
-  const boardsClassName = `[&&]:max-sm:hidden${pathname === "/boards" ? " text-brand-primary" : ""}`;
+  const loginDirection = `/login?${routerQueries.loginDirection}=${asPath}`;
+
+  const boardsClassName = `[&&]:max-sm:hidden${pathname === "/boards" || pathname.startsWith("/boards/") ? " text-brand-primary" : ""}`;
 
   if (pathname === "/login" || pathname === "/signup") return <SetupHeader />;
 
@@ -116,7 +121,7 @@ export default function Header() {
           {!isPending && !user && (
             <div className="flex items-center gap-4">
               <Link
-                href="login"
+                href={loginDirection}
                 className="text-text-lg font-semibold [&&]:max-md:text-text-md"
               >
                 로그인
