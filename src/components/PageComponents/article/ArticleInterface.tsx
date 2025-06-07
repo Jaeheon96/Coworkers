@@ -1,5 +1,6 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { useAuth } from "@/core/context/AuthProvider";
@@ -10,8 +11,8 @@ import InputLabel from "@/components/@shared/UI/InputLabel";
 import LoadingButton from "@/components/@shared/UI/LoadingButton";
 import postArticleComment from "@/core/api/boards/postArticleComment";
 import ArticleMenuDropdown from "./ArticleMenuDropdown";
-import ArticleComments from "./ArticleComments";
 import DeleteArticleModal from "./DeleteArticleModal";
+import ArticleCommentsLoading from "./ArticleCommentsLoading";
 
 interface Props {
   article: ArticleResponse;
@@ -19,8 +20,12 @@ interface Props {
 
 export default function ArticleInterface({ article }: Props) {
   const { user } = useAuth();
-  const { commentsCount, increaseCommentsCount, refetchComments } =
-    useArticleComments();
+  const {
+    commentsCount,
+    isCommentsLoading,
+    increaseCommentsCount,
+    refetchComments,
+  } = useArticleComments();
 
   const [commentContent, setCommentContent] = useState("");
   const [commentError, setCommentError] = useState("");
@@ -67,6 +72,11 @@ export default function ArticleInterface({ article }: Props) {
     }
     postComment();
   };
+
+  const ArticleComments = dynamic(() => import("./ArticleComments"), {
+    ssr: false,
+    loading: ArticleCommentsLoading,
+  });
 
   const commentClassName = `leading-xl h-[6.5rem] resize-none rounded-xl ${commentError ? "border-status-danger" : "border-border-primary"} px-6 py-4 text-text-lg font-regular placeholder:text-text-default [&&]:bg-background-secondary [&&]:hover:border-interaction-hover [&&]:focus:border-interaction-focus [&&]:focus:ring-0 [&&]:max-sm:px-4 [&&]:max-sm:py-2 [&&]:max-sm:text-text-md`;
 
@@ -140,7 +150,7 @@ export default function ArticleInterface({ article }: Props) {
             variant="solid"
             type="submit"
             name="댓글 등록"
-            isPending={isCommentSubmitPending}
+            isPending={isCommentsLoading || isCommentSubmitPending}
             className="h-12 w-46 text-text-lg font-semibold text-white [&&]:max-sm:h-8 [&&]:max-sm:w-18.5 [&&]:max-sm:text-text-md"
           >
             등록
