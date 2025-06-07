@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { MouseEvent, ReactNode } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { routerQueries } from "@/core/types/queries";
@@ -6,10 +6,11 @@ import Button from "./Button";
 
 interface Props {
   login?: boolean;
+  retry?: (e?: MouseEvent<HTMLButtonElement>) => void;
   children?: ReactNode;
 }
 
-export default function InvalidRequest({ login, children }: Props) {
+export default function InvalidRequest({ login, retry, children }: Props) {
   const { replace, back, query } = useRouter();
   const dir = query[routerQueries.loginDirection];
   const loginUrl = `/login${typeof dir === "string" ? `?${routerQueries.loginDirection}=${dir}` : ""}`;
@@ -32,6 +33,11 @@ export default function InvalidRequest({ login, children }: Props) {
             onClick={() => replace(loginUrl)}
           >
             로그인하기
+          </Button>
+        ) : null}
+        {retry ? (
+          <Button variant="solid" size="large" onClick={retry}>
+            다시 시도
           </Button>
         ) : null}
         <Button

@@ -10,6 +10,8 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 interface Props extends ButtonProps {
   isPending: boolean;
+  disabled?: boolean;
+  classname?: string;
   children: ReactNode;
   imageContainerClass?: string;
   imageClass?: string;
@@ -18,6 +20,8 @@ interface Props extends ButtonProps {
 export default function LoadingButton({
   isPending,
   children,
+  disabled,
+  className,
   imageContainerClass,
   imageClass,
   ...rest
@@ -26,14 +30,25 @@ export default function LoadingButton({
     "relative h-6 w-6 animate-spin",
     imageContainerClass,
   );
+  const pendingClassName = `${isPending ? "[&&]:disabled:bg-interaction-pressed" : ""}`;
+
+  const buttonClassname = twMerge(pendingClassName, className);
+
   return (
-    <Button variant="solid" size="large" type="submit" {...rest}>
+    <Button
+      variant="solid"
+      size="large"
+      type="submit"
+      disabled={isPending || disabled}
+      className={buttonClassname}
+      {...rest}
+    >
       {isPending ? (
         <div className="flex w-full justify-center">
           <div className={imageContatinerClassName}>
             <Image
               fill
-              src="icons/icon-ongoing.svg"
+              src="/icons/icon-ongoing.svg"
               alt="처리중..."
               className={imageClass}
             />

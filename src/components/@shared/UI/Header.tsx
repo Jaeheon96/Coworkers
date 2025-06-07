@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { routerQueries } from "@/core/types/queries";
 import DropdownItem from "./Item";
 import NavSidebar from "./NavSidebar";
 import SetupHeader from "./SetupHeader";
@@ -10,8 +11,14 @@ import AnimatedDropdown from "./AnimatedDropdown";
 
 export default function Header() {
   const { isPending, user, logout } = useAuth();
-  const { pathname, query } = useRouter();
+  const { pathname, query, asPath } = useRouter();
+  const router = useRouter();
+  console.log(router);
   const [isNavSidebarOpen, setIsNavSidebarOpen] = useState(false);
+
+  const loginDirection = `/login?${routerQueries.loginDirection}=${asPath}`;
+
+  const boardsClassName = `[&&]:max-sm:hidden${pathname === "/boards" || pathname.startsWith("/boards/") ? " text-brand-primary" : ""}`;
 
   if (pathname === "/login" || pathname === "/signup") return <SetupHeader />;
 
@@ -19,7 +26,7 @@ export default function Header() {
     <>
       <header className="fixed top-0 z-30 flex h-15 w-full justify-center border-b border-border-primary bg-background-secondary px-6 [&&]:max-sm:pl-0 [&&]:max-sm:pr-4">
         <div className="flex h-full w-300 items-center justify-between">
-          <div className="flex h-full items-center gap-10">
+          <div className="flex h-full items-center gap-10 [&&]:max-md:gap-8">
             <div className="flex h-full items-center gap-4">
               <div
                 className="hidden h-full w-fit cursor-pointer items-center pl-4 [&&]:max-sm:flex"
@@ -107,11 +114,14 @@ export default function Header() {
                 </Link>
               </AnimatedDropdown>
             )}
+            <Link href="/boards" className={boardsClassName}>
+              <p className="text-text-lg font-medium">자유게시판</p>
+            </Link>
           </div>
           {!isPending && !user && (
             <div className="flex items-center gap-4">
               <Link
-                href="login"
+                href={loginDirection}
                 className="text-text-lg font-semibold [&&]:max-md:text-text-md"
               >
                 로그인
