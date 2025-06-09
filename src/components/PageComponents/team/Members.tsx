@@ -16,7 +16,7 @@ export default function Members({ members }: Props) {
         >
           <div className="flex h-full w-full items-center justify-between">
             <div className="flex h-full items-center gap-3">
-              <div className="relative h-8 w-8 rounded-full border border-solid border-border-primary">
+              <div className="relative h-8 w-8">
                 <Image
                   fill
                   src={
@@ -24,6 +24,7 @@ export default function Members({ members }: Props) {
                       ? member.userImage
                       : "/icons/icon-default_profile.svg"
                   }
+                  className="rounded-full border border-solid border-border-primary"
                   alt="멤버 이미지"
                 />
               </div>
