@@ -1,3 +1,4 @@
+import InvalidRequest from "@/components/@shared/UI/invalidRequest";
 import postInvitationAccept from "@/core/api/group/postInvitationAccept";
 import { useAuth } from "@/core/context/AuthProvider";
 import { useMutation } from "@tanstack/react-query";
@@ -11,20 +12,28 @@ export default function AcceptInvite() {
   const userEmail = user?.email;
   const token = query.code as string;
 
-  const { mutate } = useMutation({
+  const { mutate, isError } = useMutation({
     mutationFn: postInvitationAccept,
     onSuccess: (res) => {
       replace(`/${res.groupId}`);
       getMe();
     },
-    onError: () => {
-      replace("/wrongteam");
+    onError: (error) => {
+      console.error(error);
     },
   });
 
   useEffect(() => {
     if (userEmail && token) mutate({ userEmail, token });
   }, [userEmail, token]);
+
+  if (isError)
+    return (
+      <InvalidRequest>
+        <p>유효하지 않은 초대입니다.</p>
+        <p>초대 기간이 만료되었을 수 있습니다.</p>
+      </InvalidRequest>
+    );
 
   return null;
 }
