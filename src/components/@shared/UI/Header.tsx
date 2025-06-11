@@ -12,8 +12,6 @@ import AnimatedDropdown from "./AnimatedDropdown";
 export default function Header() {
   const { isPending, user, logout } = useAuth();
   const { pathname, query, asPath } = useRouter();
-  const router = useRouter();
-  console.log(router);
   const [isNavSidebarOpen, setIsNavSidebarOpen] = useState(false);
 
   const loginDirection = `/login?${routerQueries.loginDirection}=${asPath}`;

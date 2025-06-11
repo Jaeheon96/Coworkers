@@ -35,5 +35,9 @@ export default function AcceptInvite() {
       </InvalidRequest>
     );
 
-  return null;
+  return (
+    <main className="flex h-123 items-center justify-center">
+      <p className="mt-40 text-text-md font-medium">참여 요청중...</p>
+    </main>
+  );
 }
