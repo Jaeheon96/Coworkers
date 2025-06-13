@@ -136,13 +136,20 @@ export default function Header() {
             <AnimatedDropdown
               trigger={
                 <div className="flex items-center gap-2">
-                  <div className="relative h-4 w-4">
-                    <Image
-                      fill
-                      src={user.image ?? "/icons/icon-user.svg"}
-                      alt="프로필"
-                    />
-                  </div>
+                  {user.image ? (
+                    <div className="relative h-6 w-6">
+                      <Image
+                        fill
+                        className="rounded-full"
+                        src={user.image}
+                        alt="프로필"
+                      />
+                    </div>
+                  ) : (
+                    <div className="relative h-4 w-4">
+                      <Image fill src="/icons/icon-user.svg" alt="프로필" />
+                    </div>
+                  )}
                   <p className="text-text-md font-medium [&&]:max-md:hidden">
                     {user.nickname}
                   </p>
