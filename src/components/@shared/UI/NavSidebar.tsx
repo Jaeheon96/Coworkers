@@ -20,6 +20,7 @@ export default function NavSidebar({
   const { query, pathname } = useRouter();
 
   const boardsClassName = `text-text-md font-medium${pathname === "/boards" || pathname.startsWith("/boards/") ? " text-brand-primary" : ""}`;
+  const addteamClassName = `text-text-md font-medium${pathname === "/addteam" || pathname.startsWith("/addteam/") ? " text-brand-primary" : ""}`;
 
   useEffect(() => {
     if (isOpen) {
@@ -90,6 +91,9 @@ export default function NavSidebar({
                   </Link>
                 );
               })}
+              <Link href="/addteam" onClick={handleClose}>
+                <p className={addteamClassName}>팀 추가하기</p>
+              </Link>
               <Link href="/boards" onClick={handleClose}>
                 <p className={boardsClassName}>자유게시판</p>
               </Link>
