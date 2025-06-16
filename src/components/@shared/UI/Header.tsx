@@ -137,7 +137,7 @@ export default function Header() {
               trigger={
                 <div className="flex items-center gap-2">
                   {user.image ? (
-                    <div className="relative h-6 w-6">
+                    <div className="relative h-8 w-8">
                       <Image
                         fill
                         className="rounded-full"
