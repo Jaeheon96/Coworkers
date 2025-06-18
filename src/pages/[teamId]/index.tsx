@@ -27,9 +27,6 @@ export default function Team() {
   const addTaskListModalName = "addTaskListModal";
   const teamLinkModalName = "teamLinkModal";
 
-  const isAddTaskListModalOpen = useModalStore(
-    (state) => state.modals[addTaskListModalName],
-  );
   const isTeamLinkModalOpen = useModalStore(
     (state) => state.modals[teamLinkModalName],
   );
@@ -160,12 +157,7 @@ export default function Team() {
           <Members members={group?.members ?? []} />
         </section>
       </main>
-      <AddTaskListModal
-        isOpen={isAddTaskListModalOpen}
-        onClose={() => closeModal(addTaskListModalName)}
-        teamId={teamId}
-        submitCallback={refreshGroup}
-      />
+      <AddTaskListModal teamId={teamId} submitCallback={refreshGroup} />
       <TeamLinkModal
         isOpen={isTeamLinkModalOpen}
         onClose={() => closeModal(teamLinkModalName)}
