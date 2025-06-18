@@ -1,15 +1,12 @@
 import Image from "next/image";
 import AnimatedDropdown from "@/components/@shared/UI/AnimatedDropdown";
-import AddTaskListModal from "@/components/@shared/AddTaskListModal";
 import DropdownItem from "@/components/@shared/UI/Item";
-import { useQueryClient } from "@tanstack/react-query";
 import useModalStore from "@/lib/hooks/stores/modalStore";
 import DeleteTaskListModal from "./DeleteTaskListModal";
 
 interface Props {
   teamId: string;
   taskListId: string;
-  name: string;
   index: number;
   length: number;
 }
@@ -17,7 +14,6 @@ interface Props {
 export default function TaskListMenu({
   teamId,
   taskListId,
-  name,
   index,
   length,
 }: Props) {
@@ -26,20 +22,12 @@ export default function TaskListMenu({
 
   const isAtBottom = index > length - 3;
 
-  const isPatchModalOpen = useModalStore(
-    (state) => state.modals[patchModalName],
-  );
   const isDeleteModalOpen = useModalStore(
     (state) => state.modals[deleteModalName],
   );
 
   const openModal = useModalStore((state) => state.openModal);
   const closeModal = useModalStore((state) => state.closeModal);
-
-  const queryClient = useQueryClient();
-  const refreshGroup = () => {
-    queryClient.invalidateQueries({ queryKey: ["group", teamId] });
-  };
 
   const menuClassName = `flex flex-col text-text-primary font-regular text-text-md w-30 bg-background-secondary border border-solid border-border-primary ${isAtBottom ? "right-0 bottom-6" : "right-0 top-6"}`;
 
@@ -68,16 +56,6 @@ export default function TaskListMenu({
           삭제하기
         </DropdownItem>
       </AnimatedDropdown>
-      <AddTaskListModal
-        isOpen={isPatchModalOpen}
-        onClose={() => closeModal(patchModalName)}
-        teamId={teamId}
-        submitCallback={refreshGroup}
-        defaultPatchForm={{
-          taskListId,
-          name,
-        }}
-      />
       <DeleteTaskListModal
         isOpen={isDeleteModalOpen}
         onClose={() => closeModal(deleteModalName)}
