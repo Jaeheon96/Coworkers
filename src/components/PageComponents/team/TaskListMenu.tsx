@@ -1,7 +1,7 @@
-import AddTaskListModal from "@/components/@shared/AddTaskListModal";
-import Dropdown from "@/components/@shared/UI/Dropdown";
-import DropdownItem from "@/components/@shared/UI/Item";
 import Image from "next/image";
+import AnimatedDropdown from "@/components/@shared/UI/AnimatedDropdown";
+import AddTaskListModal from "@/components/@shared/AddTaskListModal";
+import DropdownItem from "@/components/@shared/UI/Item";
 import { useQueryClient } from "@tanstack/react-query";
 import useModalStore from "@/lib/hooks/stores/modalStore";
 import DeleteTaskListModal from "./DeleteTaskListModal";
@@ -45,7 +45,7 @@ export default function TaskListMenu({
 
   return (
     <>
-      <Dropdown
+      <AnimatedDropdown
         trigger={
           <div className="flex h-10 w-10 items-center justify-end pr-2">
             <div className="relative h-4 w-4">
@@ -57,17 +57,17 @@ export default function TaskListMenu({
       >
         <DropdownItem
           onClick={() => openModal(patchModalName)}
-          itemClassName="h-10 flex justify-center items-center hover:bg-background-tertiary rounded-t-xl"
+          itemClassName="transition-colors duration-100 h-10 flex justify-center items-center hover:bg-background-tertiary rounded-t-xl"
         >
           수정하기
         </DropdownItem>
         <DropdownItem
           onClick={() => openModal(deleteModalName)}
-          itemClassName="h-10 flex justify-center items-center hover:bg-background-tertiary rounded-b-xl"
+          itemClassName="transition-colors duration-100 h-10 flex justify-center items-center hover:bg-background-tertiary rounded-b-xl"
         >
           삭제하기
         </DropdownItem>
-      </Dropdown>
+      </AnimatedDropdown>
       <AddTaskListModal
         isOpen={isPatchModalOpen}
         onClose={() => closeModal(patchModalName)}

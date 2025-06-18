@@ -1,6 +1,6 @@
-import Dropdown from "@/components/@shared/UI/Dropdown";
-import DropdownItem from "@/components/@shared/UI/Item";
 import Image from "next/image";
+import AnimatedDropdown from "@/components/@shared/UI/AnimatedDropdown";
+import DropdownItem from "@/components/@shared/UI/Item";
 import { useAuth } from "@/core/context/AuthProvider";
 import useModalStore from "@/lib/hooks/stores/modalStore";
 import PatchTeamModal from "./PatchTeamModal";
@@ -56,7 +56,7 @@ export default function TeamGear({
 
   return (
     <>
-      <Dropdown
+      <AnimatedDropdown
         trigger={
           <div className="relative h-6 w-6">
             <Image fill src="/icons/icon-gear.svg" alt="팀 설정" />
@@ -68,13 +68,13 @@ export default function TeamGear({
           <>
             <DropdownItem
               onClick={() => openModal(patchTeamModalName)}
-              itemClassName="h-10 flex justify-center items-center hover:bg-background-tertiary first:rounded-t-xl"
+              itemClassName="transition-colors duration-100 h-10 flex justify-center items-center hover:bg-background-tertiary first:rounded-t-xl"
             >
               수정하기
             </DropdownItem>
             <DropdownItem
               onClick={() => openModal(deleteTeamModalName)}
-              itemClassName="h-10 flex justify-center items-center hover:bg-background-tertiary"
+              itemClassName="transition-colors duration-100 h-10 flex justify-center items-center hover:bg-background-tertiary"
             >
               삭제하기
             </DropdownItem>
@@ -82,11 +82,11 @@ export default function TeamGear({
         ) : null}
         <DropdownItem
           onClick={() => openModal(deleteMemberModalName)}
-          itemClassName="h-10 flex justify-center items-center hover:bg-background-tertiary first:rounded-t-xl last:rounded-b-xl"
+          itemClassName="transition-colors duration-100 h-10 flex justify-center items-center hover:bg-background-tertiary first:rounded-t-xl last:rounded-b-xl"
         >
           탈퇴하기
         </DropdownItem>
-      </Dropdown>
+      </AnimatedDropdown>
       <PatchTeamModal
         isOpen={isPatchModalOpen}
         onClose={() => closeModal(patchTeamModalName)}

@@ -1,6 +1,6 @@
-import Dropdown from "@/components/@shared/UI/Dropdown";
-import DropdownItem from "@/components/@shared/UI/Item";
 import Image from "next/image";
+import DropdownItem from "@/components/@shared/UI/Item";
+import AnimatedDropdown from "@/components/@shared/UI/AnimatedDropdown";
 import useModalStore from "@/lib/hooks/stores/modalStore";
 import MemberProfileModal from "./MemberProfileModal";
 
@@ -22,7 +22,7 @@ export default function MemberMenu({ image, name, email }: Props) {
 
   return (
     <>
-      <Dropdown
+      <AnimatedDropdown
         trigger={
           <div className="relative h-4 w-4">
             <Image fill src="/icons/icon-kebab.svg" alt="메뉴" />
@@ -32,11 +32,11 @@ export default function MemberMenu({ image, name, email }: Props) {
       >
         <DropdownItem
           onClick={() => openModal(profileModalName)}
-          itemClassName="h-10 flex justify-center items-center rounded-xl hover:bg-background-tertiary"
+          itemClassName="transition-colors duration-100 h-10 flex justify-center items-center rounded-xl hover:bg-background-tertiary"
         >
           프로필 보기
         </DropdownItem>
-      </Dropdown>
+      </AnimatedDropdown>
       <MemberProfileModal
         isOpen={isProfileOpen}
         onClose={() => closeModal(profileModalName)}
