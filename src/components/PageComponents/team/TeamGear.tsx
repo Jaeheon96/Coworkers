@@ -33,12 +33,6 @@ export default function TeamGear({
   const isPatchModalOpen = useModalStore(
     (state) => state.modals[patchTeamModalName],
   );
-  const isDeleteTeamModalOpen = useModalStore(
-    (state) => state.modals[deleteTeamModalName],
-  );
-  const isDeleteMemberModalOpen = useModalStore(
-    (state) => state.modals[deleteMemberModalName],
-  );
 
   const openModal = useModalStore((state) => state.openModal);
   const closeModal = useModalStore((state) => state.closeModal);
@@ -93,17 +87,8 @@ export default function TeamGear({
         submitCallback={patchTeamCallback}
         formValues={patchTeamForm}
       />
-      <DeleteTeamModal
-        isOpen={isDeleteTeamModalOpen}
-        onClose={() => closeModal(deleteTeamModalName)}
-        teamId={teamId}
-      />
-      <DeleteMemberModal
-        isOpen={isDeleteMemberModalOpen}
-        onClose={() => closeModal(deleteMemberModalName)}
-        teamId={teamId}
-        memberId={`${memberId}`}
-      />
+      <DeleteTeamModal teamId={teamId} />
+      <DeleteMemberModal teamId={teamId} memberId={`${memberId}`} />
     </>
   );
 }

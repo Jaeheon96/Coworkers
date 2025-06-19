@@ -19,8 +19,7 @@ export default function DeleteUserModal({ isOpen, onClose }: Props) {
 
   return (
     <WarningModal
-      isOpen={isOpen}
-      onClose={onClose}
+      modalName="deleteUserModal"
       onClick={() => {
         setIsVerifyOpen(true);
       }}

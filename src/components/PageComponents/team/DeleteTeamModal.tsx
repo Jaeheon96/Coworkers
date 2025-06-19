@@ -1,24 +1,27 @@
-import deleteTeam from "@/core/api/group/deleteTeam";
-import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/router";
+import { useMutation } from "@tanstack/react-query";
+import deleteTeam from "@/core/api/group/deleteTeam";
 import { useAuth } from "@/core/context/AuthProvider";
+import useModalStore from "@/lib/hooks/stores/modalStore";
 import WarningModal from "./WarningModal";
 
 interface Props {
-  isOpen: boolean;
-  onClose: () => void;
   teamId: string;
 }
 
-export default function DeleteTeamModal({ isOpen, onClose, teamId }: Props) {
+export default function DeleteTeamModal({ teamId }: Props) {
+  const modalName = "deleteTeamModal";
+
   const { push } = useRouter();
   const { getMe } = useAuth();
+
+  const closeModal = useModalStore((state) => state.closeModal);
 
   const { mutate } = useMutation({
     mutationFn: () => deleteTeam(teamId),
     onSuccess: () => {
       getMe();
-      onClose();
+      closeModal(modalName);
       push("/");
     },
     onError: (error) => {
@@ -33,8 +36,7 @@ export default function DeleteTeamModal({ isOpen, onClose, teamId }: Props) {
 
   return (
     <WarningModal
-      isOpen={isOpen}
-      onClose={onClose}
+      modalName={modalName}
       onClick={handleDelete}
       message="정말 이 팀을 삭제하시겠습니까?"
     />
