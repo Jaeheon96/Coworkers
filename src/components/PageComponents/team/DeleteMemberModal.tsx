@@ -1,29 +1,27 @@
-import deleteMember from "@/core/api/group/deleteMember";
-import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/router";
+import { useMutation } from "@tanstack/react-query";
+import deleteMember from "@/core/api/group/deleteMember";
 import { useAuth } from "@/core/context/AuthProvider";
+import useModalStore from "@/lib/hooks/stores/modalStore";
 import WarningModal from "./WarningModal";
 
 interface Props {
-  isOpen: boolean;
-  onClose: () => void;
   teamId: string;
   memberId: string;
 }
 
-export default function DeleteMemberModal({
-  isOpen,
-  onClose,
-  teamId,
-  memberId,
-}: Props) {
+export default function DeleteMemberModal({ teamId, memberId }: Props) {
+  const modalName = "deleteMemberModal";
+
   const router = useRouter();
   const { getMe } = useAuth();
+
+  const closeModal = useModalStore((state) => state.closeModal);
 
   const { mutate } = useMutation({
     mutationFn: () => deleteMember(teamId, memberId),
     onMutate: () => {
-      onClose();
+      closeModal(modalName);
     },
     onSuccess: () => {
       router.push("/");
@@ -41,8 +39,7 @@ export default function DeleteMemberModal({
 
   return (
     <WarningModal
-      isOpen={isOpen}
-      onClose={onClose}
+      modalName={modalName}
       onClick={handleButtonClick}
       message="이 그룹에서 탈퇴하시겠습니까?"
     />

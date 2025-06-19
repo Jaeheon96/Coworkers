@@ -1,23 +1,30 @@
 import Button from "@/components/@shared/UI/Button";
 import Modal from "@/components/@shared/UI/Modal/Modal";
+import useModalStore from "@/lib/hooks/stores/modalStore";
 import Image from "next/image";
 import { MouseEvent } from "react";
 
 interface Props {
-  isOpen: boolean;
-  onClose: () => void;
+  modalName?: string;
   onClick: (e?: MouseEvent<HTMLButtonElement>) => void;
   message?: string;
 }
 
 export default function WarningModal({
-  isOpen,
-  onClose,
+  modalName = "warningModal",
   onClick,
   message = "삭제하시겠습니까?",
 }: Props) {
+  const isOpen = useModalStore((state) => state.modals[modalName]);
+  const closeModal = useModalStore((state) => state.closeModal);
+
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
+    <Modal
+      isOpen={isOpen}
+      onClose={() => {
+        closeModal(modalName);
+      }}
+    >
       <div className="flex w-80 flex-col items-center gap-6">
         <div className="relative h-8 w-8">
           <Image fill src="/icons/icon-alert.svg" alt="주의" />
@@ -32,7 +39,13 @@ export default function WarningModal({
           >
             확인
           </Button>
-          <Button variant="outlined" size="large" onClick={onClose}>
+          <Button
+            variant="outlined"
+            size="large"
+            onClick={() => {
+              closeModal(modalName);
+            }}
+          >
             취소
           </Button>
         </div>

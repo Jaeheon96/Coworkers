@@ -1,8 +1,7 @@
-import useModalStore from "@/lib/hooks/stores/modalStore";
-import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/router";
-import deleteArticle from "@/core/api/boards/deleteArticle";
 import { AxiosError } from "axios";
+import { useMutation } from "@tanstack/react-query";
+import deleteArticle from "@/core/api/boards/deleteArticle";
 import StandardError from "@/core/types/standardError";
 import WarningModal from "../team/WarningModal";
 
@@ -25,20 +24,11 @@ export default function DeleteArticleModal() {
     },
   });
 
-  const isDeleteArticleModalOpen = useModalStore(
-    (state) => state.modals[modalName],
-  );
-
-  const closeModal = useModalStore((state) => state.closeModal);
-
   return (
     <WarningModal
-      isOpen={isDeleteArticleModalOpen}
+      modalName={modalName}
       onClick={() => {
         handleDelete();
-      }}
-      onClose={() => {
-        closeModal(modalName);
       }}
       message="게시물을 삭제하시겠습니까?"
     />

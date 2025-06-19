@@ -1,27 +1,24 @@
-import deleteTaskList from "@/core/api/taskList/deleteTaskList";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import deleteTaskList from "@/core/api/taskList/deleteTaskList";
+import useModalStore from "@/lib/hooks/stores/modalStore";
 import WarningModal from "./WarningModal";
 
 interface Props {
-  isOpen: boolean;
-  onClose: () => void;
   teamId: string;
   taskListId: string;
 }
 
-export default function DeleteTaskListModal({
-  isOpen,
-  onClose,
-  teamId,
-  taskListId,
-}: Props) {
+export default function DeleteTaskListModal({ teamId, taskListId }: Props) {
+  const modalName = "deleteTaskListModal";
   const queryClient = useQueryClient();
+
+  const closeModal = useModalStore((state) => state.closeModal);
 
   const { mutate } = useMutation({
     mutationFn: () => deleteTaskList(teamId, taskListId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["group", teamId] });
-      onClose();
+      closeModal(modalName);
     },
     onError: (error) => {
       alert("삭제중 에러 발생: 에러 정보는 콘솔 확인");
@@ -33,7 +30,5 @@ export default function DeleteTaskListModal({
     mutate();
   };
 
-  return (
-    <WarningModal isOpen={isOpen} onClose={onClose} onClick={handleDelete} />
-  );
+  return <WarningModal modalName={modalName} onClick={handleDelete} />;
 }

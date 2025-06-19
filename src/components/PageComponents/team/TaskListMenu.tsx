@@ -22,12 +22,7 @@ export default function TaskListMenu({
 
   const isAtBottom = index > length - 3;
 
-  const isDeleteModalOpen = useModalStore(
-    (state) => state.modals[deleteModalName],
-  );
-
   const openModal = useModalStore((state) => state.openModal);
-  const closeModal = useModalStore((state) => state.closeModal);
 
   const menuClassName = `flex flex-col text-text-primary font-regular text-text-md w-30 bg-background-secondary border border-solid border-border-primary ${isAtBottom ? "right-0 bottom-6" : "right-0 top-6"}`;
 
@@ -56,12 +51,7 @@ export default function TaskListMenu({
           삭제하기
         </DropdownItem>
       </AnimatedDropdown>
-      <DeleteTaskListModal
-        isOpen={isDeleteModalOpen}
-        onClose={() => closeModal(deleteModalName)}
-        teamId={teamId}
-        taskListId={taskListId}
-      />
+      <DeleteTaskListModal teamId={teamId} taskListId={taskListId} />
     </>
   );
 }
