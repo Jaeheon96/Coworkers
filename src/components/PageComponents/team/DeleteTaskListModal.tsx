@@ -6,10 +6,14 @@ import WarningModal from "./WarningModal";
 interface Props {
   teamId: string;
   taskListId: string;
+  modalName?: string;
 }
 
-export default function DeleteTaskListModal({ teamId, taskListId }: Props) {
-  const modalName = "deleteTaskListModal";
+export default function DeleteTaskListModal({
+  teamId,
+  taskListId,
+  modalName = `${taskListId}TaskListDeleteModal`,
+}: Props) {
   const queryClient = useQueryClient();
 
   const closeModal = useModalStore((state) => state.closeModal);
