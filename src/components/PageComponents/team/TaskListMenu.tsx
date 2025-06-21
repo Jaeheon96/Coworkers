@@ -13,7 +13,7 @@ export default function TaskListMenu({ taskListId, index, length }: Props) {
   const patchModalName = `${taskListId}TaskListPatchModal`;
   const deleteModalName = `${taskListId}TaskListDeleteModal`;
 
-  const isAtBottom = index > length - 3;
+  const isAtBottom = index > length - 3 && length > 5;
 
   const openModal = useModalStore((state) => state.openModal);
 
