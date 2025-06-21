@@ -12,6 +12,7 @@ import patchTaskListOrder from "@/core/api/taskList/patchTaskListOrder";
 import AddTaskListModal from "@/components/@shared/AddTaskListModal";
 import TaskListMenu from "./TaskListMenu";
 import TaskListSkeleton from "./TaskListSkeleton";
+import DeleteTaskListModal from "./DeleteTaskListModal";
 
 interface Props {
   tasks: GroupTask[];
@@ -121,7 +122,6 @@ export default function TaskLists({ tasks, teamId, isPending = false }: Props) {
                           {task.name}
                         </Link>
                         <TaskListMenu
-                          teamId={teamId}
                           taskListId={`${task.id}`}
                           index={index}
                           length={visibleTasks.length}
@@ -131,12 +131,16 @@ export default function TaskLists({ tasks, teamId, isPending = false }: Props) {
                   </Draggable>
                   <AddTaskListModal
                     teamId={teamId}
-                    modalName={`${task.id}taskListPatchModal`}
+                    modalName={`${task.id}TaskListPatchModal`}
                     submitCallback={refreshGroup}
                     defaultPatchForm={{
                       taskListId: `${task.id}`,
                       name: task.name,
                     }}
+                  />
+                  <DeleteTaskListModal
+                    teamId={teamId}
+                    taskListId={`${task.id}`}
                   />
                 </>
               );
