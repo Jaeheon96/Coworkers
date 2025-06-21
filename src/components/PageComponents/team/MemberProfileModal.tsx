@@ -1,24 +1,27 @@
 import Button from "@/components/@shared/UI/Button";
 import Modal from "@/components/@shared/UI/Modal/Modal";
+import useModalStore from "@/lib/hooks/stores/modalStore";
 import useTimeoutToggle from "@/lib/hooks/useTimeoutToggle";
 import Image from "next/image";
 
 interface Props {
-  isOpen: boolean;
-  onClose: () => void;
+  modalName?: string;
   image: string;
   name: string;
   email: string;
 }
 
 export default function MemberProfileModal({
-  isOpen,
-  onClose,
+  modalName = "memberProfileModal",
   image,
   name,
   email,
 }: Props) {
   const { isOn: isButtonClicked, timeoutToggle } = useTimeoutToggle();
+
+  const isOpen = useModalStore((state) => state.modals[modalName]);
+
+  const closeModal = useModalStore((state) => state.closeModal);
 
   const handleEmailCopy = () => {
     if (isButtonClicked) return;
@@ -27,9 +30,15 @@ export default function MemberProfileModal({
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} isCloseButton>
+    <Modal
+      isOpen={isOpen}
+      onClose={() => {
+        closeModal(modalName);
+      }}
+      isCloseButton
+    >
       <div className="mx-4 flex w-[17.5rem] flex-col items-center gap-6">
-        <div className="h-13 w-13 relative">
+        <div className="relative h-13 w-13">
           <Image
             fill
             src={image ?? "/icons/icon-default_profile.svg"}
