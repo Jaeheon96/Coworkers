@@ -11,14 +11,9 @@ interface Props {
 }
 
 export default function MemberMenu({ image, name, email }: Props) {
-  const profileModalName = `${email}ProfileModal`;
-
-  const isProfileOpen = useModalStore(
-    (state) => state.modals[profileModalName],
-  );
+  const modalName = `${email}ProfileModal`;
 
   const openModal = useModalStore((state) => state.openModal);
-  const closeModal = useModalStore((state) => state.closeModal);
 
   return (
     <>
@@ -31,15 +26,14 @@ export default function MemberMenu({ image, name, email }: Props) {
         menuClassName="flex flex-col text-text-primary font-regular text-text-md w-30 bg-background-secondary border border-solid border-border-primary right-0 top-6"
       >
         <DropdownItem
-          onClick={() => openModal(profileModalName)}
+          onClick={() => openModal(modalName)}
           itemClassName="transition-colors duration-100 h-10 flex justify-center items-center rounded-xl hover:bg-background-tertiary"
         >
           프로필 보기
         </DropdownItem>
       </AnimatedDropdown>
       <MemberProfileModal
-        isOpen={isProfileOpen}
-        onClose={() => closeModal(profileModalName)}
+        modalName={modalName}
         image={image}
         name={name}
         email={email}
