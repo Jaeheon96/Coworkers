@@ -39,11 +39,11 @@ export default function MemberProfileModal({
     >
       <div className="mx-4 flex w-[17.5rem] flex-col items-center gap-6">
         <div className="relative h-13 w-13">
-          <Image
-            fill
-            src={image ?? "/icons/icon-default_profile.svg"}
-            alt="프로필"
-          />
+          {image ? (
+            <Image fill src={image} className="rounded-full" alt="프로필" />
+          ) : (
+            <Image fill src="/icons/icon-default_profile.svg" alt="프로필" />
+          )}
         </div>
         <div className="flex flex-col items-center gap-2">
           <span className="text-text-md font-medium text-text-primary">
