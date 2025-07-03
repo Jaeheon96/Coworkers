@@ -76,13 +76,12 @@ export default function Modal({
 
   return (
     <FocusTrap active={isOpen}>
-      {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/no-noninteractive-element-interactions */}
       <div
         className={twMerge(
           clsx(
-            "fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50",
-            animationState === "fadeIn" && "animate-fadeIn",
-            animationState === "fadeOut" && "animate-fadeOut",
+            "fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-0",
+            animationState === "fadeIn" && "animate-fadeIn bg-opacity-50",
+            animationState === "fadeOut" && "animate-fadeOut bg-opacity-50",
             "[&&]:max-sm:items-end",
           ),
         )}
