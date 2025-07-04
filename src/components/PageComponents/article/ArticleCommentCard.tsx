@@ -46,6 +46,7 @@ export default function ArticleCommentCard({ comment }: Props) {
                   src={
                     comment.writer.image ?? "/icons/icon-default_profile.svg"
                   }
+                  className="rounded-full"
                   alt="댓글 작성자 프로필 이미지"
                 />
               </div>

@@ -27,9 +27,6 @@ export default function Team() {
   const addTaskListModalName = "addTaskListModal";
   const teamLinkModalName = "teamLinkModal";
 
-  const isAddTaskListModalOpen = useModalStore(
-    (state) => state.modals[addTaskListModalName],
-  );
   const isTeamLinkModalOpen = useModalStore(
     (state) => state.modals[teamLinkModalName],
   );
@@ -109,7 +106,7 @@ export default function Team() {
       </Head>
       <main className="mx-auto mt-21 max-w-300 [&&]:max-md:px-6 [&&]:max-sm:px-4">
         <div className="relative mb-6 flex h-16 w-full cursor-default justify-between rounded-xl border border-solid border-border-primary bg-background-secondary px-6 py-5 text-text-xl font-bold text-text-inverse">
-          <p>{group?.name}</p>
+          <p className="max-w-[85%] truncate">{group?.name}</p>
           <TeamGear
             teamId={teamId}
             teamName={group?.name ?? ""}
@@ -160,12 +157,7 @@ export default function Team() {
           <Members members={group?.members ?? []} />
         </section>
       </main>
-      <AddTaskListModal
-        isOpen={isAddTaskListModalOpen}
-        onClose={() => closeModal(addTaskListModalName)}
-        teamId={teamId}
-        submitCallback={refreshGroup}
-      />
+      <AddTaskListModal teamId={teamId} submitCallback={refreshGroup} />
       <TeamLinkModal
         isOpen={isTeamLinkModalOpen}
         onClose={() => closeModal(teamLinkModalName)}

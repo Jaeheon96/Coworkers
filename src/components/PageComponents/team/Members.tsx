@@ -16,16 +16,22 @@ export default function Members({ members }: Props) {
         >
           <div className="flex h-full w-full items-center justify-between">
             <div className="flex h-full items-center gap-3">
-              <div className="relative h-8 w-8 rounded-full border border-solid border-border-primary">
-                <Image
-                  fill
-                  src={
-                    member.userImage
-                      ? member.userImage
-                      : "/icons/icon-default_profile.svg"
-                  }
-                  alt="멤버 이미지"
-                />
+              <div className="relative h-8 w-8">
+                {member.userImage ? (
+                  <Image
+                    fill
+                    src={member.userImage}
+                    className="rounded-full outline outline-border-primary"
+                    alt="멤버 이미지"
+                  />
+                ) : (
+                  <Image
+                    fill
+                    src="/icons/icon-default_profile.svg"
+                    className="rounded-full"
+                    alt="멤버 이미지"
+                  />
+                )}
               </div>
               <div className="flex h-full flex-col justify-between">
                 <p className="text-text-md font-medium text-text-primary">

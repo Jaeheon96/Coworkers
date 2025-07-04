@@ -22,6 +22,8 @@ export default function Addboard() {
     content: "",
   });
 
+  const [generalError, setGeneralError] = useState("");
+
   const { replace } = useRouter();
 
   const handleFormValues = (key: string, value: string) => {
@@ -64,7 +66,7 @@ export default function Addboard() {
     onError: (error) => {
       const e = error as AxiosError<StandardError>;
       console.error(e);
-      alert(
+      setGeneralError(
         `게시물 등록중 오류가 발생했습니다. 에러 코드: ${e.response?.status}`,
       );
     },
@@ -96,7 +98,7 @@ export default function Addboard() {
         className="mx-auto mt-14 flex max-w-300 flex-col pb-8 [&&]:max-sm:mt-10"
         onSubmit={handleSubmit}
       >
-        <div className="mb-10 w-full border-b border-border-primary pb-10 [&&]:max-md:mb-8 [&&]:max-md:pb-8 [&&]:max-sm:mb-6 [&&]:max-sm:pb-6">
+        <div className="relative mb-10 w-full border-b border-border-primary pb-10 [&&]:max-md:mb-8 [&&]:max-md:pb-8 [&&]:max-sm:mb-6 [&&]:max-sm:pb-6">
           <div className="flex w-full items-center justify-between">
             <h1 className="cursor-default text-text-xl font-bold [&&]:max-sm:text-text-2lg">
               게시글 쓰기
@@ -110,6 +112,9 @@ export default function Addboard() {
             >
               등록
             </LoadingButton>
+            <p className="absolute bottom-1 right-0 text-text-md font-medium text-status-danger">
+              {generalError}
+            </p>
           </div>
         </div>
         <div className="mb-10 flex w-full flex-col gap-10 [&&]:max-md:gap-8">

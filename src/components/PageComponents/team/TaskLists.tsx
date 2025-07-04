@@ -9,8 +9,10 @@ import {
 import { useEffect, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import patchTaskListOrder from "@/core/api/taskList/patchTaskListOrder";
+import AddTaskListModal from "@/components/@shared/AddTaskListModal";
 import TaskListMenu from "./TaskListMenu";
 import TaskListSkeleton from "./TaskListSkeleton";
+import DeleteTaskListModal from "./DeleteTaskListModal";
 
 interface Props {
   tasks: GroupTask[];
@@ -69,6 +71,10 @@ export default function TaskLists({ tasks, teamId, isPending = false }: Props) {
     mutate({ taskListId: draggableId, newIndex: destination.index });
   };
 
+  const refreshGroup = () => {
+    queryClient.invalidateQueries({ queryKey: ["group", teamId] });
+  };
+
   useEffect(() => {
     setVisibleTasks(tasks);
   }, [tasks]);
@@ -95,35 +101,48 @@ export default function TaskLists({ tasks, teamId, isPending = false }: Props) {
               const indexClassName = `h-full w-3 absolute left-0 rounded-l-xl ${indexColors[task.id % 7]}`;
 
               return (
-                <Draggable
-                  key={task.id}
-                  draggableId={`${task.id}`}
-                  index={index}
-                >
-                  {(draggableProvided) => (
-                    <div
-                      className="relative mb-4 flex h-10 shrink-0 cursor-grab items-center justify-between rounded-xl bg-background-secondary pl-3 text-text-md font-medium text-text-primary"
-                      ref={draggableProvided.innerRef}
-                      {...draggableProvided.draggableProps}
-                      {...draggableProvided.dragHandleProps}
-                    >
-                      <div className={indexClassName} />
-                      <Link
-                        href={`${teamId}/tasks?tasklist=${task.id}`}
-                        className="flex h-full items-center px-3 hover:underline"
+                <>
+                  <Draggable
+                    key={task.id}
+                    draggableId={`${task.id}`}
+                    index={index}
+                  >
+                    {(draggableProvided) => (
+                      <div
+                        className="relative mb-4 flex h-10 shrink-0 cursor-grab items-center justify-between rounded-xl bg-background-secondary pl-3 text-text-md font-medium text-text-primary"
+                        ref={draggableProvided.innerRef}
+                        {...draggableProvided.draggableProps}
+                        {...draggableProvided.dragHandleProps}
                       >
-                        {task.name}
-                      </Link>
-                      <TaskListMenu
-                        teamId={teamId}
-                        taskListId={`${task.id}`}
-                        name={task.name}
-                        index={index}
-                        length={visibleTasks.length}
-                      />
-                    </div>
-                  )}
-                </Draggable>
+                        <div className={indexClassName} />
+                        <Link
+                          href={`${teamId}/tasks?tasklist=${task.id}`}
+                          className="flex h-full items-center px-3 hover:underline"
+                        >
+                          {task.name}
+                        </Link>
+                        <TaskListMenu
+                          taskListId={`${task.id}`}
+                          index={index}
+                          length={visibleTasks.length}
+                        />
+                      </div>
+                    )}
+                  </Draggable>
+                  <AddTaskListModal
+                    teamId={teamId}
+                    modalName={`${task.id}TaskListPatchModal`}
+                    submitCallback={refreshGroup}
+                    defaultPatchForm={{
+                      taskListId: `${task.id}`,
+                      name: task.name,
+                    }}
+                  />
+                  <DeleteTaskListModal
+                    teamId={teamId}
+                    taskListId={`${task.id}`}
+                  />
+                </>
               );
             })}
             {droppableProvided.placeholder}

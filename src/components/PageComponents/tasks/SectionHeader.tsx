@@ -1,6 +1,6 @@
 import AddTaskListModal from "@/components/@shared/AddTaskListModal";
+import useModalStore from "@/lib/hooks/stores/modalStore";
 import { useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
 import dynamic from "next/dynamic";
 
 export interface SectionHeaderProps {
@@ -14,11 +14,13 @@ export default function SectionHeader({
   selectedDate,
   setSelectedDate,
 }: SectionHeaderProps) {
-  const [isAddTaskListModalOpen, setIsAddTaskListModalOpen] = useState(false);
   const queryClient = useQueryClient();
   const refreshGroup = () => {
     queryClient.invalidateQueries({ queryKey: ["group", teamId] });
   };
+
+  const addTaskListModalName = "taskPageAddTaskListModal";
+  const openModal = useModalStore((state) => state.openModal);
 
   const DynamicTaskDate = dynamic(() => import("./TaskDate"));
 
@@ -32,15 +34,16 @@ export default function SectionHeader({
         />
         <p
           className="cursor-pointer text-text-md font-regular text-brand-primary"
-          onClick={() => setIsAddTaskListModalOpen(!isAddTaskListModalOpen)}
+          onClick={() => {
+            openModal(addTaskListModalName);
+          }}
         >
           +새로운 목록 추가하기
         </p>
       </div>
       <AddTaskListModal
-        isOpen={isAddTaskListModalOpen}
-        onClose={() => setIsAddTaskListModalOpen(false)}
         teamId={teamId}
+        modalName={addTaskListModalName}
         submitCallback={refreshGroup}
       />
     </>
