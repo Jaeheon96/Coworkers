@@ -18,14 +18,14 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
 import TaskListSkeleton from "@/components/PageComponents/team/TaskListSkeleton";
+import modalNames from "@/lib/constants/modalNames";
 import { AxiosError } from "axios";
 import thumbnailSrc from "../../../public/images/image-thumbnailTeam.png";
 
 export default function Team() {
   const { user } = useAuth(true);
 
-  const addTaskListModalName = "addTaskListModal";
-  const teamLinkModalName = "teamLinkModal";
+  const { addTaskListModalName, teamLinkModalName } = modalNames;
 
   const isTeamLinkModalOpen = useModalStore(
     (state) => state.modals[teamLinkModalName],
