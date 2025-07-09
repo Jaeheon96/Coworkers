@@ -3,6 +3,7 @@ import AnimatedDropdown from "@/components/@shared/UI/AnimatedDropdown";
 import DropdownItem from "@/components/@shared/UI/Item";
 import { useAuth } from "@/core/context/AuthProvider";
 import useModalStore from "@/lib/hooks/stores/modalStore";
+import modalNames from "@/lib/constants/modalNames";
 import PatchTeamModal from "./PatchTeamModal";
 import DeleteTeamModal from "./DeleteTeamModal";
 import DeleteMemberModal from "./DeleteMemberModal";
@@ -26,9 +27,8 @@ export default function TeamGear({
 }: Props) {
   const { getMe } = useAuth();
 
-  const patchTeamModalName = "patchTeamModal";
-  const deleteTeamModalName = "deleteTeamModal";
-  const deleteMemberModalName = "deleteMemberModal";
+  const { patchTeamModalName, deleteTeamModalName, deleteMemberModalName } =
+    modalNames;
 
   const isPatchModalOpen = useModalStore(
     (state) => state.modals[patchTeamModalName],
