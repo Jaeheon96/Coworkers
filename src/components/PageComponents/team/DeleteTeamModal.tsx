@@ -3,6 +3,7 @@ import { useMutation } from "@tanstack/react-query";
 import deleteTeam from "@/core/api/group/deleteTeam";
 import { useAuth } from "@/core/context/AuthProvider";
 import useModalStore from "@/lib/hooks/stores/modalStore";
+import modalNames from "@/lib/constants/modalNames";
 import WarningModal from "./WarningModal";
 
 interface Props {
@@ -10,7 +11,7 @@ interface Props {
 }
 
 export default function DeleteTeamModal({ teamId }: Props) {
-  const modalName = "deleteTeamModal";
+  const { deleteTeamModalName: modalName } = modalNames;
 
   const { push } = useRouter();
   const { getMe } = useAuth();
