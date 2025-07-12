@@ -1,8 +1,9 @@
 import Modal from "@/components/@shared/UI/Modal/Modal";
+import useModalStore from "@/lib/hooks/stores/modalStore";
+import modalNames from "@/lib/constants/modalNames";
 import TeamSubmitForm from "./TeamSubmitForm";
 
 interface Props {
-  isOpen: boolean;
   onClose: () => void;
   submitCallback: () => void;
   formValues: {
@@ -13,11 +14,13 @@ interface Props {
 }
 
 export default function PatchTeamModal({
-  isOpen,
   onClose,
   submitCallback,
   formValues,
 }: Props) {
+  const { patchTeamModalName } = modalNames;
+  const isOpen = useModalStore((state) => state.modals[patchTeamModalName]);
+
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <div className="max-w-123 p-6 max-sm:p-0">
