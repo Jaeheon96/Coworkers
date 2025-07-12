@@ -27,12 +27,7 @@ export default function Team() {
 
   const { addTaskListModalName, teamLinkModalName } = modalNames;
 
-  const isTeamLinkModalOpen = useModalStore(
-    (state) => state.modals[teamLinkModalName],
-  );
-
   const openModal = useModalStore((state) => state.openModal);
-  const closeModal = useModalStore((state) => state.closeModal);
 
   const { query, isReady } = useRouter();
   const teamId = query.teamId as string;
@@ -158,11 +153,7 @@ export default function Team() {
         </section>
       </main>
       <AddTaskListModal teamId={teamId} submitCallback={refreshGroup} />
-      <TeamLinkModal
-        isOpen={isTeamLinkModalOpen}
-        onClose={() => closeModal(teamLinkModalName)}
-        team={group}
-      />
+      <TeamLinkModal team={group} />
     </>
   );
 }
