@@ -30,10 +30,6 @@ export default function TeamGear({
   const { patchTeamModalName, deleteTeamModalName, deleteMemberModalName } =
     modalNames;
 
-  const isPatchModalOpen = useModalStore(
-    (state) => state.modals[patchTeamModalName],
-  );
-
   const openModal = useModalStore((state) => state.openModal);
   const closeModal = useModalStore((state) => state.closeModal);
 
@@ -82,7 +78,6 @@ export default function TeamGear({
         </DropdownItem>
       </AnimatedDropdown>
       <PatchTeamModal
-        isOpen={isPatchModalOpen}
         onClose={() => closeModal(patchTeamModalName)}
         submitCallback={patchTeamCallback}
         formValues={patchTeamForm}
