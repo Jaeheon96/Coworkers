@@ -4,6 +4,7 @@ const modalNames = {
   patchTeamModalName: "patchTeamModal",
   deleteTeamModalName: "deleteTeamModal",
   deleteMemberModalName: "deleteMemberModal",
+  deleteArticleModalName: "deleteArticleModal",
 };
 
 export default modalNames;

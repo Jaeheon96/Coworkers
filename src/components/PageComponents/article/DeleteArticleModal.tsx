@@ -3,13 +3,14 @@ import { AxiosError } from "axios";
 import { useMutation } from "@tanstack/react-query";
 import deleteArticle from "@/core/api/boards/deleteArticle";
 import StandardError from "@/core/types/standardError";
+import modalNames from "@/lib/constants/modalNames";
 import WarningModal from "../team/WarningModal";
 
 export default function DeleteArticleModal() {
   const { query, replace } = useRouter();
   const articleId = query.id as string;
 
-  const modalName = "deleteArticleModal";
+  const { deleteArticleModalName: modalName } = modalNames;
 
   const { mutate: handleDelete } = useMutation({
     mutationFn: () => deleteArticle(articleId),
