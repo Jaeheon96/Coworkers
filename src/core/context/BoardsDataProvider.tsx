@@ -5,6 +5,7 @@ import {
   useQuery,
 } from "@tanstack/react-query";
 import { createContext, ReactNode, useContext, useMemo } from "react";
+import useBestArticles from "@/lib/hooks/boards/useBestArticles";
 import getPages from "@/lib/utils/getPages";
 import getArticles from "../api/boards/getArticles";
 import { ArticlesResponse, GetArticlesQuery } from "../dtos/boards/boards";
@@ -55,12 +56,7 @@ export function BoardsDataProvider({ children }: { children: ReactNode }) {
     isPending: isBestArticlesPending,
     isError: isBestArticlesError,
     refetch: refetchBestArticles,
-  } = useQuery({
-    queryKey: ["Articles", 1, 3, "like"],
-    queryFn: () => getArticles({ pageSize: 3, orderBy: "like" }),
-    throwOnError: false,
-    staleTime: 1000 * 60,
-  });
+  } = useBestArticles();
 
   const {
     data: articles,
