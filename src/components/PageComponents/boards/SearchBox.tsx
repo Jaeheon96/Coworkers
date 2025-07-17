@@ -1,11 +1,12 @@
 import InputAlt from "@/components/@shared/UI/InputAlt";
+import useSearchKeyword from "@/lib/hooks/boards/useSearchKeyword";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent } from "react";
 
 export default function SearchBox() {
-  const { query, push, isReady } = useRouter();
-  const [keyword, setKeyword] = useState("");
+  const { query, push } = useRouter();
+  const { keyword, setKeyword } = useSearchKeyword();
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -18,10 +19,6 @@ export default function SearchBox() {
       },
     });
   };
-
-  useEffect(() => {
-    if (typeof query.keyword === "string") setKeyword(query.keyword);
-  }, [isReady]);
 
   return (
     <form
