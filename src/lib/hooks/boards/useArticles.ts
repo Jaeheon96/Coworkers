@@ -15,7 +15,7 @@ export default function useArticles({ pageSize, pagesLength }: Params) {
 
   const articlesQuery = useQuery({
     queryKey: ["Articles", page ?? 1, pageSize, orderBy ?? "recent", keyword],
-    queryFn: () => getArticles({ page, orderBy, keyword }),
+    queryFn: () => getArticles({ page, pageSize, orderBy, keyword }),
     throwOnError: false,
     staleTime: 1000 * 5,
     enabled: isRouterReady,
