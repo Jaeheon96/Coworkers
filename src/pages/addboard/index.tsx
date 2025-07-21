@@ -1,37 +1,27 @@
+import { FocusEvent, FormEvent, useState } from "react";
+import Image from "next/image";
+import { useRouter } from "next/router";
+import { AxiosError } from "axios";
+import { useMutation } from "@tanstack/react-query";
 import FileInput from "@/components/@shared/UI/FileInput";
 import InputAlt from "@/components/@shared/UI/InputAlt";
 import InputLabel from "@/components/@shared/UI/InputLabel";
 import LoadingButton from "@/components/@shared/UI/LoadingButton";
 import postArticle from "@/core/api/boards/postArticle";
 import { useAuth } from "@/core/context/AuthProvider";
-import { ArticlePost } from "@/core/dtos/boards/boards";
 import StandardError from "@/core/types/standardError";
 import useArticleValidation from "@/lib/hooks/useArticleValidation";
 import useImageUpload from "@/lib/hooks/useImageUpload";
-import { useMutation } from "@tanstack/react-query";
-import { AxiosError } from "axios";
-import Image from "next/image";
-import { useRouter } from "next/router";
-import { ChangeEvent, FocusEvent, FormEvent, useState } from "react";
+import useArticleFormValues from "@/lib/hooks/addboard/useArticleFormValues";
 
 export default function Addboard() {
   useAuth(true);
 
-  const [formValues, setFormValues] = useState<ArticlePost>({
-    title: "",
-    content: "",
-  });
+  const { formValues, handleFormValueChange } = useArticleFormValues();
 
   const [generalError, setGeneralError] = useState("");
 
   const { replace } = useRouter();
-
-  const handleFormValues = (key: string, value: string) => {
-    setFormValues((prev) => ({
-      ...prev,
-      [key]: value,
-    }));
-  };
 
   const { errors, checkValidation, clearError } =
     useArticleValidation(formValues);
@@ -78,12 +68,6 @@ export default function Addboard() {
     e: FocusEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     clearError(e.target.name);
-  };
-
-  const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    handleFormValues(e.target.name, e.target.value);
   };
 
   const handleSubmit = (e: FormEvent) => {
@@ -135,7 +119,7 @@ export default function Addboard() {
               isError={!!errors.title}
               value={formValues.title}
               onBlur={handleBlur}
-              onChange={handleChange}
+              onChange={handleFormValueChange}
             />
           </InputLabel>
           <InputLabel
@@ -154,7 +138,7 @@ export default function Addboard() {
               name="content"
               value={formValues.content}
               onBlur={handleBlur}
-              onChange={handleChange}
+              onChange={handleFormValueChange}
             />
           </InputLabel>
           <div className="flex flex-col gap-4">
