@@ -3,13 +3,13 @@ import { useState } from "react";
 
 export default function useArticleValidation(formValues: ArticlePost) {
   const { title, content } = formValues;
-  const [errors, setErrors] = useState({
+  const [formErrors, setFormErrors] = useState({
     title: "",
     content: "",
   });
 
   const handleErrors = (key: string, value: string) => {
-    setErrors((prev) => ({
+    setFormErrors((prev) => ({
       ...prev,
       [key]: value,
     }));
@@ -20,13 +20,13 @@ export default function useArticleValidation(formValues: ArticlePost) {
       handleErrors(key, "");
       return;
     }
-    setErrors({
+    setFormErrors({
       title: "",
       content: "",
     });
   };
 
-  const checkValidation = () => {
+  const checkContentsValidation = () => {
     let isValid = true;
     if (title.length < 1) {
       handleErrors("title", "제목은 필수입력입니다.");
@@ -44,5 +44,5 @@ export default function useArticleValidation(formValues: ArticlePost) {
     return isValid;
   };
 
-  return { errors, checkValidation, clearError };
+  return { formErrors, checkContentsValidation, clearError };
 }

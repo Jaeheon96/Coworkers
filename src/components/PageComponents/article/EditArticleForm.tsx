@@ -9,7 +9,7 @@ import {
   ArticleResponse,
 } from "@/core/dtos/boards/boards";
 import StandardError from "@/core/types/standardError";
-import useArticleValidation from "@/lib/hooks/useArticleValidation";
+import useArticleValidation from "@/lib/hooks/addboard/useArticleValidation";
 import useImageUpload from "@/lib/hooks/useImageUpload";
 import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
