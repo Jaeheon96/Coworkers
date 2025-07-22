@@ -3,40 +3,30 @@ import InputAlt from "@/components/@shared/UI/InputAlt";
 import InputLabel from "@/components/@shared/UI/InputLabel";
 import LoadingButton from "@/components/@shared/UI/LoadingButton";
 import patchArticle from "@/core/api/boards/patchArticle";
-import {
-  ArticlePatch,
-  ArticlePost,
-  ArticleResponse,
-} from "@/core/dtos/boards/boards";
+import { ArticlePatch, ArticleResponse } from "@/core/dtos/boards/boards";
 import StandardError from "@/core/types/standardError";
+import useArticleFormValues from "@/lib/hooks/addboard/useArticleFormValues";
 import useArticleValidation from "@/lib/hooks/addboard/useArticleValidation";
 import useImageUpload from "@/lib/hooks/useImageUpload";
 import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { ChangeEvent, FocusEvent, FormEvent, useState } from "react";
+import { FocusEvent, FormEvent } from "react";
 
 interface Props {
   article: ArticleResponse;
 }
 
 export default function EditArticleForm({ article }: Props) {
-  const [formValues, setFormValues] = useState<ArticlePost>({
+  const { formValues, handleFormValueChange } = useArticleFormValues({
     title: article.title,
     content: article.content,
   });
 
   const { replace } = useRouter();
 
-  const handleFormValues = (key: string, value: string) => {
-    setFormValues((prev) => ({
-      ...prev,
-      [key]: value,
-    }));
-  };
-
-  const { errors, checkValidation, clearError } =
+  const { formErrors, checkContentsValidation, clearError } =
     useArticleValidation(formValues);
 
   const {
@@ -89,7 +79,7 @@ export default function EditArticleForm({ article }: Props) {
     },
   });
 
-  const contentClassName = `h-60 resize-none rounded-xl ${errors.content ? "border-status-danger" : "border-border-primary"} px-6 py-4 text-text-lg placeholder:text-text-default [&&]:bg-background-secondary [&&]:hover:border-interaction-hover [&&]:focus:border-interaction-focus [&&]:focus:ring-0 [&&]:max-sm:px-4 [&&]:max-sm:py-2 [&&]:max-sm:text-text-md`;
+  const contentClassName = `h-60 resize-none rounded-xl ${formErrors.content ? "border-status-danger" : "border-border-primary"} px-6 py-4 text-text-lg placeholder:text-text-default [&&]:bg-background-secondary [&&]:hover:border-interaction-hover [&&]:focus:border-interaction-focus [&&]:focus:ring-0 [&&]:max-sm:px-4 [&&]:max-sm:py-2 [&&]:max-sm:text-text-md`;
 
   const handleBlur = (
     e: FocusEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -97,15 +87,9 @@ export default function EditArticleForm({ article }: Props) {
     clearError(e.target.name);
   };
 
-  const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    handleFormValues(e.target.name, e.target.value);
-  };
-
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    if (!checkValidation()) return;
+    if (!checkContentsValidation()) return;
     submit();
   };
 
@@ -139,17 +123,17 @@ export default function EditArticleForm({ article }: Props) {
                 <span>제목</span>
               </p>
             }
-            errorMessage={errors.title}
+            errorMessage={formErrors.title}
             className="gap-4"
           >
             <InputAlt
               className="px-6 text-text-lg [&&]:max-sm:h-12 [&&]:max-sm:px-4 [&&]:max-sm:text-text-md"
               placeholder="제목을 입력해주세요."
               name="title"
-              isError={!!errors.title}
+              isError={!!formErrors.title}
               value={formValues.title}
               onBlur={handleBlur}
-              onChange={handleChange}
+              onChange={handleFormValueChange}
             />
           </InputLabel>
           <InputLabel
@@ -159,7 +143,7 @@ export default function EditArticleForm({ article }: Props) {
                 <span>내용</span>
               </p>
             }
-            errorMessage={errors.content}
+            errorMessage={formErrors.content}
             className="gap-4"
           >
             <textarea
@@ -168,7 +152,7 @@ export default function EditArticleForm({ article }: Props) {
               name="content"
               value={formValues.content}
               onBlur={handleBlur}
-              onChange={handleChange}
+              onChange={handleFormValueChange}
             />
           </InputLabel>
           <div className="flex flex-col gap-4">
