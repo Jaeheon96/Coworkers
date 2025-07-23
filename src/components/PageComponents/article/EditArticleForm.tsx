@@ -1,18 +1,13 @@
+import { FocusEvent, FormEvent } from "react";
+import Image from "next/image";
+import { ArticleResponse } from "@/core/dtos/boards/boards";
+import useArticleFormValues from "@/lib/hooks/addboard/useArticleFormValues";
+import useArticleValidation from "@/lib/hooks/addboard/useArticleValidation";
+import useArticleEdit from "@/lib/hooks/article/useArticleEdit";
 import FileInput from "@/components/@shared/UI/FileInput";
 import InputAlt from "@/components/@shared/UI/InputAlt";
 import InputLabel from "@/components/@shared/UI/InputLabel";
 import LoadingButton from "@/components/@shared/UI/LoadingButton";
-import patchArticle from "@/core/api/boards/patchArticle";
-import { ArticlePatch, ArticleResponse } from "@/core/dtos/boards/boards";
-import StandardError from "@/core/types/standardError";
-import useArticleFormValues from "@/lib/hooks/addboard/useArticleFormValues";
-import useArticleValidation from "@/lib/hooks/addboard/useArticleValidation";
-import useImageUpload from "@/lib/hooks/useImageUpload";
-import { useMutation } from "@tanstack/react-query";
-import { AxiosError } from "axios";
-import Image from "next/image";
-import { useRouter } from "next/router";
-import { FocusEvent, FormEvent } from "react";
 
 interface Props {
   article: ArticleResponse;
@@ -24,60 +19,17 @@ export default function EditArticleForm({ article }: Props) {
     content: article.content,
   });
 
-  const { replace } = useRouter();
-
   const { formErrors, checkContentsValidation, clearError } =
     useArticleValidation(formValues);
 
   const {
+    submit,
+    isPending,
     fileInputValue,
-    file,
     handleFileInputChange,
-    getImageUrl,
     imagePreview,
     clearFileInput,
-  } = useImageUpload(article.image);
-
-  const { mutate: submit, isPending } = useMutation({
-    mutationFn: async () => {
-      let imageUrl: string | null = null;
-      if (file) {
-        imageUrl = await getImageUrl(file);
-      }
-
-      const editForm: ArticlePatch = {
-        title:
-          formValues.title === article.title ? undefined : formValues.title,
-        content:
-          formValues.content === article.content
-            ? undefined
-            : formValues.content,
-        image: article.image === imagePreview ? undefined : imageUrl,
-      };
-
-      if (
-        typeof editForm.title === "undefined" &&
-        typeof editForm.content === "undefined" &&
-        typeof editForm.image === "undefined"
-      )
-        return article;
-
-      const res = await patchArticle(`${article.id}`, editForm);
-
-      return res;
-    },
-    throwOnError: false,
-    onSuccess: (data) => {
-      replace(`/boards/${data.id}`);
-    },
-    onError: (error) => {
-      const e = error as AxiosError<StandardError>;
-      console.error(e);
-      alert(
-        `게시물 등록중 오류가 발생했습니다. 에러 코드: ${e.response?.status}`,
-      );
-    },
-  });
+  } = useArticleEdit(formValues, article);
 
   const contentClassName = `h-60 resize-none rounded-xl ${formErrors.content ? "border-status-danger" : "border-border-primary"} px-6 py-4 text-text-lg placeholder:text-text-default [&&]:bg-background-secondary [&&]:hover:border-interaction-hover [&&]:focus:border-interaction-focus [&&]:focus:ring-0 [&&]:max-sm:px-4 [&&]:max-sm:py-2 [&&]:max-sm:text-text-md`;
 
