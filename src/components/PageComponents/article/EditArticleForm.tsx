@@ -29,6 +29,7 @@ export default function EditArticleForm({ article }: Props) {
     handleFileInputChange,
     imagePreview,
     clearFileInput,
+    responseError,
   } = useArticleEdit(formValues, article);
 
   const contentClassName = `h-60 resize-none rounded-xl ${formErrors.content ? "border-status-danger" : "border-border-primary"} px-6 py-4 text-text-lg placeholder:text-text-default [&&]:bg-background-secondary [&&]:hover:border-interaction-hover [&&]:focus:border-interaction-focus [&&]:focus:ring-0 [&&]:max-sm:px-4 [&&]:max-sm:py-2 [&&]:max-sm:text-text-md`;
@@ -51,7 +52,7 @@ export default function EditArticleForm({ article }: Props) {
         className="mx-auto mt-14 flex max-w-300 flex-col pb-8 [&&]:max-sm:mt-10"
         onSubmit={handleSubmit}
       >
-        <div className="mb-10 w-full border-b border-border-primary pb-10 [&&]:max-md:mb-8 [&&]:max-md:pb-8 [&&]:max-sm:mb-6 [&&]:max-sm:pb-6">
+        <div className="relative mb-10 w-full border-b border-border-primary pb-10 [&&]:max-md:mb-8 [&&]:max-md:pb-8 [&&]:max-sm:mb-6 [&&]:max-sm:pb-6">
           <div className="flex w-full items-center justify-between">
             <h1 className="cursor-default text-text-xl font-bold [&&]:max-sm:text-text-2lg">
               게시글 수정
@@ -65,6 +66,9 @@ export default function EditArticleForm({ article }: Props) {
             >
               등록
             </LoadingButton>
+            <p className="absolute bottom-1 right-0 text-text-md font-medium text-status-danger">
+              {responseError}
+            </p>
           </div>
         </div>
         <div className="mb-10 flex w-full flex-col gap-10 [&&]:max-md:gap-8">
