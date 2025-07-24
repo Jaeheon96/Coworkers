@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useRouter } from "next/router";
 import { AxiosError } from "axios";
 import { useMutation } from "@tanstack/react-query";
@@ -15,6 +16,7 @@ export default function useArticleEdit(
   article: ArticleResponse,
 ) {
   const { replace } = useRouter();
+  const [responseError, setResponseError] = useState("");
 
   const {
     fileInputValue,
@@ -60,7 +62,7 @@ export default function useArticleEdit(
     onError: (error) => {
       const e = error as AxiosError<StandardError>;
       console.error(e);
-      alert(
+      setResponseError(
         `게시물 등록중 오류가 발생했습니다. 에러 코드: ${e.response?.status}`,
       );
     },
@@ -73,5 +75,6 @@ export default function useArticleEdit(
     handleFileInputChange,
     imagePreview,
     clearFileInput,
+    responseError,
   };
 }
