@@ -5,7 +5,7 @@ import { ArticleCommentsProvider } from "@/core/context/ArticleCommentsProvider"
 import { ArticleResponse } from "@/core/dtos/boards/boards";
 import StandardError from "@/core/types/standardError";
 import { COWORKERS_TITLE } from "@/lib/constants/sharedConstants";
-import { useQuery } from "@tanstack/react-query";
+import useArticleQueryStore from "@/lib/hooks/article/useArticleQueryStore";
 import { AxiosError } from "axios";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import Head from "next/head";
@@ -29,12 +29,7 @@ export const getServerSideProps = async (
 export default function Article({
   article,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  useQuery({
-    queryKey: ["Article", article?.id],
-    queryFn: () => article,
-    staleTime: 0,
-    gcTime: 5000,
-  });
+  useArticleQueryStore(article);
 
   if (!article)
     return <InvalidRequest>게시글을 불러오는데 실패했습니다.</InvalidRequest>;
