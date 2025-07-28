@@ -1,15 +1,11 @@
-import { ChangeEvent, FormEvent, useState } from "react";
 import Image from "next/image";
 import dynamic from "next/dynamic";
-import { useMutation } from "@tanstack/react-query";
-import { AxiosError } from "axios";
 import { useAuth } from "@/core/context/AuthProvider";
 import { ArticleResponse } from "@/core/dtos/boards/boards";
-import StandardError from "@/core/types/standardError";
 import { useArticleComments } from "@/core/context/ArticleCommentsProvider";
+import useArticleComment from "@/lib/hooks/article/useArticleComment";
 import InputLabel from "@/components/@shared/UI/InputLabel";
 import LoadingButton from "@/components/@shared/UI/LoadingButton";
-import postArticleComment from "@/core/api/boards/postArticleComment";
 import ArticleMenuDropdown from "./ArticleMenuDropdown";
 import DeleteArticleModal from "./DeleteArticleModal";
 import ArticleCommentsLoading from "./ArticleCommentsLoading";
@@ -20,58 +16,16 @@ interface Props {
 
 export default function ArticleInterface({ article }: Props) {
   const { user } = useAuth();
+  const { commentsCount, isCommentsLoading } = useArticleComments();
+
   const {
-    commentsCount,
-    isCommentsLoading,
-    increaseCommentsCount,
-    refetchComments,
-  } = useArticleComments();
-
-  const [commentContent, setCommentContent] = useState("");
-  const [commentError, setCommentError] = useState("");
-
-  const { mutate: postComment, isPending: isCommentSubmitPending } =
-    useMutation({
-      mutationFn: async () => {
-        const res = await postArticleComment(article.id, commentContent);
-        return res;
-      },
-      onSuccess: () => {
-        setCommentContent("");
-        setCommentError("");
-        refetchComments();
-        increaseCommentsCount();
-      },
-      onError: (error: AxiosError<StandardError>) => {
-        if (error.response?.status === 401) {
-          setCommentError(
-            "로그인 기간이 만료되었습니다. 다시 로그인 해주세요.",
-          );
-          return;
-        }
-
-        setCommentError(
-          `댓글 등록중 오류가 발생했습니다${error.response ? ` - ${error.response.status}: ${error.response.data.message}` : "."}`,
-        );
-      },
-    });
-
-  const handleCommentChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    setCommentContent(e.target.value);
-  };
-
-  const handleCommentSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    if (!user) {
-      setCommentError("댓글을 달기 위해선 로그인이 필요합니다.");
-      return;
-    }
-    if (!commentContent) {
-      setCommentError("댓글을 입력해주세요.");
-      return;
-    }
-    postComment();
-  };
+    commentContent,
+    handleCommentChange,
+    handleCommentSubmit,
+    isCommentSubmitPending,
+    commentError,
+    clearCommentError,
+  } = useArticleComment(article);
 
   const ArticleComments = dynamic(() => import("./ArticleComments"), {
     ssr: false,
@@ -140,9 +94,7 @@ export default function ArticleInterface({ article }: Props) {
               name="comment content"
               value={commentContent}
               onChange={handleCommentChange}
-              onBlur={() => {
-                setCommentError("");
-              }}
+              onBlur={clearCommentError}
             />
           </InputLabel>
           <LoadingButton
