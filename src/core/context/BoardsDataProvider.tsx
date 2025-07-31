@@ -1,13 +1,8 @@
-import { useRouter } from "next/router";
-import {
-  QueryObserverResult,
-  RefetchOptions,
-  useQuery,
-} from "@tanstack/react-query";
+import { QueryObserverResult, RefetchOptions } from "@tanstack/react-query";
 import { createContext, ReactNode, useContext, useMemo } from "react";
-import getPages from "@/lib/utils/getPages";
-import getArticles from "../api/boards/getArticles";
-import { ArticlesResponse, GetArticlesQuery } from "../dtos/boards/boards";
+import useBestArticles from "@/lib/hooks/boards/useBestArticles";
+import useArticles from "@/lib/hooks/boards/useArticles";
+import { ArticlesResponse } from "../dtos/boards/boards";
 
 interface BoardsContextValues {
   bestArticles: ArticlesResponse | undefined;
@@ -47,37 +42,21 @@ const PAGES_LENGTH = 5;
 const BoardsDataContext = createContext(initialContextValues);
 
 export function BoardsDataProvider({ children }: { children: ReactNode }) {
-  const { query, isReady: isRouterReady } = useRouter();
-  const { page, orderBy, keyword }: GetArticlesQuery = query;
-
   const {
     data: bestArticles,
     isPending: isBestArticlesPending,
     isError: isBestArticlesError,
     refetch: refetchBestArticles,
-  } = useQuery({
-    queryKey: ["Articles", 1, 3, "like"],
-    queryFn: () => getArticles({ pageSize: 3, orderBy: "like" }),
-    throwOnError: false,
-    staleTime: 1000 * 60,
-  });
+  } = useBestArticles();
 
   const {
     data: articles,
     isPending: isArticlesPending,
     isError: isArticlesError,
     refetch: refetchArticles,
-  } = useQuery({
-    queryKey: ["Articles", page ?? 1, PAGE_SIZE, orderBy ?? "recent", keyword],
-    queryFn: () => getArticles({ page, orderBy, keyword }),
-    throwOnError: false,
-    staleTime: 1000 * 5,
-    enabled: isRouterReady,
-  });
-
-  const lastPage = Math.ceil((articles?.totalCount ?? 0) / PAGE_SIZE);
-
-  const pages = getPages(page ?? 1, PAGES_LENGTH, lastPage);
+    lastPage,
+    pages,
+  } = useArticles({ pageSize: PAGE_SIZE, pagesLength: PAGES_LENGTH });
 
   const contextValues = useMemo(
     () => ({

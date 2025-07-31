@@ -1,78 +1,33 @@
+import { FocusEvent, FormEvent } from "react";
+import Image from "next/image";
 import FileInput from "@/components/@shared/UI/FileInput";
 import InputAlt from "@/components/@shared/UI/InputAlt";
 import InputLabel from "@/components/@shared/UI/InputLabel";
 import LoadingButton from "@/components/@shared/UI/LoadingButton";
-import postArticle from "@/core/api/boards/postArticle";
 import { useAuth } from "@/core/context/AuthProvider";
-import { ArticlePost } from "@/core/dtos/boards/boards";
-import StandardError from "@/core/types/standardError";
-import useArticleValidation from "@/lib/hooks/useArticleValidation";
-import useImageUpload from "@/lib/hooks/useImageUpload";
-import { useMutation } from "@tanstack/react-query";
-import { AxiosError } from "axios";
-import Image from "next/image";
-import { useRouter } from "next/router";
-import { ChangeEvent, FocusEvent, FormEvent, useState } from "react";
+import useArticleValidation from "@/lib/hooks/addboard/useArticleValidation";
+import useArticleFormValues from "@/lib/hooks/addboard/useArticleFormValues";
+import useArticleSubmit from "@/lib/hooks/addboard/useArticleSubmit";
 
 export default function Addboard() {
   useAuth(true);
 
-  const [formValues, setFormValues] = useState<ArticlePost>({
-    title: "",
-    content: "",
-  });
+  const { formValues, handleFormValueChange } = useArticleFormValues();
 
-  const [generalError, setGeneralError] = useState("");
-
-  const { replace } = useRouter();
-
-  const handleFormValues = (key: string, value: string) => {
-    setFormValues((prev) => ({
-      ...prev,
-      [key]: value,
-    }));
-  };
-
-  const { errors, checkValidation, clearError } =
+  const { formErrors, checkContentsValidation, clearError } =
     useArticleValidation(formValues);
 
   const {
+    submit,
+    isSubmitPending,
     fileInputValue,
-    file,
     handleFileInputChange,
-    getImageUrl,
     imagePreview,
     clearFileInput,
-  } = useImageUpload();
+    responseError,
+  } = useArticleSubmit(formValues);
 
-  const { mutate: submit, isPending } = useMutation({
-    mutationFn: async () => {
-      let imageUrl: string | null = null;
-      if (file) {
-        imageUrl = await getImageUrl(file);
-      }
-
-      const res = await postArticle({
-        ...formValues,
-        image: imageUrl ?? undefined,
-      });
-
-      return res;
-    },
-    throwOnError: false,
-    onSuccess: (data) => {
-      replace(`/boards/${data.id}`);
-    },
-    onError: (error) => {
-      const e = error as AxiosError<StandardError>;
-      console.error(e);
-      setGeneralError(
-        `게시물 등록중 오류가 발생했습니다. 에러 코드: ${e.response?.status}`,
-      );
-    },
-  });
-
-  const contentClassName = `h-60 resize-none rounded-xl ${errors.content ? "border-status-danger" : "border-border-primary"} px-6 py-4 text-text-lg placeholder:text-text-default [&&]:bg-background-secondary [&&]:hover:border-interaction-hover [&&]:focus:border-interaction-focus [&&]:focus:ring-0 [&&]:max-sm:px-4 [&&]:max-sm:py-2 [&&]:max-sm:text-text-md`;
+  const contentClassName = `h-60 resize-none rounded-xl ${formErrors.content ? "border-status-danger" : "border-border-primary"} px-6 py-4 text-text-lg placeholder:text-text-default [&&]:bg-background-secondary [&&]:hover:border-interaction-hover [&&]:focus:border-interaction-focus [&&]:focus:ring-0 [&&]:max-sm:px-4 [&&]:max-sm:py-2 [&&]:max-sm:text-text-md`;
 
   const handleBlur = (
     e: FocusEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -80,15 +35,9 @@ export default function Addboard() {
     clearError(e.target.name);
   };
 
-  const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    handleFormValues(e.target.name, e.target.value);
-  };
-
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    if (!checkValidation()) return;
+    if (!checkContentsValidation()) return;
     submit();
   };
 
@@ -108,12 +57,12 @@ export default function Addboard() {
               variant="solid"
               size="large"
               type="submit"
-              isPending={isPending}
+              isPending={isSubmitPending}
             >
               등록
             </LoadingButton>
             <p className="absolute bottom-1 right-0 text-text-md font-medium text-status-danger">
-              {generalError}
+              {responseError}
             </p>
           </div>
         </div>
@@ -125,17 +74,17 @@ export default function Addboard() {
                 <span>제목</span>
               </p>
             }
-            errorMessage={errors.title}
+            errorMessage={formErrors.title}
             className="gap-4"
           >
             <InputAlt
               className="px-6 text-text-lg [&&]:max-sm:h-12 [&&]:max-sm:px-4 [&&]:max-sm:text-text-md"
               placeholder="제목을 입력해주세요."
               name="title"
-              isError={!!errors.title}
+              isError={!!formErrors.title}
               value={formValues.title}
               onBlur={handleBlur}
-              onChange={handleChange}
+              onChange={handleFormValueChange}
             />
           </InputLabel>
           <InputLabel
@@ -145,7 +94,7 @@ export default function Addboard() {
                 <span>내용</span>
               </p>
             }
-            errorMessage={errors.content}
+            errorMessage={formErrors.content}
             className="gap-4"
           >
             <textarea
@@ -154,7 +103,7 @@ export default function Addboard() {
               name="content"
               value={formValues.content}
               onBlur={handleBlur}
-              onChange={handleChange}
+              onChange={handleFormValueChange}
             />
           </InputLabel>
           <div className="flex flex-col gap-4">
@@ -206,7 +155,7 @@ export default function Addboard() {
           size="large"
           className="hidden h-12 w-full [&&]:max-sm:block"
           type="submit"
-          isPending={isPending}
+          isPending={isSubmitPending}
         >
           등록
         </LoadingButton>

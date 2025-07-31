@@ -6,18 +6,27 @@ import { GroupResponse } from "@/core/dtos/group/group";
 import { useMutation } from "@tanstack/react-query";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import useModalStore from "@/lib/hooks/stores/modalStore";
+import modalNames from "@/lib/constants/modalNames";
 import MailInviteModal from "./MailInviteModal";
 
 interface Props {
-  isOpen: boolean;
-  onClose: () => void;
   team?: GroupResponse;
 }
 
-export default function TeamLinkModal({ isOpen, onClose, team }: Props) {
+export default function TeamLinkModal({ team }: Props) {
   const [isMailInvitationOpen, setIsMailInvitationOpen] = useState(false);
 
+  const { teamLinkModalName } = modalNames;
+
+  const isOpen = useModalStore((state) => state.modals[teamLinkModalName]);
+  const closeModal = useModalStore((state) => state.closeModal);
+
   const teamId = `${team?.id}`;
+
+  const onClose = () => {
+    closeModal(teamLinkModalName);
+  };
 
   const mutationFn = async () => {
     const invitationCode = await getInvitationCode(teamId);
@@ -78,7 +87,7 @@ export default function TeamLinkModal({ isOpen, onClose, team }: Props) {
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} isCloseButton>
-      <div className="w-88 flex flex-col gap-10 px-9">
+      <div className="flex w-88 flex-col gap-10 px-9">
         <div className="flex w-full flex-col gap-2">
           <h3 className="text-center text-text-lg font-medium text-text-primary">
             멤버 초대

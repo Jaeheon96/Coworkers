@@ -18,21 +18,16 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
 import TaskListSkeleton from "@/components/PageComponents/team/TaskListSkeleton";
+import modalNames from "@/lib/constants/modalNames";
 import { AxiosError } from "axios";
 import thumbnailSrc from "../../../public/images/image-thumbnailTeam.png";
 
 export default function Team() {
   const { user } = useAuth(true);
 
-  const addTaskListModalName = "addTaskListModal";
-  const teamLinkModalName = "teamLinkModal";
-
-  const isTeamLinkModalOpen = useModalStore(
-    (state) => state.modals[teamLinkModalName],
-  );
+  const { addTaskListModalName, teamLinkModalName } = modalNames;
 
   const openModal = useModalStore((state) => state.openModal);
-  const closeModal = useModalStore((state) => state.closeModal);
 
   const { query, isReady } = useRouter();
   const teamId = query.teamId as string;
@@ -158,11 +153,7 @@ export default function Team() {
         </section>
       </main>
       <AddTaskListModal teamId={teamId} submitCallback={refreshGroup} />
-      <TeamLinkModal
-        isOpen={isTeamLinkModalOpen}
-        onClose={() => closeModal(teamLinkModalName)}
-        team={group}
-      />
+      <TeamLinkModal team={group} />
     </>
   );
 }
