@@ -1,21 +1,18 @@
-import Button from "@/components/@shared/UI/Button";
-import Modal from "@/components/@shared/UI/Modal/Modal";
-import getInvitationCode from "@/core/api/group/getInvitationCode";
-import useTimeoutToggle from "@/lib/hooks/useTimeoutToggle";
-import { GroupResponse } from "@/core/dtos/group/group";
-import { useMutation } from "@tanstack/react-query";
-import Image from "next/image";
 import { useEffect, useState } from "react";
+import Image from "next/image";
+import { useMutation } from "@tanstack/react-query";
+import getInvitationCode from "@/core/api/group/getInvitationCode";
+import { useTeamData } from "@/core/context/TeamDataProvider";
+import useTimeoutToggle from "@/lib/hooks/useTimeoutToggle";
 import useModalStore from "@/lib/hooks/stores/modalStore";
 import modalNames from "@/lib/constants/modalNames";
+import Button from "@/components/@shared/UI/Button";
+import Modal from "@/components/@shared/UI/Modal/Modal";
 import MailInviteModal from "./MailInviteModal";
 
-interface Props {
-  team?: GroupResponse;
-}
-
-export default function TeamLinkModal({ team }: Props) {
+export default function TeamLinkModal() {
   const [isMailInvitationOpen, setIsMailInvitationOpen] = useState(false);
+  const { group: team } = useTeamData();
 
   const { teamLinkModalName } = modalNames;
 

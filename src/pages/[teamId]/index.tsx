@@ -68,7 +68,7 @@ export default function Team() {
       <TeamDataPrvider>
         <TeamInterface />
         <AddTaskListModal teamId={teamId} submitCallback={refreshGroup} />
-        <TeamLinkModal team={group} />
+        <TeamLinkModal />
       </TeamDataPrvider>
     </>
   );
