@@ -13,22 +13,14 @@ import getTasks from "../api/group/getTasks";
 interface TeamContextValues {
   group: GroupResponse | undefined;
   groupError: Error | null;
-  refetchGroup: (
+  refreshGroup: (
     options?: RefetchOptions,
   ) => Promise<QueryObserverResult<GroupResponse, Error>>;
   tasks: TaskListTasks[] | undefined;
   isTasksPending: boolean;
 }
 
-const INITIAL_VALUES: TeamContextValues = {
-  group: undefined,
-  groupError: null,
-  refetchGroup: () => Promise.reject(),
-  tasks: undefined,
-  isTasksPending: true,
-};
-
-const TeamDataContext = createContext(INITIAL_VALUES);
+const TeamDataContext = createContext<TeamContextValues | null>(null);
 
 export function TeamDataPrvider({ children }: { children: ReactNode }) {
   const { query, isReady } = useRouter();
@@ -38,7 +30,7 @@ export function TeamDataPrvider({ children }: { children: ReactNode }) {
   const {
     data: group,
     error: groupError,
-    refetch: refetchGroup,
+    refetch: refreshGroup,
   } = useQuery({
     queryKey: ["group", teamId],
     queryFn: () => getTeamData(teamId),
@@ -59,11 +51,11 @@ export function TeamDataPrvider({ children }: { children: ReactNode }) {
     () => ({
       group,
       groupError,
-      refetchGroup,
+      refreshGroup,
       tasks,
       isTasksPending,
     }),
-    [group, groupError, refetchGroup, tasks, isTasksPending],
+    [group, groupError, refreshGroup, tasks, isTasksPending],
   );
 
   return (
