@@ -7,11 +7,13 @@ import { useAuth } from "@/core/context/AuthProvider";
 import useModalStore from "@/lib/hooks/stores/modalStore";
 import modalNames from "@/lib/constants/modalNames";
 import refineTasks from "@/lib/utils/refineTasks";
+import AddTaskListModal from "@/components/@shared/AddTaskListModal";
 import TeamGear from "./TeamGear";
 import SectionHeader from "./SectionHeader";
 import TaskListSkeleton from "./TaskListSkeleton";
 import Chat from "./Chat";
 import Members from "./Members";
+import TeamLinkModal from "./TeamLinkModal";
 import thumbnailSrc from "../../../../public/images/image-thumbnailTeam.png";
 
 export default function TeamInterface() {
@@ -38,58 +40,62 @@ export default function TeamInterface() {
   );
 
   return (
-    <main className="mx-auto mt-21 max-w-300 [&&]:max-md:px-6 [&&]:max-sm:px-4">
-      <div className="relative mb-6 flex h-16 w-full cursor-default justify-between rounded-xl border border-solid border-border-primary bg-background-secondary px-6 py-5 text-text-xl font-bold text-text-inverse">
-        <p className="max-w-[85%] truncate">{group?.name}</p>
-        <TeamGear
-          teamId={teamId}
-          teamName={group?.name ?? ""}
-          teamImage={group?.image ?? ""}
-          memberId={user?.id ?? 0}
-          isAdmin={isAdmin}
-          refreshGroup={refreshGroup}
-        />
-        <Image
-          src={thumbnailSrc}
-          alt="팀"
-          style={{
-            position: "absolute",
-            right: "5rem",
-            top: 0,
-            objectFit: "cover",
-          }}
-          quality={50}
-          priority
-        />
-      </div>
-      <section className="mb-12 flex flex-col gap-4">
-        <SectionHeader
-          title="할 일 목록"
-          length={
-            isTasksPending ? undefined : `${group?.taskLists.length ?? 0}개`
-          }
-          addText="+ 새로운 목록 추가하기"
-          onAddClick={() => openModal(addTaskListModalName)}
-        />
-        <DynamicTaskLists
-          tasks={group?.taskLists ?? []}
-          teamId={teamId}
-          isPending={isTasksPending}
-        />
-      </section>
-      <section className="mb-16 flex flex-col gap-4">
-        <SectionHeader title="어시스턴트" />
-        <Chat dataContext={chatData} isTasksPending={isTasksPending} />
-      </section>
-      <section className="mb-16 flex flex-col gap-4">
-        <SectionHeader
-          title="멤버"
-          length={`${group?.members.length ?? 0}명`}
-          addText="+ 새로운 멤버 초대하기"
-          onAddClick={() => openModal(teamLinkModalName)}
-        />
-        <Members members={group?.members ?? []} />
-      </section>
-    </main>
+    <>
+      <main className="mx-auto mt-21 max-w-300 [&&]:max-md:px-6 [&&]:max-sm:px-4">
+        <div className="relative mb-6 flex h-16 w-full cursor-default justify-between rounded-xl border border-solid border-border-primary bg-background-secondary px-6 py-5 text-text-xl font-bold text-text-inverse">
+          <p className="max-w-[85%] truncate">{group?.name}</p>
+          <TeamGear
+            teamId={teamId}
+            teamName={group?.name ?? ""}
+            teamImage={group?.image ?? ""}
+            memberId={user?.id ?? 0}
+            isAdmin={isAdmin}
+            refreshGroup={refreshGroup}
+          />
+          <Image
+            src={thumbnailSrc}
+            alt="팀"
+            style={{
+              position: "absolute",
+              right: "5rem",
+              top: 0,
+              objectFit: "cover",
+            }}
+            quality={50}
+            priority
+          />
+        </div>
+        <section className="mb-12 flex flex-col gap-4">
+          <SectionHeader
+            title="할 일 목록"
+            length={
+              isTasksPending ? undefined : `${group?.taskLists.length ?? 0}개`
+            }
+            addText="+ 새로운 목록 추가하기"
+            onAddClick={() => openModal(addTaskListModalName)}
+          />
+          <DynamicTaskLists
+            tasks={group?.taskLists ?? []}
+            teamId={teamId}
+            isPending={isTasksPending}
+          />
+        </section>
+        <section className="mb-16 flex flex-col gap-4">
+          <SectionHeader title="어시스턴트" />
+          <Chat dataContext={chatData} isTasksPending={isTasksPending} />
+        </section>
+        <section className="mb-16 flex flex-col gap-4">
+          <SectionHeader
+            title="멤버"
+            length={`${group?.members.length ?? 0}명`}
+            addText="+ 새로운 멤버 초대하기"
+            onAddClick={() => openModal(teamLinkModalName)}
+          />
+          <Members members={group?.members ?? []} />
+        </section>
+      </main>
+      <AddTaskListModal teamId={teamId} submitCallback={refreshGroup} />
+      <TeamLinkModal />
+    </>
   );
 }

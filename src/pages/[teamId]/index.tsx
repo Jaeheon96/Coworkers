@@ -1,14 +1,12 @@
 import { useRouter } from "next/router";
 import Head from "next/head";
 import { AxiosError } from "axios";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import getTeamData from "@/core/api/group/getTeamData";
 import { useAuth } from "@/core/context/AuthProvider";
 import { TeamDataPrvider } from "@/core/context/TeamDataProvider";
 import { COWORKERS_TITLE } from "@/lib/constants/sharedConstants";
-import AddTaskListModal from "@/components/@shared/AddTaskListModal";
 import InvalidRequest from "@/components/@shared/UI/invalidRequest";
-import TeamLinkModal from "@/components/PageComponents/team/TeamLinkModal";
 import TeamInterface from "@/components/PageComponents/team/TeamInterface";
 
 export default function Team() {
@@ -16,7 +14,6 @@ export default function Team() {
 
   const { query, isReady } = useRouter();
   const teamId = query.teamId as string;
-  const queryClient = useQueryClient();
 
   const {
     data: group,
@@ -30,10 +27,6 @@ export default function Team() {
     retry: 1,
     enabled: isReady && !!user,
   });
-
-  const refreshGroup = () => {
-    queryClient.invalidateQueries({ queryKey: ["group", teamId] });
-  };
 
   if (groupError) {
     const e = groupError as AxiosError;
@@ -67,8 +60,6 @@ export default function Team() {
       </Head>
       <TeamDataPrvider>
         <TeamInterface />
-        <AddTaskListModal teamId={teamId} submitCallback={refreshGroup} />
-        <TeamLinkModal />
       </TeamDataPrvider>
     </>
   );
