@@ -1,32 +1,15 @@
-import { useRouter } from "next/router";
 import Head from "next/head";
 import { AxiosError } from "axios";
-import { useQuery } from "@tanstack/react-query";
-import getTeamData from "@/core/api/group/getTeamData";
 import { useAuth } from "@/core/context/AuthProvider";
-import { TeamDataPrvider } from "@/core/context/TeamDataProvider";
+import { TeamDataPrvider, useTeamData } from "@/core/context/TeamDataProvider";
 import { COWORKERS_TITLE } from "@/lib/constants/sharedConstants";
 import InvalidRequest from "@/components/@shared/UI/invalidRequest";
 import TeamInterface from "@/components/PageComponents/team/TeamInterface";
 
 export default function Team() {
-  const { user } = useAuth(true);
+  useAuth(true);
 
-  const { query, isReady } = useRouter();
-  const teamId = query.teamId as string;
-
-  const {
-    data: group,
-    error: groupError,
-    refetch: refetchGroup,
-  } = useQuery({
-    queryKey: ["group", teamId],
-    queryFn: () => getTeamData(teamId),
-    staleTime: 1000 * 60,
-    throwOnError: false,
-    retry: 1,
-    enabled: isReady && !!user,
-  });
+  const { group, groupError, refreshGroup } = useTeamData();
 
   if (groupError) {
     const e = groupError as AxiosError;
@@ -41,7 +24,7 @@ export default function Team() {
     return (
       <InvalidRequest
         retry={() => {
-          refetchGroup();
+          refreshGroup();
         }}
       >
         <p>팀 데이터를 불러오던 중 오류가 발생했습니다.</p>
