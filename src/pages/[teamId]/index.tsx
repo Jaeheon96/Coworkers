@@ -1,15 +1,14 @@
-import Head from "next/head";
 import { AxiosError } from "axios";
 import { useAuth } from "@/core/context/AuthProvider";
 import { TeamDataPrvider, useTeamData } from "@/core/context/TeamDataProvider";
-import { COWORKERS_TITLE } from "@/lib/constants/sharedConstants";
 import InvalidRequest from "@/components/@shared/UI/invalidRequest";
 import TeamInterface from "@/components/PageComponents/team/TeamInterface";
+import TeamPageHead from "@/components/PageComponents/team/TeamPageHead";
 
 export default function Team() {
   useAuth(true);
 
-  const { group, groupError, refreshGroup } = useTeamData();
+  const { groupError, refreshGroup } = useTeamData();
 
   if (groupError) {
     const e = groupError as AxiosError;
@@ -33,17 +32,9 @@ export default function Team() {
   }
 
   return (
-    <>
-      <Head>
-        <title>{`${COWORKERS_TITLE}${group ? ` - ${group.name}` : ""}`}</title>
-        <meta
-          name="description"
-          content={`코워커스${group ? ` ${group.name}` : null}`}
-        />
-      </Head>
-      <TeamDataPrvider>
-        <TeamInterface />
-      </TeamDataPrvider>
-    </>
+    <TeamDataPrvider>
+      <TeamPageHead />
+      <TeamInterface />
+    </TeamDataPrvider>
   );
 }
