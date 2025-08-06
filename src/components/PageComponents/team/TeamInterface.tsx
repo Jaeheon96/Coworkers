@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import Image from "next/image";
 import dynamic from "next/dynamic";
+import { AxiosError } from "axios";
 import { Roles } from "@/core/types/member";
 import { useTeamData } from "@/core/context/TeamDataProvider";
 import { useAuth } from "@/core/context/AuthProvider";
@@ -8,6 +9,7 @@ import useModalStore from "@/lib/hooks/stores/modalStore";
 import modalNames from "@/lib/constants/modalNames";
 import refineTasks from "@/lib/utils/refineTasks";
 import AddTaskListModal from "@/components/@shared/AddTaskListModal";
+import InvalidRequest from "@/components/@shared/UI/invalidRequest";
 import TeamGear from "./TeamGear";
 import SectionHeader from "./SectionHeader";
 import TaskListSkeleton from "./TaskListSkeleton";
@@ -20,7 +22,8 @@ export default function TeamInterface() {
   const { query } = useRouter();
   const teamId = query.teamId as string;
 
-  const { group, refreshGroup, tasks, isTasksPending } = useTeamData();
+  const { group, groupError, refreshGroup, tasks, isTasksPending } =
+    useTeamData();
 
   const { user } = useAuth();
   const isAdmin =
@@ -38,6 +41,27 @@ export default function TeamInterface() {
       ssr: false,
     },
   );
+
+  if (groupError) {
+    const e = groupError as AxiosError;
+    if (e.status === 404) {
+      return (
+        <InvalidRequest>
+          <p>404 에러: 요청하신 팀 정보를 찾을 수 없습니다.</p>
+        </InvalidRequest>
+      );
+    }
+
+    return (
+      <InvalidRequest
+        retry={() => {
+          refreshGroup();
+        }}
+      >
+        <p>팀 데이터를 불러오던 중 오류가 발생했습니다.</p>
+      </InvalidRequest>
+    );
+  }
 
   return (
     <>
