@@ -106,7 +106,7 @@ export default function TeamInterface() {
         </section>
         <section className="mb-16 flex flex-col gap-4">
           <SectionHeader title="어시스턴트" />
-          <Chat dataContext={chatData} isTasksPending={isTasksPending} />
+          <Chat dataContext={chatData} />
         </section>
         <section className="mb-16 flex flex-col gap-4">
           <SectionHeader
