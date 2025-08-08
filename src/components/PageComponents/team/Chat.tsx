@@ -1,14 +1,14 @@
 import { FormEvent, KeyboardEvent, useEffect, useRef, useState } from "react";
-import { useMutation } from "@tanstack/react-query";
-import postChat from "@/core/api/gpt/postChat";
 import Image from "next/image";
-import Button from "@/components/@shared/UI/Button";
-import { ChatRequestBody, Message } from "@/core/dtos/gpt/chatApi";
+import { useMutation } from "@tanstack/react-query";
 import { twMerge } from "tailwind-merge";
+import postChat from "@/core/api/gpt/postChat";
+import { ChatRequestBody, Message } from "@/core/dtos/gpt/chatApi";
+import { useTeamData } from "@/core/context/TeamDataProvider";
+import Button from "@/components/@shared/UI/Button";
 
 interface Props {
   dataContext?: string;
-  isTasksPending?: boolean;
 }
 
 const MESSAGE_CLASSNAME = {
@@ -19,10 +19,12 @@ const MESSAGE_CLASSNAME = {
 
 const CONTEXT_LIMIT = 5;
 
-export default function Chat({ dataContext, isTasksPending = false }: Props) {
+export default function Chat({ dataContext }: Props) {
   const [isStarted, setIsStarted] = useState(false);
   const [text, setText] = useState<string>("");
   const [messages, setMessages] = useState<Message[]>([]);
+
+  const { isTasksPending } = useTeamData();
 
   const formRef = useRef<HTMLFormElement | null>(null);
   const messageBoxRef = useRef<HTMLDivElement | null>(null);
