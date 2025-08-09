@@ -7,7 +7,6 @@ import { useTeamData } from "@/core/context/TeamDataProvider";
 import { useAuth } from "@/core/context/AuthProvider";
 import useModalStore from "@/lib/hooks/stores/modalStore";
 import modalNames from "@/lib/constants/modalNames";
-import refineTasks from "@/lib/utils/refineTasks";
 import AddTaskListModal from "@/components/@shared/AddTaskListModal";
 import InvalidRequest from "@/components/@shared/UI/invalidRequest";
 import TeamGear from "./TeamGear";
@@ -22,8 +21,7 @@ export default function TeamInterface() {
   const { query } = useRouter();
   const teamId = query.teamId as string;
 
-  const { group, groupError, refreshGroup, tasks, isTasksPending } =
-    useTeamData();
+  const { group, groupError, refreshGroup, isTasksPending } = useTeamData();
 
   const { user } = useAuth();
   const isAdmin =
@@ -31,8 +29,6 @@ export default function TeamInterface() {
 
   const openModal = useModalStore((state) => state.openModal);
   const { addTaskListModalName, teamLinkModalName } = modalNames;
-
-  const chatData = tasks ? refineTasks(tasks) : "";
 
   const DynamicTaskLists = dynamic(
     () => import("@/components/PageComponents/team/TaskLists"),
@@ -106,7 +102,7 @@ export default function TeamInterface() {
         </section>
         <section className="mb-16 flex flex-col gap-4">
           <SectionHeader title="어시스턴트" />
-          <Chat dataContext={chatData} />
+          <Chat />
         </section>
         <section className="mb-16 flex flex-col gap-4">
           <SectionHeader

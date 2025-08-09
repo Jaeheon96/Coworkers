@@ -6,10 +6,7 @@ import postChat from "@/core/api/gpt/postChat";
 import { ChatRequestBody, Message } from "@/core/dtos/gpt/chatApi";
 import { useTeamData } from "@/core/context/TeamDataProvider";
 import Button from "@/components/@shared/UI/Button";
-
-interface Props {
-  dataContext?: string;
-}
+import refineTasks from "@/lib/utils/refineTasks";
 
 const MESSAGE_CLASSNAME = {
   chatgpt:
@@ -19,12 +16,14 @@ const MESSAGE_CLASSNAME = {
 
 const CONTEXT_LIMIT = 5;
 
-export default function Chat({ dataContext }: Props) {
+export default function Chat() {
   const [isStarted, setIsStarted] = useState(false);
   const [text, setText] = useState<string>("");
   const [messages, setMessages] = useState<Message[]>([]);
 
-  const { isTasksPending } = useTeamData();
+  const { tasks, isTasksPending } = useTeamData();
+
+  const chatData = tasks ? refineTasks(tasks) : "";
 
   const formRef = useRef<HTMLFormElement | null>(null);
   const messageBoxRef = useRef<HTMLDivElement | null>(null);
@@ -58,7 +57,7 @@ export default function Chat({ dataContext }: Props) {
 
     chatMutation.mutate({
       message: text,
-      data: dataContext,
+      data: chatData,
       context,
       contextLimit: CONTEXT_LIMIT,
     });
@@ -77,7 +76,7 @@ export default function Chat({ dataContext }: Props) {
     setIsStarted(true);
     chatMutation.mutate({
       message: "현재 할 일들이 전체적으로 얼마나 진행됐는지 짧게 요약해줘.",
-      data: dataContext,
+      data: chatData,
     });
   };
 
