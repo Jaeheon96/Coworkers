@@ -2,9 +2,7 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import { AxiosError } from "axios";
-import { Roles } from "@/core/types/member";
 import { useTeamData } from "@/core/context/TeamDataProvider";
-import { useAuth } from "@/core/context/AuthProvider";
 import useModalStore from "@/lib/hooks/stores/modalStore";
 import modalNames from "@/lib/constants/modalNames";
 import AddTaskListModal from "@/components/@shared/AddTaskListModal";
@@ -22,10 +20,6 @@ export default function TeamInterface() {
   const teamId = query.teamId as string;
 
   const { group, groupError, refreshGroup, isTasksPending } = useTeamData();
-
-  const { user } = useAuth();
-  const isAdmin =
-    user?.id === group?.members.find((e) => e.role === Roles.ADMIN)?.userId;
 
   const openModal = useModalStore((state) => state.openModal);
   const { addTaskListModalName, teamLinkModalName } = modalNames;
@@ -64,14 +58,7 @@ export default function TeamInterface() {
       <main className="mx-auto mt-21 max-w-300 [&&]:max-md:px-6 [&&]:max-sm:px-4">
         <div className="relative mb-6 flex h-16 w-full cursor-default justify-between rounded-xl border border-solid border-border-primary bg-background-secondary px-6 py-5 text-text-xl font-bold text-text-inverse">
           <p className="max-w-[85%] truncate">{group?.name}</p>
-          <TeamGear
-            teamId={teamId}
-            teamName={group?.name ?? ""}
-            teamImage={group?.image ?? ""}
-            memberId={user?.id ?? 0}
-            isAdmin={isAdmin}
-            refreshGroup={refreshGroup}
-          />
+          <TeamGear />
           <Image
             src={thumbnailSrc}
             alt="팀"
