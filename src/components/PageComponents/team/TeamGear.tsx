@@ -1,31 +1,26 @@
+import { useRouter } from "next/router";
 import Image from "next/image";
-import AnimatedDropdown from "@/components/@shared/UI/AnimatedDropdown";
-import DropdownItem from "@/components/@shared/UI/Item";
 import { useAuth } from "@/core/context/AuthProvider";
+import { useTeamData } from "@/core/context/TeamDataProvider";
+import { Roles } from "@/core/types/member";
 import useModalStore from "@/lib/hooks/stores/modalStore";
 import modalNames from "@/lib/constants/modalNames";
+import AnimatedDropdown from "@/components/@shared/UI/AnimatedDropdown";
+import DropdownItem from "@/components/@shared/UI/Item";
 import PatchTeamModal from "./PatchTeamModal";
 import DeleteTeamModal from "./DeleteTeamModal";
 import DeleteMemberModal from "./DeleteMemberModal";
 
-interface Props {
-  teamId: string;
-  teamName: string;
-  teamImage: string;
-  memberId: number;
-  isAdmin: boolean;
-  refreshGroup: () => void;
-}
+export default function TeamGear() {
+  const { query } = useRouter();
+  const teamId = query.teamId as string;
 
-export default function TeamGear({
-  teamId,
-  teamName,
-  teamImage,
-  memberId,
-  isAdmin,
-  refreshGroup,
-}: Props) {
-  const { getMe } = useAuth();
+  const { group, refreshGroup } = useTeamData();
+
+  const { user, getMe } = useAuth();
+  const memberId = user?.id ?? 0;
+  const isAdmin =
+    user?.id === group?.members.find((e) => e.role === Roles.ADMIN)?.userId;
 
   const { patchTeamModalName, deleteTeamModalName, deleteMemberModalName } =
     modalNames;
@@ -35,8 +30,8 @@ export default function TeamGear({
 
   const patchTeamForm = {
     teamId,
-    defaultName: teamName,
-    defaultImage: teamImage,
+    defaultName: group?.name ?? "",
+    defaultImage: group?.image ?? "",
   };
   const patchTeamCallback = () => {
     refreshGroup();
