@@ -6,14 +6,11 @@ import useModalStore from "@/lib/hooks/stores/modalStore";
 import modalNames from "@/lib/constants/modalNames";
 import WarningModal from "./WarningModal";
 
-interface Props {
-  teamId: string;
-}
-
-export default function DeleteTeamModal({ teamId }: Props) {
+export default function DeleteTeamModal() {
   const { deleteTeamModalName: modalName } = modalNames;
 
-  const { push } = useRouter();
+  const { query, push } = useRouter();
+  const teamId = query.teamId as string;
   const { getMe } = useAuth();
 
   const closeModal = useModalStore((state) => state.closeModal);
