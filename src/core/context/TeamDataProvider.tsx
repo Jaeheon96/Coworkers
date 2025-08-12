@@ -11,6 +11,7 @@ import { GroupResponse, TaskListTasks } from "../dtos/group/group";
 import getTasks from "../api/group/getTasks";
 
 interface TeamContextValues {
+  teamId: string;
   group: GroupResponse | undefined;
   groupError: Error | null;
   refreshGroup: (
@@ -49,13 +50,14 @@ export function TeamDataPrvider({ children }: { children: ReactNode }) {
 
   const contextValues = useMemo(
     () => ({
+      teamId,
       group,
       groupError,
       refreshGroup,
       tasks,
       isTasksPending,
     }),
-    [group, groupError, refreshGroup, tasks, isTasksPending],
+    [teamId, group, groupError, refreshGroup, tasks, isTasksPending],
   );
 
   return (
