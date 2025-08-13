@@ -1,4 +1,3 @@
-import { useRouter } from "next/router";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import { AxiosError } from "axios";
@@ -16,10 +15,8 @@ import TeamLinkModal from "./TeamLinkModal";
 import thumbnailSrc from "../../../../public/images/image-thumbnailTeam.png";
 
 export default function TeamInterface() {
-  const { query } = useRouter();
-  const teamId = query.teamId as string;
-
-  const { group, groupError, refreshGroup, isTasksPending } = useTeamData();
+  const { teamId, group, groupError, refreshGroup, isTasksPending } =
+    useTeamData();
 
   const openModal = useModalStore((state) => state.openModal);
   const { addTaskListModalName, teamLinkModalName } = modalNames;
