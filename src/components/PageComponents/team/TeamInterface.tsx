@@ -95,7 +95,7 @@ export default function TeamInterface() {
             addText="+ 새로운 멤버 초대하기"
             onAddClick={() => openModal(teamLinkModalName)}
           />
-          <Members members={group?.members ?? []} />
+          <Members />
         </section>
       </main>
       <AddTaskListModal teamId={teamId} submitCallback={refreshGroup} />
