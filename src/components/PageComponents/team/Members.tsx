@@ -1,12 +1,11 @@
-import { Member } from "@/core/types/member";
 import Image from "next/image";
+import { useTeamData } from "@/core/context/TeamDataProvider";
 import MemberMenu from "./MemberMenu";
 
-interface Props {
-  members: Member[];
-}
+export default function Members() {
+  const { group } = useTeamData();
+  const members = group?.members ?? [];
 
-export default function Members({ members }: Props) {
   return (
     <div className="[&&]:grid [&&]:grid-cols-3 [&&]:gap-6 [&&]:md:grid-cols-2 [&&]:sm:grid-cols-1 [&&]:sm:gap-4">
       {members.map((member) => (
