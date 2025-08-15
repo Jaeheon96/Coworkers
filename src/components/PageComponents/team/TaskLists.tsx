@@ -1,4 +1,4 @@
-import { GroupTask } from "@/core/dtos/group/group";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import {
   DragDropContext,
@@ -6,26 +6,23 @@ import {
   Droppable,
   DropResult,
 } from "@hello-pangea/dnd";
-import { useEffect, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import patchTaskListOrder from "@/core/api/taskList/patchTaskListOrder";
+import { useTeamData } from "@/core/context/TeamDataProvider";
 import AddTaskListModal from "@/components/@shared/AddTaskListModal";
 import TaskListMenu from "./TaskListMenu";
 import TaskListSkeleton from "./TaskListSkeleton";
 import DeleteTaskListModal from "./DeleteTaskListModal";
-
-interface Props {
-  tasks: GroupTask[];
-  teamId: string;
-  isPending?: boolean;
-}
 
 interface PatchOrderMutationForm {
   taskListId: string;
   newIndex: number;
 }
 
-export default function TaskLists({ tasks, teamId, isPending = false }: Props) {
+export default function TaskLists() {
+  const { teamId, group, isTasksPending: isPending } = useTeamData();
+  const tasks = useMemo(() => group?.taskLists ?? [], [group?.taskLists]);
+
   const indexColors = [
     "bg-point-purple",
     "bg-point-blue",
