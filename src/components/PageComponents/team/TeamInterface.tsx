@@ -78,11 +78,7 @@ export default function TeamInterface() {
             addText="+ 새로운 목록 추가하기"
             onAddClick={() => openModal(addTaskListModalName)}
           />
-          <DynamicTaskLists
-            tasks={group?.taskLists ?? []}
-            teamId={teamId}
-            isPending={isTasksPending}
-          />
+          <DynamicTaskLists />
         </section>
         <section className="mb-16 flex flex-col gap-4">
           <SectionHeader title="어시스턴트" />
