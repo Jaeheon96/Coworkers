@@ -20,7 +20,12 @@ interface PatchOrderMutationForm {
 }
 
 export default function TaskLists() {
-  const { teamId, group, isTasksPending: isPending } = useTeamData();
+  const {
+    teamId,
+    group,
+    refreshGroup,
+    isTasksPending: isPending,
+  } = useTeamData();
   const tasks = useMemo(() => group?.taskLists ?? [], [group?.taskLists]);
 
   const indexColors = [
@@ -66,10 +71,6 @@ export default function TaskLists() {
     setVisibleTasks(newTasks);
 
     mutate({ taskListId: draggableId, newIndex: destination.index });
-  };
-
-  const refreshGroup = () => {
-    queryClient.invalidateQueries({ queryKey: ["group", teamId] });
   };
 
   useEffect(() => {
