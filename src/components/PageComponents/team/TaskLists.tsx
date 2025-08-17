@@ -136,10 +136,7 @@ export default function TaskLists() {
                       name: task.name,
                     }}
                   />
-                  <DeleteTaskListModal
-                    teamId={teamId}
-                    taskListId={`${task.id}`}
-                  />
+                  <DeleteTaskListModal taskListId={`${task.id}`} />
                 </>
               );
             })}
