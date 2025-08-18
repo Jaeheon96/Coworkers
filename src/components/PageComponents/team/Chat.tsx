@@ -90,7 +90,32 @@ export default function Chat() {
     messageBoxRef.current.scrollIntoView({ behavior: "smooth", block: "end" });
   }, [messages]);
 
-  return isStarted ? (
+  if (!isStarted) {
+    return (
+      <div className={backgroundClassName}>
+        {isTasksPending ? null : (
+          <div className="mx-4 flex w-full flex-col items-center gap-6">
+            <p className="text-center text-text-2xl font-medium">
+              AI 어시스턴트
+            </p>
+            <Button
+              variant="solid"
+              size="large"
+              className="max-w-64"
+              type="button"
+              disabled={chatMutation.isPending}
+              onClick={handleStart}
+              name="AI 어시스턴트 시작"
+            >
+              시작하기
+            </Button>
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  return (
     <div className="flex h-96 w-full flex-col justify-between gap-4 rounded-xl bg-background-secondary p-6">
       <div className="overflow-y-scroll scrollbar-hide">
         <div className="flex flex-col gap-4" ref={messageBoxRef}>
@@ -126,25 +151,6 @@ export default function Chat() {
           </button>
         </div>
       </form>
-    </div>
-  ) : (
-    <div className={backgroundClassName}>
-      {isTasksPending ? null : (
-        <div className="mx-4 flex w-full flex-col items-center gap-6">
-          <p className="text-center text-text-2xl font-medium">AI 어시스턴트</p>
-          <Button
-            variant="solid"
-            size="large"
-            className="max-w-64"
-            type="button"
-            disabled={chatMutation.isPending}
-            onClick={handleStart}
-            name="AI 어시스턴트 시작"
-          >
-            시작하기
-          </Button>
-        </div>
-      )}
     </div>
   );
 }
