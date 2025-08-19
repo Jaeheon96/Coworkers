@@ -28,23 +28,25 @@ export default function Chat() {
   const formRef = useRef<HTMLFormElement | null>(null);
   const messageBoxRef = useRef<HTMLDivElement | null>(null);
 
-  const chatMutation = useMutation({
-    mutationFn: async (body: ChatRequestBody) => {
-      const res = await postChat(body);
-      return res;
+  const { mutate: sendMessage, isPending: isChatResponsePending } = useMutation(
+    {
+      mutationFn: async (body: ChatRequestBody) => {
+        const res = await postChat(body);
+        return res;
+      },
+      onSuccess: (data) => {
+        const { content } = data.choices[0].message;
+        if (!content) return;
+        setMessages((prev) => [
+          ...prev,
+          { id: data.id, text: content, from: "chatgpt" },
+        ]);
+      },
+      onError: (error) => {
+        console.error(error);
+      },
     },
-    onSuccess: (data) => {
-      const { content } = data.choices[0].message;
-      if (!content) return;
-      setMessages((prev) => [
-        ...prev,
-        { id: data.id, text: content, from: "chatgpt" },
-      ]);
-    },
-    onError: (error) => {
-      console.error(error);
-    },
-  });
+  );
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -55,7 +57,7 @@ export default function Chat() {
       { id: `${prev.length}`, text, from: "user" },
     ]);
 
-    chatMutation.mutate({
+    sendMessage({
       message: text,
       data: chatData,
       context,
@@ -74,7 +76,7 @@ export default function Chat() {
 
   const handleStart = () => {
     setIsStarted(true);
-    chatMutation.mutate({
+    sendMessage({
       message: "현재 할 일들이 전체적으로 얼마나 진행됐는지 짧게 요약해줘.",
       data: chatData,
     });
@@ -103,7 +105,7 @@ export default function Chat() {
               size="large"
               className="max-w-64"
               type="button"
-              disabled={chatMutation.isPending}
+              disabled={isChatResponsePending}
               onClick={handleStart}
               name="AI 어시스턴트 시작"
             >
@@ -130,11 +132,11 @@ export default function Chat() {
         <textarea
           className="h-full w-full resize-none rounded-xl border-border-primary border-opacity-10 bg-background-tertiary pr-14 placeholder:break-keep focus:border-interaction-hover focus:outline-none"
           value={text}
-          disabled={chatMutation.isPending}
+          disabled={isChatResponsePending}
           onChange={(e) => setText(e.target.value)}
           onKeyDown={handleEnterPress}
           placeholder={
-            chatMutation.isPending
+            isChatResponsePending
               ? "응답을 기다리는 중..."
               : "여기에 메세지를 입력하세요."
           }
@@ -143,7 +145,7 @@ export default function Chat() {
           <button
             className="flex h-8 w-8 items-center justify-center rounded-full [&&]:bg-brand-primary"
             type="submit"
-            disabled={chatMutation.isPending}
+            disabled={isChatResponsePending}
           >
             <div className="relative h-5 w-5">
               <Image fill src="/icons/icon-arrow_up.svg" alt="보내기" />
