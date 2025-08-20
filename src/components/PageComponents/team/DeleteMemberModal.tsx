@@ -2,16 +2,18 @@ import { useRouter } from "next/router";
 import { useMutation } from "@tanstack/react-query";
 import deleteMember from "@/core/api/group/deleteMember";
 import { useAuth } from "@/core/context/AuthProvider";
+import { useTeamData } from "@/core/context/TeamDataProvider";
 import useModalStore from "@/lib/hooks/stores/modalStore";
 import modalNames from "@/lib/constants/modalNames";
 import WarningModal from "./WarningModal";
 
 interface Props {
-  teamId: string;
   memberId: string;
 }
 
-export default function DeleteMemberModal({ teamId, memberId }: Props) {
+export default function DeleteMemberModal({ memberId }: Props) {
+  const { teamId } = useTeamData();
+
   const modalName = modalNames.deleteMemberModalName;
 
   const router = useRouter();

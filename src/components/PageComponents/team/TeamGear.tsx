@@ -78,7 +78,7 @@ export default function TeamGear() {
         formValues={patchTeamForm}
       />
       <DeleteTeamModal />
-      <DeleteMemberModal teamId={teamId} memberId={`${memberId}`} />
+      <DeleteMemberModal memberId={`${memberId}`} />
     </>
   );
 }
