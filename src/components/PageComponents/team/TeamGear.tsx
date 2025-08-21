@@ -73,7 +73,6 @@ export default function TeamGear() {
         </DropdownItem>
       </AnimatedDropdown>
       <PatchTeamModal
-        onClose={() => closeModal(patchTeamModalName)}
         submitCallback={patchTeamCallback}
         formValues={patchTeamForm}
       />
