@@ -21,7 +21,7 @@ export default function TeamInterface() {
   const openModal = useModalStore((state) => state.openModal);
   const { addTaskListModalName, teamLinkModalName } = modalNames;
 
-  const DynamicTaskLists = dynamic(
+  const TaskLists = dynamic(
     () => import("@/components/PageComponents/team/TaskLists"),
     {
       loading: TaskListSkeleton,
@@ -78,7 +78,7 @@ export default function TeamInterface() {
             addText="+ 새로운 목록 추가하기"
             onAddClick={() => openModal(addTaskListModalName)}
           />
-          <DynamicTaskLists />
+          <TaskLists />
         </section>
         <section className="mb-16 flex flex-col gap-4">
           <SectionHeader title="어시스턴트" />
