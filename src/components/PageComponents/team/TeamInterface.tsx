@@ -1,4 +1,3 @@
-import Image from "next/image";
 import dynamic from "next/dynamic";
 import { AxiosError } from "axios";
 import { useTeamData } from "@/core/context/TeamDataProvider";
@@ -6,13 +5,12 @@ import useModalStore from "@/lib/hooks/stores/modalStore";
 import modalNames from "@/lib/constants/modalNames";
 import AddTaskListModal from "@/components/@shared/AddTaskListModal";
 import InvalidRequest from "@/components/@shared/UI/invalidRequest";
-import TeamGear from "./TeamGear";
 import SectionHeader from "./SectionHeader";
 import TaskListSkeleton from "./TaskListSkeleton";
 import Chat from "./Chat";
 import Members from "./Members";
 import TeamLinkModal from "./TeamLinkModal";
-import thumbnailSrc from "../../../../public/images/image-thumbnailTeam.png";
+import TeamHeader from "./TeamHeader";
 
 export default function TeamInterface() {
   const { teamId, group, groupError, refreshGroup, isTasksPending } =
@@ -53,22 +51,7 @@ export default function TeamInterface() {
   return (
     <>
       <main className="mx-auto mt-21 max-w-300 [&&]:max-md:px-6 [&&]:max-sm:px-4">
-        <div className="relative mb-6 flex h-16 w-full cursor-default justify-between rounded-xl border border-solid border-border-primary bg-background-secondary px-6 py-5 text-text-xl font-bold text-text-inverse">
-          <p className="max-w-[85%] truncate">{group?.name}</p>
-          <TeamGear />
-          <Image
-            src={thumbnailSrc}
-            alt="팀"
-            style={{
-              position: "absolute",
-              right: "5rem",
-              top: 0,
-              objectFit: "cover",
-            }}
-            quality={50}
-            priority
-          />
-        </div>
+        <TeamHeader />
         <section className="mb-12 flex flex-col gap-4">
           <SectionHeader
             title="할 일 목록"
