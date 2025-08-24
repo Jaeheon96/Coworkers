@@ -1,4 +1,3 @@
-import { useRouter } from "next/router";
 import Image from "next/image";
 import { useAuth } from "@/core/context/AuthProvider";
 import { useTeamData } from "@/core/context/TeamDataProvider";
@@ -12,12 +11,9 @@ import DeleteTeamModal from "./DeleteTeamModal";
 import DeleteMemberModal from "./DeleteMemberModal";
 
 export default function TeamGear() {
-  const { query } = useRouter();
-  const teamId = query.teamId as string;
+  const { group } = useTeamData();
 
-  const { group, refreshGroup } = useTeamData();
-
-  const { user, getMe } = useAuth();
+  const { user } = useAuth();
   const memberId = user?.id ?? 0;
   const isAdmin =
     user?.id === group?.members.find((e) => e.role === Roles.ADMIN)?.userId;
@@ -26,18 +22,6 @@ export default function TeamGear() {
     modalNames;
 
   const openModal = useModalStore((state) => state.openModal);
-  const closeModal = useModalStore((state) => state.closeModal);
-
-  const patchTeamForm = {
-    teamId,
-    defaultName: group?.name ?? "",
-    defaultImage: group?.image ?? "",
-  };
-  const patchTeamCallback = () => {
-    refreshGroup();
-    getMe();
-    closeModal(patchTeamModalName);
-  };
 
   return (
     <>
@@ -72,10 +56,7 @@ export default function TeamGear() {
           탈퇴하기
         </DropdownItem>
       </AnimatedDropdown>
-      <PatchTeamModal
-        submitCallback={patchTeamCallback}
-        formValues={patchTeamForm}
-      />
+      <PatchTeamModal />
       <DeleteTeamModal />
       <DeleteMemberModal memberId={`${memberId}`} />
     </>
