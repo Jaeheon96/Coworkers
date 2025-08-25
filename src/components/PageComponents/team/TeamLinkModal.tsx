@@ -79,8 +79,7 @@ export default function TeamLinkModal() {
     if (isOpen) setIsMailInvitationOpen(false);
   }, [isOpen]);
 
-  if (isMailInvitationOpen)
-    return <MailInviteModal isOpen={isOpen} onClose={onClose} team={team} />;
+  if (isMailInvitationOpen) return <MailInviteModal />;
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} isCloseButton>
