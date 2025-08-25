@@ -4,18 +4,24 @@ import Input from "@/components/@shared/UI/Input";
 import Modal from "@/components/@shared/UI/Modal/Modal";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
-import { GroupResponse } from "@/core/dtos/group/group";
 import getInvitationCode from "@/core/api/group/getInvitationCode";
 import useTimeoutToggle from "@/lib/hooks/useTimeoutToggle";
 import Image from "next/image";
+import useModalStore from "@/lib/hooks/stores/modalStore";
+import modalNames from "@/lib/constants/modalNames";
+import { useTeamData } from "@/core/context/TeamDataProvider";
 
-interface Props {
-  isOpen: boolean;
-  onClose: () => void;
-  team?: GroupResponse;
-}
+export default function MailInviteModal() {
+  const { teamLinkModalName } = modalNames;
+  const isOpen = useModalStore((state) => state.modals[teamLinkModalName]);
 
-export default function MailInviteModal({ isOpen, onClose, team }: Props) {
+  const closeModal = useModalStore((state) => state.closeModal);
+  const onClose = () => {
+    closeModal(teamLinkModalName);
+  };
+
+  const { group: team } = useTeamData();
+
   const [email, setEmail] = useState("");
 
   const handleEmailInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -82,7 +88,7 @@ export default function MailInviteModal({ isOpen, onClose, team }: Props) {
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} isCloseButton>
-      <form className="w-88 flex flex-col gap-6 px-9" onSubmit={handleSubmit}>
+      <form className="flex w-88 flex-col gap-6 px-9" onSubmit={handleSubmit}>
         <div className="flex w-full flex-col gap-4">
           <h3 className="text-center text-text-lg font-medium text-text-primary">
             이메일로 초대 보내기
