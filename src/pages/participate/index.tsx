@@ -59,15 +59,14 @@ export default function Participate() {
   if (!user) return null;
 
   return (
-    <div className="max-w-123 mx-auto mt-52 px-4">
+    <div className="mx-auto mt-52 max-w-123 px-4">
       <form className="flex w-full flex-col items-center gap-10">
         <div className="flex w-full flex-col items-center gap-20 sm:gap-6">
           <h2 className="text-4xl font-medium text-text-primary md:text-2xl sm:text-2xl">
             팀 참여하기
           </h2>
-          <InputLabel label="팀 링크">
+          <InputLabel label="팀 링크" errorMessage={errorMessage}>
             <Input
-              errorMessage={errorMessage}
               isValid={isValid}
               className="w-full"
               placeholder="팀 링크를 입력해주세요."
