@@ -102,7 +102,15 @@ export default function EditTaskModal({
           className="flex flex-col items-center gap-6"
           onSubmit={handleFormSubmit}
         >
-          <InputLabel className="text-md text-text-primary" label="할 일 제목">
+          <InputLabel
+            className="text-md text-text-primary"
+            label="할 일 제목"
+            errorMessage={
+              (taskData.name?.length ?? 0) <= 30
+                ? ""
+                : "30자 이하로 입력해 주세요."
+            }
+          >
             <Input
               name="name"
               type="text"
@@ -111,7 +119,6 @@ export default function EditTaskModal({
               className="w-84"
               placeholder="할 일 제목을 입력해주세요. 30자 이하"
               isValid={(taskData.name?.length ?? 0) <= 30}
-              errorMessage="30자 이하로 입력해주세요"
             />
           </InputLabel>
           <InputLabel className="text-md text-text-primary" label="할 일 메모">
