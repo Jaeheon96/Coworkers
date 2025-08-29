@@ -137,7 +137,13 @@ export default function AddTaskModal({
           className="flex flex-col items-center gap-6"
           onSubmit={handleFormSubmit}
         >
-          <InputLabel className="text-md text-text-primary" label="할 일 제목">
+          <InputLabel
+            className="text-md text-text-primary"
+            label="할 일 제목"
+            errorMessage={
+              taskData.name.length <= 30 ? "" : "30자 이하로 입력해 주세요."
+            }
+          >
             <Input
               name="name"
               type="text"
@@ -146,7 +152,6 @@ export default function AddTaskModal({
               className="w-84"
               placeholder="할 일 제목을 입력해주세요. 30자 이하"
               isValid={taskData.name.length <= 30}
-              errorMessage="30자 이하로 입력해주세요"
             />
           </InputLabel>
           <InputLabel
@@ -154,7 +159,7 @@ export default function AddTaskModal({
             label="시작 날짜 및 시간"
           >
             <DatePicker
-              className="w-84 h-12 rounded-xl [&&]:border-border-primary [&&]:bg-background-secondary [&&]:text-text-primary [&&]:placeholder:text-text-default [&&]:hover:border-interaction-hover [&&]:focus:border-interaction-hover [&&]:focus:outline-none [&&]:focus:ring-0"
+              className="h-12 w-84 rounded-xl [&&]:border-border-primary [&&]:bg-background-secondary [&&]:text-text-primary [&&]:placeholder:text-text-default [&&]:hover:border-interaction-hover [&&]:focus:border-interaction-hover [&&]:focus:outline-none [&&]:focus:ring-0"
               onChange={handleDateChange}
               selected={new Date(taskData.startDate)}
               showTimeSelect
