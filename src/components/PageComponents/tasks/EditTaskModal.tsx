@@ -118,7 +118,7 @@ export default function EditTaskModal({
               onChange={handleInputChange}
               className="w-84"
               placeholder="할 일 제목을 입력해주세요. 30자 이하"
-              isValid={(taskData.name?.length ?? 0) <= 30}
+              isError={(taskData.name?.length ?? 0) > 30}
             />
           </InputLabel>
           <InputLabel className="text-md text-text-primary" label="할 일 메모">

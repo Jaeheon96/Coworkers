@@ -115,7 +115,7 @@ export default function TeamSubmitForm({
           </InputLabel>
           <InputLabel label="팀 이름" errorMessage={errorMessage}>
             <Input
-              isValid={isValid}
+              isError={!isValid}
               value={teamName}
               onChange={handleNameChange}
               className="w-full"
