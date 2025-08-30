@@ -67,7 +67,7 @@ export default function Participate() {
           </h2>
           <InputLabel label="팀 링크" errorMessage={errorMessage}>
             <Input
-              isValid={isValid}
+              isError={!isValid}
               className="w-full"
               placeholder="팀 링크를 입력해주세요."
               onChange={handleInputChange}
