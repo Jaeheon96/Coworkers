@@ -1,5 +1,5 @@
 import Button from "@/components/@shared/UI/Button";
-import InputAlt from "@/components/@shared/UI/InputAlt";
+import Input from "@/components/@shared/UI/Input";
 import InputLabel from "@/components/@shared/UI/InputLabel";
 import ProfileImagePreview from "@/components/@shared/UI/ProfileImagePreview";
 import DeleteUserModal from "@/components/PageComponents/auth/DeleteUserModal";
@@ -92,10 +92,10 @@ export default function Account() {
             </div>
           </ProfileImagePreview>
           <InputLabel label="이름">
-            <InputAlt value={name} onChange={handleNameChange} />
+            <Input value={name} onChange={handleNameChange} />
           </InputLabel>
           <InputLabel label="이메일">
-            <InputAlt
+            <Input
               className="cursor-default text-text-disabled [&&]:bg-background-tertiary [&&]:hover:border-border-primary [&&]:focus:border-border-primary"
               value={user?.email}
               readOnly
@@ -103,7 +103,7 @@ export default function Account() {
           </InputLabel>
           <InputLabel label="비밀번호">
             <div className="relative w-full">
-              <InputAlt
+              <Input
                 className="cursor-default text-text-disabled [&&]:bg-background-tertiary [&&]:hover:border-border-primary [&&]:focus:border-border-primary"
                 type="password"
                 value="password"

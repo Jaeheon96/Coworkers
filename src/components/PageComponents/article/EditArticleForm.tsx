@@ -5,7 +5,7 @@ import useArticleFormValues from "@/lib/hooks/addboard/useArticleFormValues";
 import useArticleValidation from "@/lib/hooks/addboard/useArticleValidation";
 import useArticleEdit from "@/lib/hooks/article/useArticleEdit";
 import FileInput from "@/components/@shared/UI/FileInput";
-import InputAlt from "@/components/@shared/UI/InputAlt";
+import Input from "@/components/@shared/UI/Input";
 import InputLabel from "@/components/@shared/UI/InputLabel";
 import LoadingButton from "@/components/@shared/UI/LoadingButton";
 
@@ -82,7 +82,7 @@ export default function EditArticleForm({ article }: Props) {
             errorMessage={formErrors.title}
             className="gap-4"
           >
-            <InputAlt
+            <Input
               className="px-6 text-text-lg [&&]:max-sm:h-12 [&&]:max-sm:px-4 [&&]:max-sm:text-text-md"
               placeholder="제목을 입력해주세요."
               name="title"
