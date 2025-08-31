@@ -1,7 +1,7 @@
 import { FocusEvent, FormEvent } from "react";
 import Image from "next/image";
 import FileInput from "@/components/@shared/UI/FileInput";
-import InputAlt from "@/components/@shared/UI/InputAlt";
+import Input from "@/components/@shared/UI/Input";
 import InputLabel from "@/components/@shared/UI/InputLabel";
 import LoadingButton from "@/components/@shared/UI/LoadingButton";
 import { useAuth } from "@/core/context/AuthProvider";
@@ -77,7 +77,7 @@ export default function Addboard() {
             errorMessage={formErrors.title}
             className="gap-4"
           >
-            <InputAlt
+            <Input
               className="px-6 text-text-lg [&&]:max-sm:h-12 [&&]:max-sm:px-4 [&&]:max-sm:text-text-md"
               placeholder="제목을 입력해주세요."
               name="title"

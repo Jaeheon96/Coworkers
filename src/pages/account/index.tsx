@@ -1,5 +1,5 @@
 import Button from "@/components/@shared/UI/Button";
-import InputAlt from "@/components/@shared/UI/InputAlt";
+import Input from "@/components/@shared/UI/Input";
 import InputLabel from "@/components/@shared/UI/InputLabel";
 import ProfileImagePreview from "@/components/@shared/UI/ProfileImagePreview";
 import DeleteUserModal from "@/components/PageComponents/auth/DeleteUserModal";
@@ -74,7 +74,7 @@ export default function Account() {
       <Head>
         <title>계정 설정</title>
       </Head>
-      <main className="[&&]:max-md:mt-21 mt-25 mx-auto flex max-w-[49.5rem] flex-col gap-6 px-6 [&&]:max-sm:px-4">
+      <main className="mx-auto mt-25 flex max-w-[49.5rem] flex-col gap-6 px-6 [&&]:max-md:mt-21 [&&]:max-sm:px-4">
         <h1 className="text-text-xl font-bold text-text-primary">계정 설정</h1>
         <form className="flex w-full flex-col gap-6" onSubmit={handleSubmit}>
           <ProfileImagePreview
@@ -92,10 +92,10 @@ export default function Account() {
             </div>
           </ProfileImagePreview>
           <InputLabel label="이름">
-            <InputAlt value={name} onChange={handleNameChange} />
+            <Input value={name} onChange={handleNameChange} />
           </InputLabel>
           <InputLabel label="이메일">
-            <InputAlt
+            <Input
               className="cursor-default text-text-disabled [&&]:bg-background-tertiary [&&]:hover:border-border-primary [&&]:focus:border-border-primary"
               value={user?.email}
               readOnly
@@ -103,7 +103,7 @@ export default function Account() {
           </InputLabel>
           <InputLabel label="비밀번호">
             <div className="relative w-full">
-              <InputAlt
+              <Input
                 className="cursor-default text-text-disabled [&&]:bg-background-tertiary [&&]:hover:border-border-primary [&&]:focus:border-border-primary"
                 type="password"
                 value="password"
@@ -111,7 +111,7 @@ export default function Account() {
               />
               <Link href="/reset-password">
                 <Button
-                  className="w-18.5 absolute right-4 top-2 h-8 text-sm font-semibold text-white [&&]:max-sm:top-1.5"
+                  className="absolute right-4 top-2 h-8 w-18.5 text-sm font-semibold text-white [&&]:max-sm:top-1.5"
                   variant="solid"
                   size="large"
                 >
@@ -135,7 +135,7 @@ export default function Account() {
               </span>
             </span>
             <Button
-              className="w-18.5 h-8 text-sm font-semibold text-white"
+              className="h-8 w-18.5 text-sm font-semibold text-white"
               variant="solid"
               size="large"
               type="submit"

@@ -1,6 +1,6 @@
 import { InputHTMLAttributes, useState } from "react";
 import Image from "next/image";
-import InputAlt from "./InputAlt";
+import Input from "./Input";
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
   isError?: boolean;
@@ -24,7 +24,7 @@ export default function PasswordInput(props: Props) {
           priority
         />
       </div>
-      <InputAlt
+      <Input
         type={isVisible ? "text" : "password"}
         className="peer-hover:border-interaction-hover [&&]:pr-11"
         {...props}
