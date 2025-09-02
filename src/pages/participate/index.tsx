@@ -9,7 +9,7 @@ import { useRouter } from "next/router";
 import { ChangeEvent, useState } from "react";
 
 export default function Participate() {
-  const [link, setLink] = useState("");
+  const [token, setToken] = useState("");
   const [isValid, setIsValid] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -48,12 +48,12 @@ export default function Participate() {
   });
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setLink(e.target.value);
+    setToken(e.target.value);
   };
 
   const handleButtonClick = () => {
-    if (!email || !link) return;
-    mutate({ userEmail: email, token: link });
+    if (!email || !token) return;
+    mutate({ userEmail: email, token });
   };
 
   if (!user) return null;
