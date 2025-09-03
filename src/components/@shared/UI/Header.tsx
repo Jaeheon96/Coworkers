@@ -174,6 +174,14 @@ export default function Header() {
                   계정 설정
                 </DropdownItem>
               </Link>
+              <Link href="participate">
+                <DropdownItem
+                  onClick={() => {}}
+                  itemClassName="transition-colors duration-100 py-3.5 text-center [&&]:max-sm:py-3 hover:bg-background-tertiary"
+                >
+                  팀 참여
+                </DropdownItem>
+              </Link>
               <DropdownItem
                 onClick={logout}
                 itemClassName="transition-colors duration-100 py-3.5 text-center [&&]:max-sm:py-3 hover:bg-background-tertiary rounded-b-xl"
