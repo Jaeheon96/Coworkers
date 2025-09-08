@@ -1,10 +1,11 @@
-import { Membership } from "@/core/dtos/user/membership";
-import { allowScroll, preventScroll } from "@/lib/utils/lockScroll";
-import { AnimatePresence, motion } from "framer-motion";
+import { useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { useAuth } from "@/core/context/AuthProvider";
+import { Membership } from "@/core/dtos/user/membership";
+import { allowScroll, preventScroll } from "@/lib/utils/lockScroll";
 
 interface Props {
   isOpen: boolean;
@@ -18,6 +19,7 @@ export default function NavSidebar({
   memberships,
 }: Props) {
   const { query, pathname } = useRouter();
+  const { user } = useAuth();
 
   const boardsClassName = `text-text-md font-medium${pathname === "/boards" || pathname.startsWith("/boards/") ? " text-brand-primary" : ""}`;
   const addteamClassName = `text-text-md font-medium${pathname === "/addteam" || pathname.startsWith("/addteam/") ? " text-brand-primary" : ""}`;
@@ -65,35 +67,41 @@ export default function NavSidebar({
               <Image fill src="/icons/icon-x.svg" alt="닫기" priority />
             </div>
             <div className="flex h-full w-full flex-col gap-6 overflow-y-auto">
-              {memberships.map((membership) => {
-                const teamNameClass = `truncate text-text-md font-medium ${query.teamId === `${membership.groupId}` ? "text-brand-primary" : "text-text-primary"}`;
-                return (
-                  <Link
-                    key={membership.groupId}
-                    href={`/${membership.groupId}`}
-                    onClick={handleClose}
-                  >
-                    <div className="flex items-center gap-2.5">
-                      <div className="relative h-6 w-6 shrink-0">
-                        <Image
-                          fill
-                          src={
-                            membership.group.image ??
-                            "/icons/icon-default_profile.svg"
-                          }
-                          className="rounded-md"
-                          alt="팀이미지"
-                          priority
-                        />
-                      </div>
-                      <p className={teamNameClass}>{membership.group.name}</p>
-                    </div>
-                  </Link>
-                );
-              })}
-              <Link href="/addteam" onClick={handleClose}>
-                <p className={addteamClassName}>팀 추가하기</p>
-              </Link>
+              {user
+                ? memberships.map((membership) => {
+                    const teamNameClass = `truncate text-text-md font-medium ${query.teamId === `${membership.groupId}` ? "text-brand-primary" : "text-text-primary"}`;
+                    return (
+                      <Link
+                        key={membership.groupId}
+                        href={`/${membership.groupId}`}
+                        onClick={handleClose}
+                      >
+                        <div className="flex items-center gap-2.5">
+                          <div className="relative h-6 w-6 shrink-0">
+                            <Image
+                              fill
+                              src={
+                                membership.group.image ??
+                                "/icons/icon-default_profile.svg"
+                              }
+                              className="rounded-md"
+                              alt="팀이미지"
+                              priority
+                            />
+                          </div>
+                          <p className={teamNameClass}>
+                            {membership.group.name}
+                          </p>
+                        </div>
+                      </Link>
+                    );
+                  })
+                : null}
+              {user ? (
+                <Link href="/addteam" onClick={handleClose}>
+                  <p className={addteamClassName}>팀 추가하기</p>
+                </Link>
+              ) : null}
               <Link href="/boards" onClick={handleClose}>
                 <p className={boardsClassName}>자유게시판</p>
               </Link>
