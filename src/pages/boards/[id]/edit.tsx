@@ -20,8 +20,6 @@ export default function EditArticle() {
     throwOnError: false,
   });
 
-  console.log(article);
-
   if (isError)
     return <InvalidRequest>게시글을 불러오는데 실패했습니다.</InvalidRequest>;
   if (!article || isAuthPending) return <EditArticleLoading />;
