@@ -12,6 +12,8 @@ export default function ArticleHeader({ article }: Props) {
   const { user } = useAuth();
   const { commentsCount } = useArticleComments();
 
+  const { isLiked } = article;
+
   return (
     <>
       <div className="mb-4 flex justify-between gap-2 border-b border-border-primary pb-4">
@@ -45,7 +47,15 @@ export default function ArticleHeader({ article }: Props) {
           </div>
           <div className="flex items-center gap-1">
             <div className="relative h-4 w-4">
-              <Image fill src="/icons/icon-heart.svg" alt="좋아요 갯수" />
+              <Image
+                fill
+                src={
+                  isLiked
+                    ? "/icons/icon-heartFilled.svg"
+                    : "/icons/icon-heart.svg"
+                }
+                alt="좋아요 갯수"
+              />
             </div>
             <p className="text-text-md font-regular text-slate-400 [&&]:max-sm:text-text-xs">
               {article.likeCount}
