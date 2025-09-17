@@ -7,7 +7,7 @@ import ArticlePageHead from "@/components/PageComponents/article/ArticlePageHead
 import { ArticleCommentsProvider } from "@/core/context/ArticleCommentsProvider";
 import { ArticleResponse } from "@/core/dtos/boards/boards";
 import StandardError from "@/core/types/standardError";
-import useArticleQueryStore from "@/lib/hooks/article/useArticleQueryStore";
+import { ArticleQueryProvider } from "@/core/context/ArticleQueryProvider";
 
 export const getServerSideProps = async (
   context: GetServerSidePropsContext,
@@ -28,17 +28,17 @@ export const getServerSideProps = async (
 export default function Article({
   article,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  useArticleQueryStore(article);
-
   if (!article)
     return <InvalidRequest>게시글을 불러오는데 실패했습니다.</InvalidRequest>;
 
   return (
     <>
       <ArticlePageHead article={article} />
-      <ArticleCommentsProvider initialCommentsCount={article.commentCount}>
-        <ArticleInterface article={article} />
-      </ArticleCommentsProvider>
+      <ArticleQueryProvider article={article}>
+        <ArticleCommentsProvider initialCommentsCount={article.commentCount}>
+          <ArticleInterface article={article} />
+        </ArticleCommentsProvider>
+      </ArticleQueryProvider>
     </>
   );
 }
