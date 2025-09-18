@@ -2,6 +2,7 @@ import Image from "next/image";
 import { useAuth } from "@/core/context/AuthProvider";
 import { ArticleResponse } from "@/core/dtos/boards/boards";
 import { useArticleComments } from "@/core/context/ArticleCommentsProvider";
+import { useArticleQuery } from "@/core/context/ArticleQueryProvider";
 import ArticleMenuDropdown from "./ArticleMenuDropdown";
 
 interface Props {
@@ -10,9 +11,10 @@ interface Props {
 
 export default function ArticleHeader({ article }: Props) {
   const { user } = useAuth();
+  const { articleQueryData } = useArticleQuery();
   const { commentsCount } = useArticleComments();
 
-  const { isLiked } = article;
+  const isLiked = articleQueryData ? articleQueryData.isLiked : null;
 
   return (
     <>
