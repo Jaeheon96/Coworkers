@@ -21,15 +21,19 @@ export function ArticleQueryProvider({
   article,
   children,
 }: ArticleQueryProviderProps) {
-  const { data: articleQueryData, refetch: refetchArticleQuery } =
-    useArticleQueryStore(article);
+  const {
+    data: articleQueryData,
+    refetch: refetchArticleQuery,
+    isPending: isArticleQueryPending,
+  } = useArticleQueryStore(article);
 
   const contextValues = useMemo<ArticleQueryContextValues>(
     () => ({
       articleQueryData,
       refetchArticleQuery,
+      isArticleQueryPending,
     }),
-    [articleQueryData],
+    [articleQueryData, isArticleQueryPending],
   );
 
   return (
