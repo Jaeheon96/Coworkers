@@ -5,6 +5,7 @@ import { ArticleResponse } from "../dtos/boards/boards";
 interface ArticleQueryContextValues {
   articleQueryData?: ArticleResponse | null;
   refetchArticleQuery: () => void;
+  isArticleQueryPending: boolean;
 }
 
 interface ArticleQueryProviderProps {
@@ -15,6 +16,7 @@ interface ArticleQueryProviderProps {
 const ArticleQueryContext = createContext<ArticleQueryContextValues>({
   articleQueryData: null,
   refetchArticleQuery: () => {},
+  isArticleQueryPending: true,
 });
 
 export function ArticleQueryProvider({
