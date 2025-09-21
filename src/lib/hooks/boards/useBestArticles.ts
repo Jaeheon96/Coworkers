@@ -6,7 +6,7 @@ export default function useBestArticles() {
     queryKey: ["Articles", 1, 3, "like"],
     queryFn: () => getArticles({ pageSize: 3, orderBy: "like" }),
     throwOnError: false,
-    staleTime: 1000 * 60,
+    staleTime: 1000 * 5,
   });
 
   return bestArticlesQuery;
