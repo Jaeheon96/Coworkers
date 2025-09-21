@@ -7,9 +7,10 @@ import getArticle from "@/core/api/boards/getArticle";
 export default function useArticleQueryStore(article: ArticleResponse | null) {
   const { query } = useRouter();
   const id = query.id as string;
-  const { user } = useAuth();
+  const { user, isPending } = useAuth();
 
   const articleQuery = useQuery({
+    enabled: !isPending,
     queryKey: ["Article", article?.id],
     queryFn: async () => {
       if (!user) return article;
