@@ -1,11 +1,12 @@
 import { ArticleResponse } from "@/core/dtos/boards/boards";
 import { AxiosError, AxiosResponse } from "axios";
+import StandardError from "@/core/types/standardError";
 import axiosInstance from "../axiosInstance";
 
-export default async function getArticle(articleId: string) {
+export default async function deleteArticleLike(articleId: number) {
   const res: AxiosResponse<ArticleResponse> = await axiosInstance
-    .get(`articles/${articleId}`)
-    .catch((e: AxiosError) => Promise.reject(e));
+    .delete(`articles/${articleId}/like`)
+    .catch((e: AxiosError<StandardError>) => Promise.reject(e));
 
   return res.data;
 }

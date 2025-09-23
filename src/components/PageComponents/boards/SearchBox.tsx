@@ -1,6 +1,6 @@
 import Image from "next/image";
 import useSearchKeyword from "@/lib/hooks/boards/useSearchKeyword";
-import InputAlt from "@/components/@shared/UI/InputAlt";
+import Input from "@/components/@shared/UI/Input";
 
 export default function SearchBox() {
   const { keyword, setKeyword, handleSubmit } = useSearchKeyword();
@@ -10,7 +10,7 @@ export default function SearchBox() {
       className="relative mb-10 h-14 w-full [&&]:max-md:mb-8 [&&]:max-sm:mb-6 [&&]:max-sm:h-12"
       onSubmit={handleSubmit}
     >
-      <InputAlt
+      <Input
         className="h-full pl-4 pr-14 [&&]:max-sm:h-full"
         placeholder="검색어를 입력해주세요"
         value={keyword}

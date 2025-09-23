@@ -1,14 +1,13 @@
+import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
+import { AxiosError } from "axios";
+import getArticle from "@/core/api/boards/getArticle";
 import InvalidRequest from "@/components/@shared/UI/invalidRequest";
 import ArticleInterface from "@/components/PageComponents/article/ArticleInterface";
-import getArticle from "@/core/api/boards/getArticle";
+import ArticlePageHead from "@/components/PageComponents/article/ArticlePageHead";
 import { ArticleCommentsProvider } from "@/core/context/ArticleCommentsProvider";
 import { ArticleResponse } from "@/core/dtos/boards/boards";
 import StandardError from "@/core/types/standardError";
-import { COWORKERS_TITLE } from "@/lib/constants/sharedConstants";
-import useArticleQueryStore from "@/lib/hooks/article/useArticleQueryStore";
-import { AxiosError } from "axios";
-import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
-import Head from "next/head";
+import { ArticleQueryProvider } from "@/core/context/ArticleQueryProvider";
 
 export const getServerSideProps = async (
   context: GetServerSidePropsContext,
@@ -29,59 +28,17 @@ export const getServerSideProps = async (
 export default function Article({
   article,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  useArticleQueryStore(article);
-
   if (!article)
     return <InvalidRequest>게시글을 불러오는데 실패했습니다.</InvalidRequest>;
 
   return (
     <>
-      <Head>
-        <title>{`${COWORKERS_TITLE} - ${article.title}`}</title>
-        <meta
-          name="description"
-          content={`코워커스 자유게시판 게시글: ${article.title}`}
-        />
-        <meta
-          name="keyword"
-          content="팀, 투두리스트, 일정관리, 코워커스, 자유게시판, 게시글, team, to-do list, schedule, Coworkers, article"
-        />
-
-        <meta
-          property="og:title"
-          content={`${COWORKERS_TITLE} - ${article.title}`}
-        />
-        <meta property="og:type" content="website" />
-        <meta property="og:description" content={article.content} />
-        <meta
-          property="og:image"
-          content={
-            article.image ??
-            `${process.env.NEXT_PUBLIC_URL}/icons/icon-logo_coworkers_large.png`
-          }
-        />
-        <meta
-          property="og:url"
-          content={`${process.env.NEXT_PUBLIC_URL}/boards/${article.id}`}
-        />
-
-        <meta name="twitter:card" content="summary" />
-        <meta
-          name="twitter:title"
-          content={`${COWORKERS_TITLE} - ${article.title}`}
-        />
-        <meta
-          name="twitter:image"
-          content={
-            article.image ??
-            `${process.env.NEXT_PUBLIC_URL}/icons/icon-logo_coworkers_large.png`
-          }
-        />
-        <meta name="twitter:description" content={article.content} />
-      </Head>
-      <ArticleCommentsProvider initialCommentsCount={article.commentCount}>
-        <ArticleInterface article={article} />
-      </ArticleCommentsProvider>
+      <ArticlePageHead article={article} />
+      <ArticleQueryProvider article={article}>
+        <ArticleCommentsProvider initialCommentsCount={article.commentCount}>
+          <ArticleInterface article={article} />
+        </ArticleCommentsProvider>
+      </ArticleQueryProvider>
     </>
   );
 }

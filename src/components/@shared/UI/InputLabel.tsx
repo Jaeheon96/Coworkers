@@ -4,6 +4,7 @@ import { twMerge } from "tailwind-merge";
 interface Props extends LabelHTMLAttributes<HTMLLabelElement> {
   label: ReactNode;
   errorMessage?: string | null;
+  errorClassName?: string;
 }
 
 export default function InputLabel({
@@ -11,6 +12,7 @@ export default function InputLabel({
   label,
   children,
   errorMessage,
+  errorClassName,
   ...props
 }: Props) {
   const classCombined = twMerge(
@@ -18,13 +20,16 @@ export default function InputLabel({
     className,
   );
 
+  const errorClassCombined = twMerge(
+    "absolute -bottom-6.25 text-text-md font-medium text-status-danger [&&]:max-sm:-bottom-7.25",
+    errorClassName,
+  );
+
   return (
     <label className={classCombined} {...props}>
       {label}
       {children}
-      <span className="absolute -bottom-6.25 text-text-md font-medium text-status-danger [&&]:max-sm:-bottom-7.25">
-        {errorMessage}
-      </span>
+      <span className={errorClassCombined}>{errorMessage}</span>
     </label>
   );
 }

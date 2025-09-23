@@ -1,52 +1,15 @@
-import { InputHTMLAttributes, ReactNode } from "react";
+import { InputHTMLAttributes } from "react";
 import { twMerge } from "tailwind-merge";
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  buttonContent?: ReactNode; // 버튼에 들어갈 이지미, 텍스트
-  errorMessage?: string; // 에러 메시지
-  isValid?: boolean; // 유효성 검사
-  buttonClassName?: string; // 버튼 스타일
-  onButtonClick?: () => void; // 버튼 클릭 핸들러
+interface Props extends InputHTMLAttributes<HTMLInputElement> {
+  isError?: boolean;
 }
 
-export default function Input({
-  buttonContent = null,
-  errorMessage = "",
-  isValid = true,
-  buttonClassName = "",
-  onButtonClick,
-  className,
-  ...props
-}: InputProps) {
-  const inputClasses = twMerge(
-    `h-12 w-115 rounded-xl [&&]:border-border-primary [&&]:border-opacity-10 [&&]:bg-background-secondary p-4 [&&]:placeholder:text-text-default [&&]:hover:border-interaction-hover [&&]:focus:border-interaction-hover [&&]:focus:outline-none [&&]:focus:ring-0 
-    ${isValid ? "[&&]:border-border-primary" : "[&&]:border-status-danger [&&]:focus:border-status-danger"}`,
+export default function Input({ className, isError, ...props }: Props) {
+  const classnameCombined = twMerge(
+    `w-full h-12 rounded-xl ${isError ? "[&&]:border-status-danger" : "[&&]:border-border-primary"} [&&]:bg-background-secondary px-4 placeholder:text-text-default [&&]:hover:border-interaction-hover [&&]:focus:border-interaction-focus [&&]:focus:ring-0 [&&]:max-sm:h-11`,
     className,
   );
 
-  return (
-    <div className="relative flex flex-col gap-1">
-      <input {...props} className={inputClasses} />
-      {buttonContent && (
-        <button
-          type="button"
-          onClick={onButtonClick}
-          className={buttonClassName}
-        >
-          {buttonContent}
-        </button>
-      )}
-      {!isValid && errorMessage && (
-        <span className="text-md text-status-danger">{errorMessage}</span>
-      )}
-    </div>
-  );
+  return <input className={classnameCombined} {...props} />;
 }
-
-Input.defaultProps = {
-  buttonContent: null,
-  errorMessage: "",
-  isValid: true,
-  buttonClassName: "",
-  onButtonClick: () => {},
-};

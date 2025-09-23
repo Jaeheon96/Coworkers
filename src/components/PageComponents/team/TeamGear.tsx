@@ -1,48 +1,27 @@
 import Image from "next/image";
-import AnimatedDropdown from "@/components/@shared/UI/AnimatedDropdown";
-import DropdownItem from "@/components/@shared/UI/Item";
 import { useAuth } from "@/core/context/AuthProvider";
+import { useTeamData } from "@/core/context/TeamDataProvider";
+import { Roles } from "@/core/types/member";
 import useModalStore from "@/lib/hooks/stores/modalStore";
 import modalNames from "@/lib/constants/modalNames";
+import AnimatedDropdown from "@/components/@shared/UI/AnimatedDropdown";
+import DropdownItem from "@/components/@shared/UI/Item";
 import PatchTeamModal from "./PatchTeamModal";
 import DeleteTeamModal from "./DeleteTeamModal";
 import DeleteMemberModal from "./DeleteMemberModal";
 
-interface Props {
-  teamId: string;
-  teamName: string;
-  teamImage: string;
-  memberId: number;
-  isAdmin: boolean;
-  refreshGroup: () => void;
-}
+export default function TeamGear() {
+  const { group } = useTeamData();
 
-export default function TeamGear({
-  teamId,
-  teamName,
-  teamImage,
-  memberId,
-  isAdmin,
-  refreshGroup,
-}: Props) {
-  const { getMe } = useAuth();
+  const { user } = useAuth();
+  const memberId = user?.id ?? 0;
+  const isAdmin =
+    user?.id === group?.members.find((e) => e.role === Roles.ADMIN)?.userId;
 
   const { patchTeamModalName, deleteTeamModalName, deleteMemberModalName } =
     modalNames;
 
   const openModal = useModalStore((state) => state.openModal);
-  const closeModal = useModalStore((state) => state.closeModal);
-
-  const patchTeamForm = {
-    teamId,
-    defaultName: teamName,
-    defaultImage: teamImage,
-  };
-  const patchTeamCallback = () => {
-    refreshGroup();
-    getMe();
-    closeModal(patchTeamModalName);
-  };
 
   return (
     <>
@@ -77,13 +56,9 @@ export default function TeamGear({
           탈퇴하기
         </DropdownItem>
       </AnimatedDropdown>
-      <PatchTeamModal
-        onClose={() => closeModal(patchTeamModalName)}
-        submitCallback={patchTeamCallback}
-        formValues={patchTeamForm}
-      />
-      <DeleteTeamModal teamId={teamId} />
-      <DeleteMemberModal teamId={teamId} memberId={`${memberId}`} />
+      <PatchTeamModal />
+      <DeleteTeamModal />
+      <DeleteMemberModal memberId={`${memberId}`} />
     </>
   );
 }

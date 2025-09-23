@@ -3,6 +3,7 @@ import { useAuth } from "@/core/context/AuthProvider";
 import { ArticleResponse } from "@/core/dtos/boards/boards";
 import { useArticleComments } from "@/core/context/ArticleCommentsProvider";
 import ArticleMenuDropdown from "./ArticleMenuDropdown";
+import ArticleLike from "./ArticleLike";
 
 interface Props {
   article: ArticleResponse;
@@ -43,14 +44,7 @@ export default function ArticleHeader({ article }: Props) {
               {commentsCount ?? article.commentCount}
             </p>
           </div>
-          <div className="flex items-center gap-1">
-            <div className="relative h-4 w-4">
-              <Image fill src="/icons/icon-heart.svg" alt="좋아요 갯수" />
-            </div>
-            <p className="text-text-md font-regular text-slate-400 [&&]:max-sm:text-text-xs">
-              {article.likeCount}
-            </p>
-          </div>
+          <ArticleLike article={article} />
         </div>
       </div>
     </>

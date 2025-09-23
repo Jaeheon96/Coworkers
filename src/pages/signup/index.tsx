@@ -1,5 +1,5 @@
 import Button from "@/components/@shared/UI/Button";
-import InputAlt from "@/components/@shared/UI/InputAlt";
+import Input from "@/components/@shared/UI/Input";
 import InputLabel from "@/components/@shared/UI/InputLabel";
 import PasswordInput from "@/components/@shared/UI/PasswordInput";
 import signUp from "@/core/api/user/signUp";
@@ -100,7 +100,7 @@ export default function Signup() {
             className="mb-12"
             errorMessage={errors.email}
           >
-            <InputAlt
+            <Input
               name="email"
               onChange={handleInputChange}
               onBlur={handleValidation}
@@ -114,7 +114,7 @@ export default function Signup() {
             className="mb-12"
             errorMessage={errors.nickname}
           >
-            <InputAlt
+            <Input
               name="nickname"
               onChange={handleInputChange}
               onBlur={handleValidation}

@@ -1,4 +1,4 @@
-import InputAlt from "@/components/@shared/UI/InputAlt";
+import Input from "@/components/@shared/UI/Input";
 import InputLabel from "@/components/@shared/UI/InputLabel";
 import LoadingButton from "@/components/@shared/UI/LoadingButton";
 
@@ -33,7 +33,7 @@ export default function EditArticleLoading() {
             }
             className="gap-4"
           >
-            <InputAlt
+            <Input
               className="animate-pulse px-6 text-text-lg [&&]:hover:border-border-primary [&&]:focus:border-border-primary [&&]:max-sm:h-12 [&&]:max-sm:px-4 [&&]:max-sm:text-text-md"
               name="title"
               disabled

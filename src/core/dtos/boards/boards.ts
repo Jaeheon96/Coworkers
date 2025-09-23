@@ -15,7 +15,6 @@ export interface ArticleAbstract {
   image: string | null;
   writer: Writer;
   likeCount: number;
-  commentCount: number;
   createdAt: string;
   updatedAt: string;
 }
@@ -37,6 +36,7 @@ export interface GetArticlesQuery {
 export interface ArticleResponse extends ArticleAbstract {
   content: string;
   isLiked: boolean | null;
+  commentCount: number;
 }
 
 export interface ArticleComment {
