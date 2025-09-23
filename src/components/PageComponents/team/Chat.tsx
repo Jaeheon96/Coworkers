@@ -1,4 +1,4 @@
-import { FormEvent, KeyboardEvent, useEffect, useRef, useState } from "react";
+import { FormEvent, KeyboardEvent, useRef, useState } from "react";
 import Image from "next/image";
 import { useMutation } from "@tanstack/react-query";
 import { twMerge } from "tailwind-merge";
@@ -86,11 +86,6 @@ export default function Chat() {
     "flex h-96 w-full items-center justify-center rounded-xl bg-background-secondary",
     isTasksPending ? "animate-pulse" : null,
   );
-
-  useEffect(() => {
-    if (!messageBoxRef.current) return;
-    messageBoxRef.current.scrollIntoView({ behavior: "smooth", block: "end" });
-  }, [messages]);
 
   if (!isStarted) {
     return (
