@@ -25,9 +25,9 @@ const CONTEXT_LIMIT = 5;
 
 export default function Chat() {
   const [isStarted, setIsStarted] = useState(false);
-  const [text, setText] = useState<string>("");
+  const [text, setText] = useState("");
   const [messages, setMessages] = useState<Message[]>([]);
-  const [isAtBottom, setIsAtBottom] = useState(true);
+  const isAtBottom = useRef(true);
 
   const { tasks, isTasksPending } = useTeamData();
 
@@ -100,15 +100,15 @@ export default function Chat() {
       e.currentTarget.scrollHeight - e.currentTarget.scrollTop <=
       e.currentTarget.clientHeight + 1
     ) {
-      setIsAtBottom(true);
+      isAtBottom.current = true;
       return;
     }
-    setIsAtBottom(false);
+    isAtBottom.current = false;
   };
 
   useEffect(() => {
     if (!messageBoxRef.current) return;
-    if (isAtBottom) scrollMessageBoxToBottom();
+    if (isAtBottom.current) scrollMessageBoxToBottom();
   }, [messages]);
 
   const backgroundClassName = twMerge(
