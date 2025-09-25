@@ -1,4 +1,11 @@
-import { FormEvent, KeyboardEvent, useRef, useState } from "react";
+import {
+  FormEvent,
+  KeyboardEvent,
+  UIEvent,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import Image from "next/image";
 import { useMutation } from "@tanstack/react-query";
 import { twMerge } from "tailwind-merge";
@@ -20,6 +27,7 @@ export default function Chat() {
   const [isStarted, setIsStarted] = useState(false);
   const [text, setText] = useState<string>("");
   const [messages, setMessages] = useState<Message[]>([]);
+  const [isAtBottom, setIsAtBottom] = useState(true);
 
   const { tasks, isTasksPending } = useTeamData();
 
@@ -27,6 +35,11 @@ export default function Chat() {
 
   const formRef = useRef<HTMLFormElement | null>(null);
   const messageBoxRef = useRef<HTMLDivElement | null>(null);
+
+  const scrollMessageBoxToBottom = () => {
+    if (!messageBoxRef.current) return;
+    messageBoxRef.current.scrollTop = messageBoxRef.current.scrollHeight;
+  };
 
   const { mutate: sendMessage, isPending: isChatResponsePending } = useMutation(
     {
@@ -82,6 +95,22 @@ export default function Chat() {
     });
   };
 
+  const handleScroll = (e: UIEvent<HTMLDivElement>) => {
+    if (
+      e.currentTarget.scrollHeight - e.currentTarget.scrollTop <=
+      e.currentTarget.clientHeight + 1
+    ) {
+      setIsAtBottom(true);
+      return;
+    }
+    setIsAtBottom(false);
+  };
+
+  useEffect(() => {
+    if (!messageBoxRef.current) return;
+    if (isAtBottom) scrollMessageBoxToBottom();
+  }, [messages]);
+
   const backgroundClassName = twMerge(
     "flex h-96 w-full items-center justify-center rounded-xl bg-background-secondary",
     isTasksPending ? "animate-pulse" : null,
@@ -114,8 +143,12 @@ export default function Chat() {
 
   return (
     <div className="flex h-96 w-full flex-col justify-between gap-4 rounded-xl bg-background-secondary p-6">
-      <div className="overflow-y-scroll scrollbar-hide">
-        <div className="flex flex-col gap-4" ref={messageBoxRef}>
+      <div
+        className="overflow-y-scroll scrollbar-hide"
+        ref={messageBoxRef}
+        onScroll={handleScroll}
+      >
+        <div className="flex flex-col gap-4 overflow-y-scroll scrollbar-hide">
           {messages.map((msg) => (
             <div key={msg.id} className={MESSAGE_CLASSNAME[msg.from]}>
               <p>{msg.text}</p>
