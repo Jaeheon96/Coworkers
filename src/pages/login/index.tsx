@@ -150,7 +150,7 @@ export default function Login() {
               가입하기
             </Link>
           </div>
-          {/* <div className="mb-4 flex items-center gap-6">
+          <div className="mb-4 flex items-center gap-6">
             <div className="h-0 w-full border-t border-solid border-border-primary" />
             <span className="text-text-lg font-regular text-white [&&]:max-sm:font-medium">
               OR
@@ -163,6 +163,9 @@ export default function Login() {
             </span>
             <div className="flex gap-4">
               <div className="relative h-10.5 w-10.5 cursor-pointer">
+                <Image fill src="/icons/icon-google.png" alt="구글" priority />
+              </div>
+              <div className="relative h-10.5 w-10.5 cursor-pointer">
                 <Image
                   fill
                   src="/images/image-kakaotalk.png"
@@ -171,7 +174,7 @@ export default function Login() {
                 />
               </div>
             </div>
-          </div> */}
+          </div>
         </form>
       </main>
       <ResetPasswordModal
