@@ -2,6 +2,7 @@ import Button from "@/components/@shared/UI/Button";
 import Input from "@/components/@shared/UI/Input";
 import InputLabel from "@/components/@shared/UI/InputLabel";
 import PasswordInput from "@/components/@shared/UI/PasswordInput";
+import GoogleLogin from "@/components/PageComponents/auth/GoogleLogin";
 import ResetPasswordModal from "@/components/PageComponents/auth/ResetPasswordModal";
 import { useAuth } from "@/core/context/AuthProvider";
 import { LoginForm } from "@/core/dtos/user/auth";
@@ -162,9 +163,7 @@ export default function Login() {
               간편 로그인하기
             </span>
             <div className="flex gap-4">
-              <div className="relative h-10.5 w-10.5 cursor-pointer">
-                <Image fill src="/icons/icon-google.png" alt="구글" priority />
-              </div>
+              <GoogleLogin />
               <div className="relative h-10.5 w-10.5 cursor-pointer">
                 <Image
                   fill
