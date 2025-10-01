@@ -36,6 +36,20 @@ const nextConfig = {
       },
     ],
   },
+  // eslint-disable-next-line
+  async headers() {
+    return [
+      {
+        source: "/(.*)",
+        headers: [
+          {
+            key: "Cross-Origin-Opener-Policy",
+            value: "same-origin-allow-popups",
+          },
+        ],
+      },
+    ];
+  },
 };
 
 export default bundleAnalyzer(nextConfig);

@@ -60,3 +60,11 @@ export interface ResetPasswordForm {
 export interface ResetLostPasswordForm extends ResetPasswordForm {
   token: string;
 }
+
+export type OAuthProvider = "GOOGLE" | "KAKAO";
+
+export interface OAuthLoginForm {
+  token: string;
+  redirectUri?: string;
+  state?: string;
+}

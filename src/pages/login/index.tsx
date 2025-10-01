@@ -163,7 +163,9 @@ export default function Login() {
               간편 로그인하기
             </span>
             <div className="flex gap-4">
-              <GoogleLogin />
+              <GoogleLogin
+                handleLoginResponseError={handleLoginResponseError}
+              />
               <div className="relative h-10.5 w-10.5 cursor-pointer">
                 <Image
                   fill
