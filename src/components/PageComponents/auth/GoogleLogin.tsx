@@ -1,5 +1,15 @@
 import { useEffect } from "react";
 import Script from "next/script";
+import { useRouter } from "next/router";
+import { AxiosError } from "axios";
+import { useMutation } from "@tanstack/react-query";
+import { useAuth } from "@/core/context/AuthProvider";
+import { routerQueries } from "@/core/types/queries";
+import { ErrorData } from "@/core/types/standardError";
+
+interface Props {
+  handleLoginResponseError: (errorData: ErrorData) => void;
+}
 
 interface CredentialResponse {
   clientId: string;
@@ -14,12 +24,29 @@ declare global {
   }
 }
 
-export default function GoogleLogin() {
+export default function GoogleLogin({ handleLoginResponseError }: Props) {
+  const { query, push } = useRouter();
+  const { oAuthLogin } = useAuth();
+
+  const { mutate: requestOAuthLogin } = useMutation({
+    mutationFn: oAuthLogin,
+    throwOnError: false,
+    onSuccess: () => {
+      const dir = query[routerQueries.loginDirection];
+      const to = typeof dir === "string" ? dir : "/";
+      push(to);
+    },
+    onError: (e: AxiosError) => {
+      handleLoginResponseError(e.response?.data as ErrorData);
+    },
+  });
+
   useEffect(() => {
     window.handleCredentialResponse = (credentialResponse) => {
-      console.log(credentialResponse);
+      const form = { token: credentialResponse.credential };
+      requestOAuthLogin({ provider: "GOOGLE", form });
     };
-  }, []);
+  }, [requestOAuthLogin]);
 
   return (
     <>

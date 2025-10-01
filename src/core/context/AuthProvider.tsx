@@ -16,6 +16,8 @@ import {
   UpdateUserForm,
   MessageResponse,
   User,
+  OAuthProvider,
+  OAuthLoginForm,
 } from "../dtos/user/auth";
 import updateUser from "../api/user/updateUser";
 import deleteUser from "../api/user/deleteUser";
@@ -25,6 +27,7 @@ import refreshToken from "../api/user/refreshToken";
 import setAxiosInterceptors from "../api/setAxiosInterceptors";
 import ejectAxiosInterceptors from "../api/ejectAxiosInterceptors";
 import { routerQueries } from "../types/queries";
+import oAuthSignIn from "../api/user/oAuthSignIn";
 
 interface AuthContextValues {
   user: User | undefined;
@@ -32,6 +35,11 @@ interface AuthContextValues {
   getMe: () => void;
   login: (loginForm: LoginForm) => Promise<AccessTokenForm>;
   isLoginPending: boolean;
+  oAuthLogin: (loginForm: {
+    provider: OAuthProvider;
+    form: OAuthLoginForm;
+  }) => Promise<AccessTokenForm>;
+  isOAuthPending: boolean;
   logout: () => void;
   updateMe: (updateUserForm: UpdateUserForm) => Promise<MessageResponse>;
   isUpdatePending: boolean;
@@ -45,6 +53,8 @@ const INITIAL_AUTH_VALUES: AuthContextValues = {
   getMe: () => {},
   login: () => Promise.reject(),
   isLoginPending: false,
+  oAuthLogin: () => Promise.reject(),
+  isOAuthPending: false,
   logout: () => {},
   updateMe: () => Promise.reject(),
   isUpdatePending: false,
@@ -138,6 +148,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     },
   });
 
+  const { mutateAsync: oAuthLogin, isPending: isOAuthPending } = useMutation({
+    mutationFn: (loginForm: {
+      provider: OAuthProvider;
+      form: OAuthLoginForm;
+    }) => oAuthSignIn(loginForm.provider, loginForm.form),
+    onSuccess: (data) => {
+      setAccessToken(data.accessToken);
+    },
+    onError: (e) => {
+      console.error(e);
+      return e;
+    },
+  });
+
   const { mutateAsync: updateMe, isPending: isUpdatePending } = useMutation({
     mutationFn: (updateUserForm: UpdateUserForm) => updateUser(updateUserForm),
     onSuccess: () => getMe(),
@@ -167,6 +191,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       getMe,
       login,
       isLoginPending,
+      oAuthLogin,
+      isOAuthPending,
       logout,
       updateMe,
       isUpdatePending,
@@ -179,6 +205,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       getMe,
       login,
       isLoginPending,
+      oAuthLogin,
+      isOAuthPending,
       logout,
       updateMe,
       isUpdatePending,
